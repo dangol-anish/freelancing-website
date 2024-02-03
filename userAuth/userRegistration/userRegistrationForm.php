@@ -28,7 +28,7 @@
             $check_email_result = mysqli_query($connection, $check_email_query);
             $check_phone_number_query = "SELECT * FROM user WHERE user_phone_number='$user_phone_number'";
             $check_phone_number_result = mysqli_query($connection, $check_phone_number_query);
-            if(mysqli_num_rows($check_email_result) > 0 || $check_phone_number_result >0) {
+            if(mysqli_num_rows($check_email_result) > 0 || mysqli_num_rows($check_phone_number_result) >0) {
                 $errors[] = "User with this email or phone number already exists.";
             }
             
@@ -46,7 +46,7 @@
             $temp_name = $_FILES['user_photo']['tmp_name'];
             $folder="pics/".$file_name;
             if (move_uploaded_file($temp_name, $folder)) {
-                echo "File uploaded successfully.";
+                // echo "File uploaded successfully.";
             } else {
                 $errors[] = "Error moving file.";
             }
@@ -56,10 +56,23 @@
                 
                 $result=mysqli_query($connection,$sql);
                 
-                // Check if insertion was successful
+
                 if(!$result){
-                    throw new Exception("Records not inserted");
-                }
+    throw new Exception("Records not inserted");
+} else {
+    // Check user type and redirect accordingly
+    if ($user_type === 'Client') {
+        header("Location: ClientForm.php");
+        exit(); // Make sure to exit after redirection
+    } elseif ($user_type === 'Freelancer') {
+        header("Location: FreelancerForm.php");
+        exit(); // Make sure to exit after redirection
+    } else {
+        // Handle unknown user types or future additions
+        $errors[] = "Unknown user type.";
+    }
+}
+
             }
         }
     } catch (Exception $e) {
