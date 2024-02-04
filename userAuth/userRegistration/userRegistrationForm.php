@@ -60,17 +60,29 @@
                 if(!$result){
     throw new Exception("Records not inserted");
 } else {
+$sql1 = "SELECT user_id FROM user WHERE user_email = '$user_email'";
+$result1 = mysqli_query($connection, $sql1);
+
+if(mysqli_num_rows($result1) > 0) {
+    $row = mysqli_fetch_assoc($result1);
+    $user_id = $row['user_id'];
+    echo "User ID: " . $user_id;
+
     // Check user type and redirect accordingly
     if ($user_type === 'Client') {
-        header("Location: ClientForm.php");
-        exit(); // Make sure to exit after redirection
+        header("Location: ClientForm.php?user_id=$user_id");
+        exit(); 
     } elseif ($user_type === 'Freelancer') {
-        header("Location: FreelancerForm.php");
-        exit(); // Make sure to exit after redirection
+        header("Location: freelancerForm.php?user_id=$user_id");
+        exit(); 
     } else {
         // Handle unknown user types or future additions
         $errors[] = "Unknown user type.";
     }
+
+    } else {
+    echo "No user found with that email.";
+}
 }
 
             }
