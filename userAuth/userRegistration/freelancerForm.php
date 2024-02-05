@@ -95,11 +95,9 @@ try {
         $errors[] = "No User ID";
     }
 
-
     if(!empty($userId)) {
         if(isset($_POST['Submit'])) {
             if(isset($_FILES['freelancer_verification_photo']) && isset($_FILES['freelancer_cv'])) {
-
 
                 $getUserIdQuery = "SELECT * FROM user WHERE user_id='$userId'";
                 $getUserIdResult = mysqli_query($connection, $getUserIdQuery);
@@ -107,7 +105,6 @@ try {
                 if(mysqli_num_rows($getUserIdResult) == 0) {
                     $errors[] = "You are not an existing user";
                 } else {
-           
                     if(isset($_FILES['freelancer_verification_photo']) && isset($_FILES['freelancer_cv'])) {
                         $freelancerVerificationPhoto = $_FILES['freelancer_verification_photo']['name'];
                         $photoTempName = $_FILES['freelancer_verification_photo']['tmp_name'];
@@ -131,12 +128,28 @@ try {
                             $errors[] = "Error moving CV file.";
                         }
 
-           
-                        $selectedSkills = isset($_POST['freelancer_skills']) ? $_POST['freelancer_skills'] : array();
-                        foreach ($selectedSkills as $skill) {
-                
-                            $insertSkillQuery = "INSERT INTO freelancer_skill (user_id, skill_id) VALUES ('$userId', '$skill')";
-                       
+                        $checkFreelancerDataQuery = "SELECT * FROM freelancer WHERE user_id = '$userId'";
+
+                        $checkFreelancerDataResult = mysqli_query($connection, $checkFreelancerDataQuery);
+
+                        if(mysqli_num_rows($checkFreelancerDataResult) > 0) {
+                            echo "Data already exists";
+                        } else {
+                            $insertFreelancerData = "INSERT INTO freelancer (freelancer_verification_photo, freelancer_bio, freelancer_cv, user_id)
+                            VALUES ('$verificationFolder', '$freelancerBio',  '$freelancerCv', '$userId')";
+
+                            $freelancerData = mysqli_query($connection, $insertFreelancerData);
+
+                            if(!$freelancerData) {
+                                throw new Exception("Records not inserted");
+                            } 
+
+                            $selectedSkills = isset($_POST['freelancer_skills']) ? $_POST['freelancer_skills'] : array();
+                            foreach ($selectedSkills as $skill) {
+                                $insertSkillQuery = "INSERT INTO freelancer_skill (user_id, skill_id) VALUES ('$userId', '$skill')";
+                                $freelancerSkill = mysqli_query($connection, $insertSkillQuery);
+                                // Execute the query for each selected skill.
+                            }
                         }
                     } else {
                         $errors[] = "Verification photo or CV file not provided.";
@@ -150,7 +163,7 @@ try {
 } catch(Exception $e) {
     echo $e->getMessage();
 }
-    
+
 if (!empty($errors)) {
     foreach ($errors as $error) {
         echo $error . "<br>";
