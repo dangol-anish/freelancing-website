@@ -6,18 +6,41 @@
     <title>Freelancer Form</title>
 </head>
 <body>
-    <h2>Welcome Freelancer!</h2>
+    <h2>Freelancer Verification Form!</h2>
 
     <?php
-    // Check if the userID is passed in the URL
+
     if(isset($_GET['user_id'])) {
         $user_id = $_GET['user_id'];
-        echo "<p>Your User ID is: $user_id</p>";
-    } else {
-        echo "<p>User ID not found.</p>";
-    }
+    } 
+
+
+
+
     ?>
 
+ <form method="POST" enctype="multipart/form-data">
+
+        <label for="freelancer_verification_photo">Verification Photo:</label><br />
+        <input type="file" id="freelancer_verification_photo" name="freelancer_verification_photo" required /><br /><br />
+
+
+        <label for="freelancer_bio">Write your bio:</label>
+<br>
+<textarea id="freelancer_bio" name="freelancer_bio" rows="4" cols="50">
+
+</textarea>
+
+
+<br>
+
+
+ <label for="freelancer_cv">Verification CV:</label><br />
+        <input type="file" id="freelancer_cv" name="freelancer_cv" required /><br /><br />
+
+
+        <input type="submit" value="Submit" name="Submit" />
+    </form>
     <!-- Your freelancer form goes here -->
 </body>
 </html>

@@ -34,7 +34,7 @@
             
             else {
 
-   // Retrieve form data
+        // Retrieve form data
             $user_first_name = $_POST['user_first_name'];
             $user_last_name = $_POST['user_last_name'];
             $user_password = $_POST['user_password'];
@@ -104,7 +104,7 @@ if(mysqli_num_rows($result1) > 0) {
 ?>
 
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
+    <form  method="POST" enctype="multipart/form-data">
         <label for="user_first_name">First Name:</label><br />
         <input type="text" id="user_first_name" name="user_first_name" required /><br /><br />
 

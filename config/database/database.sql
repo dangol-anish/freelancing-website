@@ -22,6 +22,14 @@ create TABLE Skill (
     skill_approval TINYINT NOT NULL  
 );
 
+-- freelancer skill table
+
+CREATE TABLE Freelancer_Skill (
+    user_id INT REFERENCES User(user_id),
+    skill_id INT REFERENCES Skill(skill_id),
+    PRIMARY KEY (user_id, skill_id)
+);
+
 -- freelancer table
 
 CREATE TABLE Freelancer (
@@ -30,5 +38,5 @@ CREATE TABLE Freelancer (
     freelancer_bio VARCHAR(255) REQUIRED,
     freelancer_cv VARCHAR(255),
     user_id INT REFERENCES User(user_id),
-    skill_id INT REFERENCES Skill(skill_id)
+
 );
