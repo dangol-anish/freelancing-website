@@ -46,14 +46,13 @@
             var skillsSelect = document.getElementById("freelancer_skills");
             skillsSelect.innerHTML = ""; 
 
-            console.log("Hi");
 
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "fetchSkills.php?category=" + encodeURIComponent(category), true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var skills = JSON.parse(xhr.responseText);
-                    console.log("hello");
+   
 
                     skills.forEach(function(skill) {
                         var checkbox = document.createElement("input");
@@ -81,92 +80,3 @@
 </body>
 </html>
 
-<?php
-
-require("../../config/database/databaseConfig.php");
-
-$errors = array();
-$userId = ""; 
-
-try {
-    if(isset($_GET['user_id'])) {
-        $userId = $_GET['user_id']; 
-    } else {
-        $errors[] = "No User ID";
-    }
-
-    if(!empty($userId)) {
-        if(isset($_POST['Submit'])) {
-            if(isset($_FILES['freelancer_verification_photo']) && isset($_FILES['freelancer_cv'])) {
-
-                $getUserIdQuery = "SELECT * FROM user WHERE user_id='$userId'";
-                $getUserIdResult = mysqli_query($connection, $getUserIdQuery);
-
-                if(mysqli_num_rows($getUserIdResult) == 0) {
-                    $errors[] = "You are not an existing user";
-                } else {
-                    if(isset($_FILES['freelancer_verification_photo']) && isset($_FILES['freelancer_cv'])) {
-                        $freelancerVerificationPhoto = $_FILES['freelancer_verification_photo']['name'];
-                        $photoTempName = $_FILES['freelancer_verification_photo']['tmp_name'];
-                        $verificationFolder = "verification/".$freelancerVerificationPhoto;
-
-                        if (move_uploaded_file($photoTempName, $verificationFolder)) {
-                            echo "Verification Photo uploaded successfully.";
-                        } else {
-                            $errors[] = "Error moving verification photo file.";
-                        }
-
-                        $freelancerBio = isset($_POST['freelancer_bio']) ? mysqli_real_escape_string($connection, $_POST['freelancer_bio']) : ''; 
-
-                        $freelancerCv = $_FILES['freelancer_cv']['name'];
-                        $freelancerTempName = $_FILES['freelancer_cv']['tmp_name'];
-                        $cvFolder = "cv/".$freelancerCv;
-
-                        if (move_uploaded_file($freelancerTempName, $cvFolder)) {
-                            echo "CV uploaded successfully.";
-                        } else {
-                            $errors[] = "Error moving CV file.";
-                        }
-
-                        $checkFreelancerDataQuery = "SELECT * FROM freelancer WHERE user_id = '$userId'";
-
-                        $checkFreelancerDataResult = mysqli_query($connection, $checkFreelancerDataQuery);
-
-                        if(mysqli_num_rows($checkFreelancerDataResult) > 0) {
-                            echo "Data already exists";
-                        } else {
-                            $insertFreelancerData = "INSERT INTO freelancer (freelancer_verification_photo, freelancer_bio, freelancer_cv, user_id)
-                            VALUES ('$verificationFolder', '$freelancerBio',  '$freelancerCv', '$userId')";
-
-                            $freelancerData = mysqli_query($connection, $insertFreelancerData);
-
-                            if(!$freelancerData) {
-                                throw new Exception("Records not inserted");
-                            } 
-
-                            $selectedSkills = isset($_POST['freelancer_skills']) ? $_POST['freelancer_skills'] : array();
-                            foreach ($selectedSkills as $skill) {
-                                $insertSkillQuery = "INSERT INTO freelancer_skill (user_id, skill_id) VALUES ('$userId', '$skill')";
-                                $freelancerSkill = mysqli_query($connection, $insertSkillQuery);
-                                // Execute the query for each selected skill.
-                            }
-                        }
-                    } else {
-                        $errors[] = "Verification photo or CV file not provided.";
-                    }
-                }
-            } else {
-                $errors[] = "Verification photo or CV file not provided.";
-            }
-        }
-    }
-} catch(Exception $e) {
-    echo $e->getMessage();
-}
-
-if (!empty($errors)) {
-    foreach ($errors as $error) {
-        echo $error . "<br>";
-    }
-}
-?>

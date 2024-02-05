@@ -42,21 +42,21 @@
 
 
     <?php
-    // Include the database configuration file
+
     require("../../config/database/databaseConfig.php");
 
-    // Define variables to hold error messages
+
     $errors = array();
 
     try {
-        // Check if form is submitted
+  
         if(isset($_POST['Submit'])){
          
             $userEmail = $_POST['user_email'];
             $userPhoneNumber = $_POST['user_phone_number'];
            
 
-            // Check if the email already exists
+
             $checkEmailQuery = "SELECT * FROM user WHERE user_email='$userEmail'";
             $checkEmailResult = mysqli_query($connection, $checkEmailQuery);
             $checkPhoneNumberQuery = "SELECT * FROM user WHERE user_phone_number='$userPhoneNumber'";
@@ -67,23 +67,23 @@
             
             else {
 
-        // Retrieve form data
+
             $userFirstName = $_POST['user_first_name'];
             $userLastName = $_POST['user_last_name'];
             $userPassword = $_POST['user_password'];
          
             $userType = $_POST['user_type'];
 
-                 // Photo upload
+
             $fileName = $_FILES['user_photo']['name'];
             $tempName = $_FILES['user_photo']['tmp_name'];
             $folder="pics/".$fileName;
             if (move_uploaded_file($tempName, $folder)) {
-                // echo "File uploaded successfully.";
+
             } else {
                 $errors[] = "Error moving file.";
             }
-                // Insert data into database
+
                 $insertUserData = "INSERT INTO user (user_first_name, user_last_name, user_password, user_email, user_phone_number, user_type, user_photo)
                         VALUES ('$userFirstName', '$userLastName', '$userPassword', '$userEmail', '$userPhoneNumber', '$userType', '$folder')";
                 
@@ -101,7 +101,7 @@ if(mysqli_num_rows($userEmailData) > 0) {
     $userId = $row['user_id'];
     echo "User ID: " . $userId;
 
-    // Check user type and redirect accordingly
+
     if ($userType === 'Client') {
         header("Location: ClientForm.php?user_id=$userId");
         exit(); 
@@ -109,7 +109,7 @@ if(mysqli_num_rows($userEmailData) > 0) {
         header("Location: freelancerForm.php?user_id=$userId");
         exit(); 
     } else {
-        // Handle unknown user types or future additions
+   
         $errors[] = "Unknown user type.";
     }
 
@@ -124,7 +124,7 @@ if(mysqli_num_rows($userEmailData) > 0) {
         $errors[] = $e->getMessage();
     }
 
-    // Display errors if there are any
+
     if (!empty($errors)) {
         echo "<div>";
         echo "<ul>";
