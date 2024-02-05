@@ -38,5 +38,13 @@ CREATE TABLE Freelancer (
     freelancer_bio VARCHAR(255) REQUIRED,
     freelancer_cv VARCHAR(255),
     user_id INT REFERENCES User(user_id),
+);
 
+-- client table
+
+CREATE TABLE Client (
+    client_id SERIAL PRIMARY KEY ,
+    client_pan_photo VARCHAR(255) REQUIRED,
+    client_verification_photo VARCHAR(255) REQUIRED,
+    user_id INT REFERENCES User(user_id),
 );

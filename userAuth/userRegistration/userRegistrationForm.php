@@ -103,10 +103,10 @@ if(mysqli_num_rows($userEmailData) > 0) {
 
 
     if ($userType === 'Client') {
-        header("Location: ClientForm.php?user_id=$userId");
+        header("Location: clientRegistration/clientForm.php?user_id=$userId");
         exit(); 
     } elseif ($userType === 'Freelancer') {
-        header("Location: freelancerForm.php?user_id=$userId");
+        header("Location: freelancerRegistration/freelancerForm.php?user_id=$userId");
         exit(); 
     } else {
    

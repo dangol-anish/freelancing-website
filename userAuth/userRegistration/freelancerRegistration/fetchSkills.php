@@ -1,6 +1,6 @@
 <?php
 
-require("../../config/database/databaseConfig.php");
+require("../../../config/database/databaseConfig.php");
 
 
 if (isset($_GET['category'])) {
@@ -31,4 +31,4 @@ if (isset($_GET['category'])) {
 
     echo json_encode(array());
 }
-?>
+
