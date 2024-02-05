@@ -8,6 +8,39 @@
 <body>
     <h2>User Registration Form</h2>
 
+
+    <form  method="POST" enctype="multipart/form-data">
+        <label for="user_first_name">First Name:</label><br />
+        <input type="text" id="user_first_name" name="user_first_name" required /><br /><br />
+
+        <label for="user_last_name">Last Name:</label><br />
+        <input type="text" id="user_last_name" name="user_last_name" required /><br /><br />
+
+        <label for="user_password">Password:</label><br />
+        <input type="password" id="user_password" name="user_password" required /><br /><br />
+
+        <label for="user_email">Email:</label><br />
+        <input type="email" id="user_email" name="user_email" required /><br /><br />
+
+        <label for="user_phone_number">Phone Number:</label><br />
+        <input type="tel" id="user_phone_number" name="user_phone_number" pattern="[0-9]*" required /><br /><br />
+
+        <label>User Type:</label><br />
+        <input type="radio" id="freelancer" name="user_type" value="Freelancer" required />
+        <label for="freelancer">Freelancer</label><br />
+        <input type="radio" id="client" name="user_type" value="Client" />
+        <label for="client">Client</label><br /><br />
+
+        <label for="user_photo">Photo URL:</label><br />
+        <input type="file" id="user_photo" name="user_photo" required /><br /><br />
+
+        <input type="submit" value="Submit" name="Submit" />
+    </form>
+</body>
+</html>
+
+
+
     <?php
     // Include the database configuration file
     require("../../config/database/databaseConfig.php");
@@ -41,7 +74,7 @@
          
             $userType = $_POST['user_type'];
 
-                 // File upload
+                 // Photo upload
             $fileName = $_FILES['user_photo']['name'];
             $tempName = $_FILES['user_photo']['tmp_name'];
             $folder="pics/".$fileName;
@@ -102,34 +135,3 @@ if(mysqli_num_rows($userEmailData) > 0) {
         echo "</div>";
     }
 ?>
-
-
-    <form  method="POST" enctype="multipart/form-data">
-        <label for="user_first_name">First Name:</label><br />
-        <input type="text" id="user_first_name" name="user_first_name" required /><br /><br />
-
-        <label for="user_last_name">Last Name:</label><br />
-        <input type="text" id="user_last_name" name="user_last_name" required /><br /><br />
-
-        <label for="user_password">Password:</label><br />
-        <input type="password" id="user_password" name="user_password" required /><br /><br />
-
-        <label for="user_email">Email:</label><br />
-        <input type="email" id="user_email" name="user_email" required /><br /><br />
-
-        <label for="user_phone_number">Phone Number:</label><br />
-        <input type="tel" id="user_phone_number" name="user_phone_number" pattern="[0-9]*" required /><br /><br />
-
-        <label>User Type:</label><br />
-        <input type="radio" id="freelancer" name="user_type" value="Freelancer" required />
-        <label for="freelancer">Freelancer</label><br />
-        <input type="radio" id="client" name="user_type" value="Client" />
-        <label for="client">Client</label><br /><br />
-
-        <label for="user_photo">Photo URL:</label><br />
-        <input type="file" id="user_photo" name="user_photo" required /><br /><br />
-
-        <input type="submit" value="Submit" name="Submit" />
-    </form>
-</body>
-</html>
