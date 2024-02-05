@@ -19,61 +19,61 @@
         // Check if form is submitted
         if(isset($_POST['Submit'])){
          
-            $user_email = $_POST['user_email'];
-            $user_phone_number = $_POST['user_phone_number'];
+            $userEmail = $_POST['user_email'];
+            $userPhoneNumber = $_POST['user_phone_number'];
            
 
             // Check if the email already exists
-            $check_email_query = "SELECT * FROM user WHERE user_email='$user_email'";
-            $check_email_result = mysqli_query($connection, $check_email_query);
-            $check_phone_number_query = "SELECT * FROM user WHERE user_phone_number='$user_phone_number'";
-            $check_phone_number_result = mysqli_query($connection, $check_phone_number_query);
-            if(mysqli_num_rows($check_email_result) > 0 || mysqli_num_rows($check_phone_number_result) >0) {
+            $checkEmailQuery = "SELECT * FROM user WHERE user_email='$userEmail'";
+            $checkEmailResult = mysqli_query($connection, $checkEmailQuery);
+            $checkPhoneNumberQuery = "SELECT * FROM user WHERE user_phone_number='$userPhoneNumber'";
+            $checkPhoneNumberResult = mysqli_query($connection, $checkPhoneNumberQuery);
+            if(mysqli_num_rows($checkEmailResult) > 0 || mysqli_num_rows($checkPhoneNumberResult) >0) {
                 $errors[] = "User with this email or phone number already exists.";
             }
             
             else {
 
         // Retrieve form data
-            $user_first_name = $_POST['user_first_name'];
-            $user_last_name = $_POST['user_last_name'];
-            $user_password = $_POST['user_password'];
+            $userFirstName = $_POST['user_first_name'];
+            $userLastName = $_POST['user_last_name'];
+            $userPassword = $_POST['user_password'];
          
-            $user_type = $_POST['user_type'];
+            $userType = $_POST['user_type'];
 
                  // File upload
-            $file_name = $_FILES['user_photo']['name'];
-            $temp_name = $_FILES['user_photo']['tmp_name'];
-            $folder="pics/".$file_name;
-            if (move_uploaded_file($temp_name, $folder)) {
+            $fileName = $_FILES['user_photo']['name'];
+            $tempName = $_FILES['user_photo']['tmp_name'];
+            $folder="pics/".$fileName;
+            if (move_uploaded_file($tempName, $folder)) {
                 // echo "File uploaded successfully.";
             } else {
                 $errors[] = "Error moving file.";
             }
                 // Insert data into database
-                $sql = "INSERT INTO user (user_first_name, user_last_name, user_password, user_email, user_phone_number, user_type, user_photo)
-                        VALUES ('$user_first_name', '$user_last_name', '$user_password', '$user_email', '$user_phone_number', '$user_type', '$folder')";
+                $insertUserData = "INSERT INTO user (user_first_name, user_last_name, user_password, user_email, user_phone_number, user_type, user_photo)
+                        VALUES ('$userFirstName', '$userLastName', '$userPassword', '$userEmail', '$userPhoneNumber', '$userType', '$folder')";
                 
-                $result=mysqli_query($connection,$sql);
+                $userData=mysqli_query($connection,$insertUserData);
                 
 
-                if(!$result){
+                if(!$userData){
     throw new Exception("Records not inserted");
 } else {
-$sql1 = "SELECT user_id FROM user WHERE user_email = '$user_email'";
-$result1 = mysqli_query($connection, $sql1);
+$selectUserEmail = "SELECT user_id FROM user WHERE user_email = '$userEmail'";
+$userEmailData = mysqli_query($connection, $selectUserEmail);
 
-if(mysqli_num_rows($result1) > 0) {
-    $row = mysqli_fetch_assoc($result1);
-    $user_id = $row['user_id'];
-    echo "User ID: " . $user_id;
+if(mysqli_num_rows($userEmailData) > 0) {
+    $row = mysqli_fetch_assoc($userEmailData);
+    $userId = $row['user_id'];
+    echo "User ID: " . $userId;
 
     // Check user type and redirect accordingly
-    if ($user_type === 'Client') {
-        header("Location: ClientForm.php?user_id=$user_id");
+    if ($userType === 'Client') {
+        header("Location: ClientForm.php?user_id=$userId");
         exit(); 
-    } elseif ($user_type === 'Freelancer') {
-        header("Location: freelancerForm.php?user_id=$user_id");
+    } elseif ($userType === 'Freelancer') {
+        header("Location: freelancerForm.php?user_id=$userId");
         exit(); 
     } else {
         // Handle unknown user types or future additions
