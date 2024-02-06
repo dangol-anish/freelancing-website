@@ -43,44 +43,7 @@
         <input type="submit" value="Submit" name="Submit" />
     </form>
 
-    <script>
-        function populateSkills() {
-            var category = document.getElementById("freelancer_category").value;
-            var skillsSelect = document.getElementById("freelancer_skills");
-            skillsSelect.innerHTML = ""; 
-
-            console.log("Hi");
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "fetchSkills.php?category=" + encodeURIComponent(category), true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var skills = JSON.parse(xhr.responseText);
-                    console.log("hello");
-
-                    skills.forEach(function(skill) {
-                        var checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.name = "freelancer_skills[]";
-                        checkbox.value = skill.skill_id;
-                        checkbox.id = "skill_" + skill.skill_id;
-
-                        var label = document.createElement("label");
-                        label.htmlFor = "skill_" + skill.skill_id;
-                        label.appendChild(document.createTextNode(skill.skill_name));
-
-                        var br = document.createElement("br");
-
-                        skillsSelect.appendChild(checkbox);
-                        skillsSelect.appendChild(label);
-                        skillsSelect.appendChild(br);
-                    });
-                }
-            };
-            xhr.send();
-        }
-    </script>
-
+  <script src="freelancerForm.js"></script>
 </body>
 </html>
 
@@ -138,7 +101,7 @@ try {
                         $errors[] = "Verification photo file not provided.";
                     }
 
-                    $freelancerBio = isset($_POST['freelancer_bio']) ? mysqli_real_escape_string($connection, $_POST['freelancer_bio']) : ''; 
+                    $freelancerBio = $_POST['freelancer_bio'];
 
                     // Check if 'freelancer_cv' index is set
                     if(isset($_FILES['freelancer_cv'])) {
@@ -172,12 +135,27 @@ try {
                                 throw new Exception("Records not inserted");
                             } 
 
-                            // Insert freelancer skills
-                            $selectedSkills = isset($_POST['freelancer_skills']) ? $_POST['freelancer_skills'] : array();
+                            $freelancerIdQuery = "SELECT freelancer_id FROM freelancer WHERE user_id='$userId'";
+$freelancerIdResult = mysqli_query($connection, $freelancerIdQuery);
+$row = mysqli_fetch_assoc($freelancerIdResult);
+$freelancerId = $row['freelancer_id'];
+
+
+
+                            echo $freelancerId;
+
+                            if(!$freelancerId){
+                                echo "Something went wrong";
+                            }else{
+
+                        $selectedSkills = $_POST['freelancer_skills'];
                             foreach ($selectedSkills as $skill) {
-                                $insertSkillQuery = "INSERT INTO freelancer_skill (user_id, skill_id) VALUES ('$userId', '$skill')";
+                                $insertSkillQuery = "INSERT INTO freelancer_skill (freelancer_id, skill_id) VALUES ('$freelancerId', '$skill')";
                                 $freelancerSkill = mysqli_query($connection, $insertSkillQuery);
                             }
+                            }
+
+                           
                         }
                     }
                 }

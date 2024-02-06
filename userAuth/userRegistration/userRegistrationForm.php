@@ -91,7 +91,7 @@
                 
 
                 if(!$userData){
-    throw new Exception("Records not inserted");
+    $errors[] = "Records not inserted";
 } else {
 $selectUserEmail = "SELECT user_id FROM user WHERE user_email = '$userEmail'";
 $userEmailData = mysqli_query($connection, $selectUserEmail);
@@ -99,7 +99,7 @@ $userEmailData = mysqli_query($connection, $selectUserEmail);
 if(mysqli_num_rows($userEmailData) > 0) {
     $row = mysqli_fetch_assoc($userEmailData);
     $userId = $row['user_id'];
-    echo "User ID: " . $userId;
+   
 
 
     if ($userType === 'Client') {
@@ -114,7 +114,7 @@ if(mysqli_num_rows($userEmailData) > 0) {
     }
 
     } else {
-    echo "No user found with that email.";
+    $errors[] = "Something went wrong";
 }
 }
 

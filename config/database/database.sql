@@ -1,7 +1,7 @@
 CREATE DATABASE freelancing_website;
 
 -- user table
-CREATE TABLE User (
+CREATE TABLE user (
     user_id SERIAL PRIMARY KEY ,
     user_first_name VARCHAR(255) NOT NULL,
     user_last_name VARCHAR(255) NOT NULL,
@@ -15,36 +15,50 @@ CREATE TABLE User (
 
 -- skill table
 
-create TABLE Skill (
+create TABLE skill (
     skill_id SERIAL PRIMARY KEY,
     skill_name VARCHAR(255) UNIQUE NOT NULL,
-    skill_category VARCHAR(255) NOT NULL
+    skill_category VARCHAR(255) NOT NULL,
     skill_approval TINYINT NOT NULL  
 );
 
 -- freelancer skill table
 
-CREATE TABLE Freelancer_Skill (
-    user_id INT REFERENCES User(user_id),
-    skill_id INT REFERENCES Skill(skill_id),
-    PRIMARY KEY (user_id, skill_id)
+CREATE TABLE freelancer_Skill (
+    freelancer_id INT REFERENCES user(user_id) ON DELETE CASCADE,
+    skill_id INT REFERENCES skill(skill_id) ON DELETE CASCADE,
+    PRIMARY KEY (freelancer_id, skill_id)
 );
 
 -- freelancer table
 
-CREATE TABLE Freelancer (
-    freelancer_id SERIAL PRIMARY KEY ,
-    freelancer_verification_photo VARCHAR(255) REQUIRED,
-    freelancer_bio VARCHAR(255) REQUIRED,
+CREATE TABLE freelancer (
+     user_id SERIAL NOT NULL PRIMARY KEY,
+    freelancer_identity_photo VARCHAR(255) NOT NULL,
+    freelancer_verification_photo VARCHAR(255) NOT NULL,
+    freelancer_bio VARCHAR(255) NOT NULL,
     freelancer_cv VARCHAR(255),
-    user_id INT REFERENCES User(user_id),
+    CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
+    
 );
+
+
+-- 
+-- CREATE TABLE freelancer (
+--     user_id INT,
+--     freelancer_identity_photo VARCHAR(255) NOT NULL,
+--     freelancer_verification_photo VARCHAR(255) NOT NULL,
+--     freelancer_bio VARCHAR(255) NOT NULL,
+--     freelancer_cv VARCHAR(255),
+--     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
+-- );
+
 
 -- client table
 
 CREATE TABLE Client (
     client_id SERIAL PRIMARY KEY ,
-    client_pan_photo VARCHAR(255) REQUIRED,
-    client_verification_photo VARCHAR(255) REQUIRED,
-    user_id INT REFERENCES User(user_id),
+    client_pan_photo VARCHAR(255) NOT NULL,
+    client_verification_photo VARCHAR(255) NOT NULL,
+    user_id INT REFERENCES User(user_id) ON DELETE CASCADE
 );

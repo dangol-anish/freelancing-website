@@ -92,6 +92,8 @@ try {
                 $errors[] = "Verification photo or CV file not provided.";
             }
         }
+    }else{
+        echo "No user Id";
     }
 } catch(Exception $e) {
     $errors[] = $e->getMessage();
