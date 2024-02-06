@@ -1,3 +1,15 @@
+<?php
+
+session_start(); // Start the session
+
+// Check if the user is already logged in
+if(isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
+    header("Location: http://localhost/freelancing-website/dashboard/dashboard.php");
+    exit; // Make sure no code is executed after redirection
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +35,7 @@
 
 <?php
 
-require("../config/database/databaseConfig.php");
+require("../../config/database/databaseConfig.php");
 
 $errors = array();
 
@@ -45,7 +57,8 @@ try {
             if (password_verify($userPassword, $storedUserPassword)) {
                 session_start();
                 $_SESSION["user_id"] = $userId;
-                header("Location: http://localhost/freelancing-website/userAuth/dashboard.php");
+                $_SESSION["login"] = true;
+                header("Location: http://localhost/freelancing-website/dashboard/dashboard.php");
 
              } else {
                 $errors[] = "Your user email or password doesn't match";
