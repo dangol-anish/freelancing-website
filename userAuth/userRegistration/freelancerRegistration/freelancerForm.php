@@ -38,12 +38,12 @@
         </select><br /><br />
 
         <label for="freelancer_skills">Select Skills:</label><br />
-      <div id="freelancer_skills"></div>
+        <div id="freelancer_skills"></div>
         <br /><br />
         <input type="submit" value="Submit" name="Submit" />
     </form>
 
-  <script src="freelancerForm.js"></script>
+    <script src="freelancerForm.js"></script>
 </body>
 </html>
 
@@ -60,8 +60,8 @@ try {
         $errors[] = "No User ID";
     }
 
-    if(!empty($userId)) {
-        if(isset($_POST['Submit'])) {
+    if(isset($_POST['Submit'])) {
+        if(!empty($userId)) {
             if(isset($_FILES['freelancer_verification_photo']) && isset($_FILES['freelancer_cv'])) {
 
                 $getUserIdQuery = "SELECT * FROM user WHERE user_id='$userId'";
@@ -69,9 +69,7 @@ try {
 
                 if(mysqli_num_rows($getUserIdResult) == 0) {
                     $errors[] = "You are not an existing user";
-                } else {
-
-                  
+                } else { 
                     if(isset($_FILES['freelancer_identity_photo'])) {
                         $freelancerIdentityPhoto = $_FILES['freelancer_identity_photo']['name'];
                         $photoTempName = $_FILES['freelancer_identity_photo']['tmp_name'];
@@ -135,27 +133,11 @@ try {
                                 throw new Exception("Records not inserted");
                             } 
 
-                            $freelancerIdQuery = "SELECT freelancer_id FROM freelancer WHERE user_id='$userId'";
-$freelancerIdResult = mysqli_query($connection, $freelancerIdQuery);
-$row = mysqli_fetch_assoc($freelancerIdResult);
-$freelancerId = $row['freelancer_id'];
-
-
-
-                            echo $freelancerId;
-
-                            if(!$freelancerId){
-                                echo "Something went wrong";
-                            }else{
-
-                        $selectedSkills = $_POST['freelancer_skills'];
+                            $selectedSkills = $_POST['freelancer_skills'];
                             foreach ($selectedSkills as $skill) {
-                                $insertSkillQuery = "INSERT INTO freelancer_skill (freelancer_id, skill_id) VALUES ('$freelancerId', '$skill')";
+                                $insertSkillQuery = "INSERT INTO freelancer_skill (user_id, skill_id) VALUES ('$userId', '$skill')";
                                 $freelancerSkill = mysqli_query($connection, $insertSkillQuery);
                             }
-                            }
-
-                           
                         }
                     }
                 }
@@ -173,5 +155,4 @@ if (!empty($errors)) {
         echo $error . "<br>";
     }
 }
-
 ?>
