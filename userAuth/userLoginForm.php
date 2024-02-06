@@ -23,7 +23,7 @@
 
 <?php
 
-require("../../config/database/databaseConfig.php");
+require("../config/database/databaseConfig.php");
 
 $errors = array();
 
@@ -40,10 +40,14 @@ try {
         } else {
             $row = mysqli_fetch_assoc($checkUserResult);
             $storedUserPassword = $row["user_password"];
+            $userId = $row["user_id"];
 
             if (password_verify($userPassword, $storedUserPassword)) {
-                echo "Login successful. User ID: " . $row["user_id"];
-            } else {
+                session_start();
+                $_SESSION["user_id"] = $userId;
+                header("Location: http://localhost/freelancing-website/userAuth/dashboard.php");
+
+             } else {
                 $errors[] = "Your user email or password doesn't match";
             }
         }
