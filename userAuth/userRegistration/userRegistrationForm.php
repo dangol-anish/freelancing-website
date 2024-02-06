@@ -71,6 +71,8 @@
             $userFirstName = $_POST['user_first_name'];
             $userLastName = $_POST['user_last_name'];
             $userPassword = $_POST['user_password'];
+
+            $hasedUserPassword =  password_hash($userPassword, PASSWORD_DEFAULT);
          
             $userType = $_POST['user_type'];
 
@@ -85,7 +87,7 @@
             }
 
                 $insertUserData = "INSERT INTO user (user_first_name, user_last_name, user_password, user_email, user_phone_number, user_type, user_photo)
-                        VALUES ('$userFirstName', '$userLastName', '$userPassword', '$userEmail', '$userPhoneNumber', '$userType', '$folder')";
+                        VALUES ('$userFirstName', '$userLastName', '$hasedUserPassword', '$userEmail', '$userPhoneNumber', '$userType', '$folder')";
                 
                 $userData=mysqli_query($connection,$insertUserData);
                 
