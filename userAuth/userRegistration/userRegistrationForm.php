@@ -7,40 +7,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="userRegistration.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration Form</title>
 </head>
 <body>
-    <h2>User Registration Form</h2>
+
 
 
     <form  method="POST" enctype="multipart/form-data">
-        <label for="user_first_name">First Name:</label><br />
-        <input type="text" id="user_first_name" name="user_first_name" required /><br /><br />
+            <h3>Registration Form</h3>
+            <br>
+        <label for="user_first_name">
+            <p>First Name:</p>
+            <input type="text" id="user_first_name" name="user_first_name" required />
+        </label>
+        <br />
+        
+        <label for="user_last_name"><p>Last Name:</p>
+             <input type="text" id="user_last_name" name="user_last_name" required />
+        </label>
+       <br />
 
-        <label for="user_last_name">Last Name:</label><br />
-        <input type="text" id="user_last_name" name="user_last_name" required /><br /><br />
+        <label for="user_password"><p>Password:</p>
+                 <input type="password" id="user_password" name="user_password" required />
+        </label>
+   <br />
 
-        <label for="user_password">Password:</label><br />
-        <input type="password" id="user_password" name="user_password" required /><br /><br />
+        <label for="user_email">
+            <p>Email:</p>
 
-        <label for="user_email">Email:</label><br />
-        <input type="email" id="user_email" name="user_email" required /><br /><br />
+             <input type="email" id="user_email" name="user_email" required />
+        </label>
+        <br />
+       
 
-        <label for="user_phone_number">Phone Number:</label><br />
-        <input type="tel" id="user_phone_number" name="user_phone_number" pattern="[0-9]*" required /><br /><br />
+        <label for="user_phone_number"><p>Phone Number:</p>
+                    <input type="tel" id="user_phone_number" name="user_phone_number" pattern="[0-9]*" required />
+        </label>
+<br />
 
-        <label>User Type:</label><br />
+        <label>
+        <p>User Type:</p>
+        <div class="user-type">
         <input type="radio" id="freelancer" name="user_type" value="Freelancer" required />
-        <label for="freelancer">Freelancer</label><br />
+        <label for="freelancer">Freelancer</label>
+        </div>
+   
+        <div class="user-type">
         <input type="radio" id="client" name="user_type" value="Client" />
-        <label for="client">Client</label><br /><br />
+        <label for="client">Client</label>
 
-        <label for="user_photo">Photo URL:</label><br />
-        <input type="file" id="user_photo" name="user_photo" required /><br /><br />
+        </div>
+     
+        </label><br />
 
-        <input type="submit" value="Submit" name="Submit" />
+        <label class="user-photo" for="user_photo">
+        <p>Photo URL:</p>
+        <input type="file" id="user_photo" name="user_photo" required />
+        </label>
+        <br /><br />
+
+        <div class="btn-submit">
+   <input class="submit" type="submit" value="Submit" name="Submit" />  
+        </div>
+     
     </form>
 </body>
 </html>
