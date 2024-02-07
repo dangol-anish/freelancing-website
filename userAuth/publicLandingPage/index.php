@@ -1,3 +1,8 @@
+<?php
+include("../../config/helper/persistLogin.php");
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,7 +18,7 @@
         >Register</a
       >
       <a
-        href="http://localhost/freelancing-website/userAuth/userRegistration/userLoginForm.php"
+        href="http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php"
         >Login</a
       >
     </div>

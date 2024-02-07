@@ -1,13 +1,5 @@
 <?php
-
-session_start(); // Start the session
-
-// Check if the user is already logged in
-if(isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
-    header("Location: http://localhost/freelancing-website/dashboard/dashboard.php");
-    exit; // Make sure no code is executed after redirection
-}
-
+require("../../config/helper/persistLogin.php");
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +36,7 @@ try {
         $userEmail = $_POST["user_email"];
         $userPassword = $_POST["user_password"];
 
-        $checkUserQuery = "select user_id, user_password from user where user_email= '$userEmail'";
+        $checkUserQuery = "select user_id, user_password, user_type from user where user_email= '$userEmail'";
         $checkUserResult = mysqli_query($connection, $checkUserQuery);
 
         if(mysqli_num_rows($checkUserResult) == 0) {
@@ -53,12 +45,28 @@ try {
             $row = mysqli_fetch_assoc($checkUserResult);
             $storedUserPassword = $row["user_password"];
             $userId = $row["user_id"];
+            $userType = $row["user_type"];
 
             if (password_verify($userPassword, $storedUserPassword)) {
+
+                if($userType == "Freelancer"){
                 session_start();
                 $_SESSION["user_id"] = $userId;
                 $_SESSION["login"] = true;
-                header("Location: http://localhost/freelancing-website/dashboard/dashboard.php");
+                header("Location: http://localhost/freelancing-website/dashboard/freelancer/freelancerDashboard.php");
+
+                }else if($userType == "Client"){
+
+              session_start();
+                $_SESSION["user_id"] = $userId;
+                $_SESSION["login"] = true;
+                header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
+
+                }
+
+
+
+              
 
              } else {
                 $errors[] = "Your user email or password doesn't match";

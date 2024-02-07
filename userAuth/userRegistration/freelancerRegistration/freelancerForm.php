@@ -1,3 +1,9 @@
+<?php
+
+ require("../../../config/helper/persistLogin.php");
+ ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
