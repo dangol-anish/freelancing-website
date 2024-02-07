@@ -7,18 +7,21 @@
 </head>
 <body>
     Dashboard
-
+    <br>
     <a href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
+    <br>
+    <a href="http://localhost/freelancing-website/dashboard/freelancer/freelancerProfile.php">My Profile</a>
+    <br>
 </body>
 </html>
 
 <?php
-session_start(); // Start the session if not already started
+session_start(); 
 
 if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 
-    echo $_SESSION["user_id"];
-    echo $_SESSION["login"];
+    echo "User Id: " . $_SESSION["user_id"]. "<br/>" ;
+    echo "Session Status: " . $_SESSION["login"];
 }else{
     header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
 }
