@@ -62,6 +62,13 @@ try {
                 $_SESSION["login"] = true;
                 header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
 
+                }else if($userType = "Admin"){
+                      session_start();
+                $_SESSION["user_id"] = $userId;
+                $_SESSION["login"] = true;
+                header("Location: http://localhost/freelancing-website/dashboard/admin/adminDashboard.php");
+
+
                 }
 
 

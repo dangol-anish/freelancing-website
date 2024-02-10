@@ -57,6 +57,7 @@
    
         <div class="user-type">
         <input type="radio" id="client" name="user_type" value="Client" />
+ 
         <label for="client">Client</label>
 
         </div>
@@ -148,6 +149,7 @@ if(mysqli_num_rows($userEmailData) > 0) {
     } elseif ($userType === 'Freelancer') {
         header("Location: freelancerRegistration/freelancerForm.php?user_id=$userId");
         exit(); 
+       
     } else {
    
         $errors[] = "Unknown user type.";
