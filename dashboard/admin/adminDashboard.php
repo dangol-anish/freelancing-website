@@ -21,7 +21,7 @@
         <table border="1px">
             <thead>
                 <tr>
-                    <th>User ID</th>
+     
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
@@ -40,16 +40,16 @@
                 if(mysqli_num_rows($getUsersResult) > 0) {
                     while($row = mysqli_fetch_assoc($getUsersResult)) {
                         echo "<tr>";
-                        echo "<td>" . $row['user_id']. "</td>";
+                    
                         echo "<td>" . $row['user_first_name'] . " " . $row['user_last_name'] . "</td>";
                         echo "<td>" . $row['user_email'] . "</td>";
                         echo "<td>" . $row['user_phone_number'] . "</td>";
                         echo "<td>" . $row['user_type'] . "</td>";
-                        echo "<td><a href='userVerify.php?user_id=" . $row['user_id'] . "'>Verify User</a></td>";
+                        echo "<td><a href='userVerify.php?user_verification_id=" . $row['user_id'] . "'>Verification</a></td>";
                         echo "</tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='6'>No users found.</td></tr>";
+                    echo "<tr><td colspan='5'>No users found.</td></tr>";
                 }
                 mysqli_close($connection);
                 ?>
