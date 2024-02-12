@@ -51,7 +51,7 @@ try {
                     if(isset($_FILES['client_pan_photo'])) {
                         $clientPanPhoto = $_FILES['client_pan_photo']['name'];
                         $photoTempName = $_FILES['client_pan_photo']['tmp_name'];
-                        $panFolder = "identity/".$clientPanPhoto;
+                        $panFolder = "pan/".$clientPanPhoto;
 
                         if (move_uploaded_file($photoTempName, $panFolder)) {
                             echo "Identity Photo uploaded successfully.";

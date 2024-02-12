@@ -10,6 +10,7 @@
 
 <nav>
     <ul>
+        <li><a href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php">Home</a></li>
         <li><a href="#">Client</a></li>
         <li><a href="#">Freelancer</a></li>
     </ul>
@@ -33,7 +34,7 @@
                 <?php
                 include("../../config/database/databaseConfig.php");
 
-                $getUsersQuery = "SELECT user_id, user_first_name, user_last_name, user_email, user_phone_number, user_type, user_photo FROM user";
+                $getUsersQuery = "SELECT user_id, user_first_name, user_last_name, user_email, user_phone_number, user_type, user_photo FROM user WHERE user_type <> 'admin'";
 
                 $getUsersResult = mysqli_query($connection, $getUsersQuery);
 
@@ -45,7 +46,7 @@
                         echo "<td>" . $row['user_email'] . "</td>";
                         echo "<td>" . $row['user_phone_number'] . "</td>";
                         echo "<td>" . $row['user_type'] . "</td>";
-                        echo "<td><a href='userVerify.php?user_verification_id=" . $row['user_id']. "&user_type=" . $row['user_type'] . "'>Verification</a></td>";
+                        echo "<td><a href='userVerify.php?user_verification_id=" . $row['user_id']. "&user_type=" . $row['user_type'] . "'>View Details</a></td>";
                         echo "</tr>";
                     }
                 } else {

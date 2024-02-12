@@ -131,7 +131,7 @@ try {
                             echo "Data already exists";
                         } else {
                             $insertFreelancerData = "INSERT INTO freelancer (freelancer_identity_photo, freelancer_verification_photo, freelancer_bio, freelancer_cv, user_id)
-                                VALUES ('$identityFolder','$verificationFolder', '$freelancerBio',  '$freelancerCv', '$userId')";
+                                VALUES ('$identityFolder','$verificationFolder', '$freelancerBio',  '$cvFolder', '$userId')";
 
                             $freelancerData = mysqli_query($connection, $insertFreelancerData);
 
