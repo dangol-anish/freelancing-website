@@ -45,13 +45,13 @@
                         echo "<td>" . $row['user_email'] . "</td>";
                         echo "<td>" . $row['user_phone_number'] . "</td>";
                         echo "<td>" . $row['user_type'] . "</td>";
-                        echo "<td><a href='userVerify.php?user_verification_id=" . $row['user_id'] . "'>Verification</a></td>";
+                        echo "<td><a href='userVerify.php?user_verification_id=" . $row['user_id']. "&user_type=" . $row['user_type'] . "'>Verification</a></td>";
                         echo "</tr>";
                     }
                 } else {
                     echo "<tr><td colspan='5'>No users found.</td></tr>";
                 }
-                mysqli_close($connection);
+              
                 ?>
             </tbody>
         </table>
