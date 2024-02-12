@@ -1,3 +1,20 @@
+<?php
+session_start(); // Start the session if not already started
+
+
+
+if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
+
+    if($_SESSION["user_type"] != "Freelancer"){
+    $_SESSION = [];
+    session_destroy();
+    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+
+    }
+    
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

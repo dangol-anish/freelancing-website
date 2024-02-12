@@ -53,7 +53,8 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
         echo "Invalid User Type";
     }
 } else {
-    echo "Error";
+     header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+    exit(); 
 }
 ?>
 

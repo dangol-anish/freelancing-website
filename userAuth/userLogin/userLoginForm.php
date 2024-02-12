@@ -53,6 +53,7 @@ try {
                 session_start();
                 $_SESSION["user_id"] = $userId;
                 $_SESSION["login"] = true;
+                $_SESSION["user_type"] = $userType;
                 header("Location: http://localhost/freelancing-website/dashboard/freelancer/freelancerDashboard.php");
 
                 }else if($userType == "Client"){
@@ -60,12 +61,15 @@ try {
               session_start();
                 $_SESSION["user_id"] = $userId;
                 $_SESSION["login"] = true;
+                $_SESSION["user_type"] = $userType;
+
                 header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
 
                 }else if($userType = "Admin"){
                       session_start();
                 $_SESSION["user_id"] = $userId;
                 $_SESSION["login"] = true;
+                $_SESSION["user_type"] = $userType;
                 header("Location: http://localhost/freelancing-website/dashboard/admin/adminDashboard.php");
 
 
