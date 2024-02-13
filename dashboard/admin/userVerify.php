@@ -70,8 +70,7 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
     <nav>
     <ul>
         <li><a href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php">Home</a></li>
-        <li><a href="#">Client</a></li>
-        <li><a href="#">Freelancer</a></li>
+   
     </ul>
     <a href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
 </nav>
@@ -183,7 +182,7 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
         $verifyResult = mysqli_query($connection, $verifyQuery);
 
         if ($verifyResult) {
-            echo "User verified successfully!";
+            header("Location: http://localhost/freelancing-website/dashboard/admin/adminDashboard.php");
         } else {
             echo "Error verifying user: " . mysqli_error($connection);
         }

@@ -32,14 +32,3 @@ if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 </body>
 </html>
 
-<?php
-session_start(); 
-
-if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
-
-    echo "User Id: " . $_SESSION["user_id"]. "<br/>" ;
-    echo "Session Status: " . $_SESSION["login"];
-}else{
-    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
-}
-?>

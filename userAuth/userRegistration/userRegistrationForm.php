@@ -125,8 +125,8 @@
                 $errors[] = "Error moving file.";
             }
 
-                $insertUserData = "INSERT INTO user (user_first_name, user_last_name, user_password, user_email, user_phone_number, user_type, user_photo)
-                        VALUES ('$userFirstName', '$userLastName', '$hasedUserPassword', '$userEmail', '$userPhoneNumber', '$userType', '$folder')";
+                $insertUserData = "INSERT INTO user (user_first_name, user_last_name, user_password, user_email, user_phone_number, user_type, user_photo, user_status)
+                        VALUES ('$userFirstName', '$userLastName', '$hasedUserPassword', '$userEmail', '$userPhoneNumber', '$userType', '$folder', '0')";
                 
                 $userData=mysqli_query($connection,$insertUserData);
                 
