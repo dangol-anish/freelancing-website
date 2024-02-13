@@ -54,3 +54,5 @@ CREATE TABLE client (
     user_id INT NOT NULL,
      CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
+
+-- job category
