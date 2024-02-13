@@ -26,6 +26,10 @@ if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 <body>
     Dashboard
 
+     <br>
+    <a href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
+    <br>
+
     <a href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
 </body>
 </html>
