@@ -32,6 +32,16 @@ CREATE TABLE freelancer_skill (
 
 );
 
+-- job skill
+
+CREATE TABLE job_skill(
+    js_id  INT PRIMARY KEY AUTO_INCREMENT,
+    job_id INT ,
+    skill_id INT,
+    CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
+
+);
+
 -- freelancer table
 
 CREATE TABLE freelancer (
@@ -56,3 +66,23 @@ CREATE TABLE client (
 );
 
 -- job category
+
+
+CREATE TABLE job (
+    job_id INT  NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    job_title VARCHAR(255) NOT NULL,
+    job_description VARCHAR(255) NOT NULL,
+    job_budget VARCHAR(255) NOT NULL,
+    job_duration VARCHAR(255) NOT NULL,
+    job_status VARCHAR(255) NOT NULL,
+    user_id INT NOT NULL,
+    CONSTRAINT FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE  
+);
+
+CREATE TABLE job_skill(
+    js_id  INT PRIMARY KEY AUTO_INCREMENT,
+    job_id INT ,
+    skill_id INT,
+    CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
+
+);
