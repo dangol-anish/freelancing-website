@@ -84,5 +84,4 @@ CREATE TABLE job_skill(
     job_id INT ,
     skill_id INT,
     CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
-
 );

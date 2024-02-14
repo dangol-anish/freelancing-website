@@ -66,7 +66,7 @@ if (mysqli_num_rows($getuserInfoResult) <= 0 || mysqli_num_rows($getClientInfoRe
 <main>
     <div class="card">
         <div class="user-photo">
-            <img src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
+            <img width="200px" src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
         </div>
         <div class="user_info">
             <h2>Freelancer Information</h2>
