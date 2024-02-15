@@ -69,6 +69,7 @@ $getClientIdQuery= "SELECT user_id FROM job WHERE job_status = 1 and job_id = '$
             $freelancerUserId = $_SESSION["user_id"];
 
 
+            
              if(isset($_POST["apply"])) {
    
 

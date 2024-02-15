@@ -112,8 +112,54 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && isset($_GET["job_
     <?php $userData = mysqli_fetch_assoc($getUserDataResult); ?>
     <p><strong>User:</strong> <span class="user"><?php echo $userName ?></span></p>
   <?php endif; ?>
+
+  <form action="" method="POST">
+    <input type="submit" value="Delete" name="delete">
+  </form>
 </div>
 <?php endif; ?>
 
 </body>
 </html>
+
+
+<?php
+
+
+
+if(isset($_POST["delete"])){
+    $deleteJobQuery = "delete from job where job_id='$jobId' and user_id='$userId'";
+    $deleteJobResult = mysqli_query($connection, $deleteJobQuery);
+    
+    if($deleteJobResult) {
+        // Check if any rows were affected
+        if(mysqli_affected_rows($connection) > 0) {
+            header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
+            exit;
+        } else {
+            echo "No rows were deleted.";
+        }
+    } else {
+        echo "Error while deleting: " . mysqli_error($connection);
+    }
+}
+
+
+$getJobApplyDataQuery = "select * from job_application where job_id='$jobId'";
+$getJobApplyDataResult = mysqli_query($connection, $getJobApplyDataQuery);
+
+if(mysqli_num_rows($getJobApplyDataResult) > 0) {
+   while ($row = mysqli_fetch_assoc($getJobApplyDataResult)) {
+        $applicantUserId = $row['freelancer_user_id'];
+        // Do something with $applicantUserId, such as store it in an array or display it
+        echo "Applicant User ID: $applicantUserId<br>";
+    }
+}
+else{
+  echo "No Applications yet";
+}
+
+?>
+
+
+

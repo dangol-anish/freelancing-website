@@ -60,7 +60,7 @@
             <br><br>
           
         <label for="job_category">Job Category:</label><br />
-        <select id="job_category" name="job_category" onchange="populateSkills()">
+        <select id="job_category" name="job_category" onchange="populateSkills()" required>
             <option value="">Select Category</option>
 
             <?php
@@ -76,8 +76,8 @@
         </select><br /><br />
 
         <label for="job_skills">Required Skills:</label><br />
-        <div id="job_skills"></div>
-        <br /><br />
+        <div id="job_skills" required></div>
+        <br /><br /> 
             <input type="submit" value="Create Job" name="submit">
         </form>
     </div>
