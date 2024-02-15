@@ -85,3 +85,15 @@ CREATE TABLE job_skill(
     skill_id INT,
     CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
 );
+
+
+
+-- job application
+
+create table job_application(
+    ja_id  INT PRIMARY KEY AUTO_INCREMENT,
+    job_id INT ,
+    client_user_id INT,
+    freelancer_user_id INT,
+    CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
+);
