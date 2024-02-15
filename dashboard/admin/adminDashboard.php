@@ -1,12 +1,20 @@
 <?php
 session_start(); // Start the session if not already started
 
-// Check if the user is logged in and is an admin
-if (isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && $_SESSION["user_type"] != "Admin") {
-    // If not an admin, destroy the session and redirect to login
+if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
+
+    if($_SESSION["user_type"] != "Admin"){
+    $_SESSION = [];
     session_destroy();
     header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
-    exit;
+
+    }
+    
+}else{
+     $_SESSION = [];
+    session_destroy();
+    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+
 }
 
 include("../../config/database/databaseConfig.php");

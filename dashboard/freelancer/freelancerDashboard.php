@@ -12,6 +12,11 @@ if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 
     }
     
+}else{
+     $_SESSION = [];
+    session_destroy();
+    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+
 }
 ?>
 
