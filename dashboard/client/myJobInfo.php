@@ -14,6 +14,9 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && isset($_GET["job_
     $userId = $_SESSION["user_id"];
     $jobId = $_GET["job_id"];
 
+
+
+
     $getJobDataQuery = "select * from job where job_id = '$jobId'";
     $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
 
@@ -148,11 +151,30 @@ if(isset($_POST["delete"])){
 $getJobApplyDataQuery = "select * from job_application where job_id='$jobId'";
 $getJobApplyDataResult = mysqli_query($connection, $getJobApplyDataQuery);
 
+echo "<h1>Applications</h1>";
+
 if(mysqli_num_rows($getJobApplyDataResult) > 0) {
    while ($row = mysqli_fetch_assoc($getJobApplyDataResult)) {
         $applicantUserId = $row['freelancer_user_id'];
-        // Do something with $applicantUserId, such as store it in an array or display it
-        echo "Applicant User ID: $applicantUserId<br>";
+        
+        $getUserDataQuery = "select * from user where user_id = '$applicantUserId'";
+
+        $getUserDataResult = mysqli_query($connection, $getUserDataQuery);
+        $userData = mysqli_fetch_assoc($getUserDataResult);
+
+        $userName = $userData["user_first_name"] . " ". $userData["user_last_name"];
+        $userType = $userData["user_type"];
+
+     $userLink = "php?user_id=" . $applicantUserId . "&user_type=" . $userType;
+        
+        // Create a clickable card for user name
+        echo '<div class="card">';
+         echo "<a href='http://localhost/freelancing-website/dashboard/freelancer/displayProfile.php?freelancer_user_id=$applicantUserId&user_type=$userType&client_user_id=$userId&job_id=$jobId' class='user-link'>";
+;
+        echo $userName;
+        echo $userType;
+        echo '</a>';
+        echo '</div>';
     }
 }
 else{
