@@ -148,7 +148,7 @@ if(isset($_POST["delete"])){
 }
 
 
-$getJobApplyDataQuery = "select * from job_application where job_id='$jobId'";
+$getJobApplyDataQuery = "select * from job_application where job_id='$jobId' and ja_status <> 2";
 $getJobApplyDataResult = mysqli_query($connection, $getJobApplyDataQuery);
 
 echo "<h1>Applications</h1>";

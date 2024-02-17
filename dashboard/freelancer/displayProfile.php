@@ -189,14 +189,20 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
         }
     }else if (isset($_POST["reject"])) {
    
-        $verifyQuery = "UPDATE job_application SET ja_status = 2 WHERE freelancer_user_id = '$freelancerUserId' AND client_user_id = '$clientUserId' AND job_id = '$jobId'";
-        $verifyResult = mysqli_query($connection, $verifyQuery);
+        $rejectQuery = "UPDATE job_application SET ja_status = 2 WHERE freelancer_user_id = '$freelancerUserId' AND client_user_id = '$clientUserId' AND job_id = '$jobId'";
+        $rejectResult = mysqli_query($connection, $rejectQuery);
 
-        if ($verifyResult) {
-            echo "User rejected successfully!";
+
+
+        if ($rejectResult) {
+
+            header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
         } else {
             echo "Error rejecting user: " . mysqli_error($connection);
         }
+
+     
+
     }
 
 ?>
