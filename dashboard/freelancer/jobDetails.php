@@ -6,6 +6,16 @@ session_start(); // Start the session if not already started
 if (isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && $_SESSION["user_type"] == "Freelancer") {
     include("../../config/database/databaseConfig.php");
 
+    $userId = $_SESSION["user_id"];
+
+    $getUserStatusQuery = "select user_status from user where user_id ='$userId' ";
+
+    $getUserStatusResult = mysqli_query($connection, $getUserStatusQuery);
+
+    $row = mysqli_fetch_assoc($getUserStatusResult);
+
+   $userStatus = $row["user_status"];
+
     // Check if the job_id is set in the URL
     if(isset($_GET["job_id"])) {
         $jobId = $_GET["job_id"];
@@ -36,10 +46,16 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && $_SESSION["user_
                         <p>Budget: <?php echo $jobData["job_budget"]; ?></p>
                         <p>Duration: <?php echo $jobData["job_duration"]; ?></p>
                     </div>
+                       <?php if($userStatus != 1) { ?>
+                    <form method="POST" action=""> <!-- Assuming apply.php is the file to handle the apply action -->
+                        <input type="submit" name="apply" value="Apply" <?php if($userStatus == 0) echo "disabled"; ?>>
+                    </form>
+                <?php }else{?>
                      <form method="POST" action=""> <!-- Assuming apply.php is the file to handle the apply action -->
-            <input type="submit" name="apply" value="Apply">
-       
-        </form>
+                        <input type="submit" name="apply" value="Apply" <?php if($userStatus == 0) echo "disabled"; ?>>
+                    </form>
+
+ <?php }?>
                 </div>
             </body>
             </html>

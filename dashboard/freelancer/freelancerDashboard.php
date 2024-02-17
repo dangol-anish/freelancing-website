@@ -26,6 +26,8 @@
     <p>Logo</p>
     <div>
         <a href="http://localhost/freelancing-website/dashboard/freelancer/freelancerProfile.php">My Profile</a>
+        <a href="http://localhost/freelancing-website/dashboard/freelancer/freelancerJobHistory.php">Job History</a>
+        <a href="http://localhost/freelancing-website/dashboard/freelancer/myJobs.php">My Jobs</a>
         <a href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
     </div>
    </nav>
