@@ -12,6 +12,7 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
     $clientUserId = $_GET["client_user_id"];
     $jobId = $_GET["job_id"];
 
+
     // echo "Freelancer User Id: " . $freelancerUserId;
     // echo "Client User Id: " . $clientUserId;
     // echo "Job Id: " . $jobId;
@@ -19,6 +20,34 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
     $getUsersQuery = "SELECT * FROM user WHERE user_id = '$freelancerUserId'";
     
     $getUsersResult = mysqli_query($connection, $getUsersQuery);
+
+
+    $checkJAStatusQuery = "select ja_status from job_application where client_user_id='$clientUserId' and freelancer_user_id='$freelancerUserId' and job_id='$jobId'";
+
+
+    $checkJAStatusResult = mysqli_query($connection, $checkJAStatusQuery);
+
+    $row = mysqli_fetch_assoc($checkJAStatusResult);
+
+    $jobStatus = $row["ja_status"];
+
+    echo $jobStatus;
+    if($jobStatus == 1){
+        header("Location: http://localhost/freelancing-website/communication/index.php?job_id=$jobId");
+    }else if($jobStatus == 2){
+        header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
+
+    }
+
+
+
+
+
+
+
+
+
+
 
     if (mysqli_num_rows($getUsersResult) > 0) {
         while ($row = mysqli_fetch_assoc($getUsersResult)) {
@@ -182,8 +211,17 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
         $hireQuery = "UPDATE job_application SET ja_status = 1 WHERE freelancer_user_id = '$freelancerUserId' AND client_user_id = '$clientUserId' AND job_id = '$jobId'";
         $hireResult = mysqli_query($connection, $hireQuery);
 
+
+
+
+
+         // echo "Freelancer User Id: " . $freelancerUserId;
+    // echo "Client User Id: " . $clientUserId;
+    // echo "Job Id: " . $jobId;
+
+
         if ($hireResult) {
-           header("Location: http://localhost/freelancing-website/communication/test.php");
+           header("Location: http://localhost/freelancing-website/communication/index.php?job_id=$jobId");
         } else {
             echo "Error hiring user: " . mysqli_error($connection);
         }

@@ -97,3 +97,14 @@ create table job_application(
     freelancer_user_id INT,
     CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
 );
+
+
+
+create table messages (
+messages_id  INT PRIMARY KEY AUTO_INCREMENT,
+ client_user_id INT,
+    freelancer_user_id INT,
+    message varchar(1000),
+    CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
+
+);
