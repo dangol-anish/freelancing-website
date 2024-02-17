@@ -4,6 +4,9 @@ session_start();
 include("../../config/database/databaseConfig.php");
 
 $userId = $_SESSION["user_id"];
+$userType = $_SESSION["user_type"];
+
+
 
 $getAppliedJobHistoryQuery = "SELECT job_id, ja_status FROM job_application WHERE freelancer_user_id='$userId' and ja_status= 1";
 $getAppliedJobHistoryResult = mysqli_query($connection, $getAppliedJobHistoryQuery);
@@ -22,8 +25,11 @@ if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
         if ($getJobDetailsResult) {
             $jobDetails = mysqli_fetch_assoc($getJobDetailsResult);
 
+            $jobId = $jobDetails["job_id"];
+
             // Output job details in card format with clickable link
-            echo '<a href="http://localhost/freelancing-website/communication/index.php" class="job-card">';
+           echo "<a href='http://localhost/freelancing-website/communication/index.php?job_id=$jobId' class='job-card'>";
+
             echo '<h2>' . $jobDetails['job_title'] . '</h2>';
             echo '<p>Description: ' . $jobDetails['job_description'] . '</p>';
             echo '</a>';

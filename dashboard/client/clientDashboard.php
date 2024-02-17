@@ -73,6 +73,7 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
     <div>
         <button id="createJob" class="createJobModal" <?php if(isset($disableCreateJobButton) && $disableCreateJobButton) echo 'disabled'; ?>>Create Job</button>
         <a href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
+        
         <a href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
     </div>
 </nav>

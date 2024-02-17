@@ -1,10 +1,18 @@
 <?php
+
+session_start();
+
 include("../config/database/databaseConfig.php");
 
 // Check if the job_id is set
 if(isset($_GET["job_id"])) {
     $jobId = $_GET["job_id"];
     echo "Job ID: " . $jobId;
+
+
+    $userStatus = $_SESSION["user_type"];
+
+    echo $userStatus;
 
     $getUsersIdQuery = "SELECT freelancer_user_id, client_user_id FROM job_application WHERE job_id='$jobId'";
     $getUsersIdResult = mysqli_query($connection, $getUsersIdQuery);

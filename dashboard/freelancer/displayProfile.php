@@ -13,6 +13,8 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
     $jobId = $_GET["job_id"];
 
 
+
+
     // echo "Freelancer User Id: " . $freelancerUserId;
     // echo "Client User Id: " . $clientUserId;
     // echo "Job Id: " . $jobId;
