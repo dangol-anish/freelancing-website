@@ -22,14 +22,10 @@ $user = mysqli_fetch_assoc($getUsersResult);
         <div class="col-md-4">
             <p>Hi <?php echo $user["user_first_name"]; ?></p>
             <input type="text" id="fromUser" value="<?php echo $user["user_id"]; ?>" hidden/>
-            <p>Send Message to: </p>
+  
             <ul>
                 <?php
-                $msgs = "SELECT * FROM user";
-                $msgsResult = mysqli_query($connection, $msgs);
-                while ($msg = mysqli_fetch_assoc($msgsResult)) {
-                    echo '<li><a href="?toUser=' . $msg["user_id"] . '">' . $msg["user_first_name"] . '</a></li>';
-                }
+             
                 ?>
             </ul>
         </div>
@@ -40,11 +36,11 @@ $user = mysqli_fetch_assoc($getUsersResult);
                         <h4>
                             <?php
                             if (isset($_GET['toUser'])) {
-                                $userName = "SELECT * FROM user WHERE user_id = '" . $_GET["toUser"] . "'";
+                                $userName = "SELECT *    FROM user WHERE user_id = '" . $_GET["toUser"] . "'";
                                 $userNameResult = mysqli_query($connection, $userName);
                                 $uName = mysqli_fetch_assoc($userNameResult);
                                 echo '<input type="text" value="' . $_GET["toUser"] . '" id="toUser" hidden/>';
-                                echo $uName["user_first_name"];
+                                echo $uName["user_first_name"] . $uName["user_last_name"];
                             } else {
                                 echo '<input type="text" value="' . $_SESSION["user_id"] . '" id="toUser" hidden/>';
                                 echo $user["user_first_name"];
@@ -88,37 +84,46 @@ $user = mysqli_fetch_assoc($getUsersResult);
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#send").on("click", function () {
+ $(document).ready(function () {
+    $("#send").on("click", function () {
+        var message = $("#message").val().trim(); // Trim whitespace from the message
+
+        // Check if the message is not empty
+        if (message !== "") {
             $.ajax({
                 url: "insertMessage.php",
                 method: "POST",
                 data: {
                     fromUser: $("#fromUser").val(),
                     toUser: $("#toUser").val(),
-                    message: $("#message").val(),
+                    message: message, // Use the trimmed message
                 },
                 dataType: "text",
                 success: function (data) {
                     $("#message").val("");
                 }
             });
-        });
-
-        setInterval(function () {
-            $.ajax({
-                url: "realTimeChat.php",
-                method: "POST",
-                data: {
-                    fromUser: $("#fromUser").val(),
-                    toUser: $("#toUser").val(),
-                },
-                dataType: "text",
-                success: function (data) {
-                    $("#msgBody").html(data);
-                }
-            });
-        }, 700);
+        } else {
+            // Inform the user that the message cannot be empty
+            alert("Message cannot be empty!");
+        }
     });
+
+    setInterval(function () {
+        $.ajax({
+            url: "realTimeChat.php",
+            method: "POST",
+            data: {
+                fromUser: $("#fromUser").val(),
+                toUser: $("#toUser").val(),
+            },
+            dataType: "text",
+            success: function (data) {
+                $("#msgBody").html(data);
+            }
+        });
+    }, 700);
+});
+
 </script>
 </html>
