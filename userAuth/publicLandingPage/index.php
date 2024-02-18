@@ -38,7 +38,7 @@
       </nav>
     </header>
 
-    <main>
+    <main id="top">
       <section>
         <article class="article-main-text">
           <h1>Localized Freelancing Website</h1>
@@ -128,6 +128,17 @@
       </div>
     </main>
     <hr />
-    <footer></footer>
+    <footer>
+      <img
+        class="logo-img-footer"
+        src="../../assets/logo/test.png"
+        alt="logo"
+      />
+      <p>&copy; Anish Dangol</p>
+      <a href="#top"
+        ><p>Back to Top</p>
+        <span class="material-symbols-outlined"> arrow_drop_up </span></a
+      >
+    </footer>
   </body>
 </html>
