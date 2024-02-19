@@ -1,30 +1,31 @@
-<?php
+ <?php
 require("../../config/helper/persistLogin.php");
-?>
+?> 
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <link rel="stylesheet" href="userLoginForm.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h2>User Login Form</h2>
-
+  </head>
+  <body>
     <form action="" method="POST">
-        <label for="user_email">Email:</label><br />
-        <input type="text" id="user_email" name="user_email" required /><br /><br />
+      <h2>Login</h2>
+      <label for="user_email">Email:</label>
+      <input type="text" id="user_email" name="user_email" required />
 
-        <label for="user_password">Password:</label><br />
-        <input type="password" id="user_password" name="user_password" required /><br /><br />
+      <label for="user_password">Password:</label>
+      <input type="password" id="user_password" name="user_password" required />
 
-        <input type="submit" value="Submit" name="Submit">
+      <input class="submit" type="submit" value="Submit" name="Submit" />
+      <br>
+      <p class="text">Don't have an account? <a href="http://localhost/freelancing-website/userAuth/userRegistration/userRegistrationForm.php">Register</a></p>
     </form>
-    
-</body>
+  </body>
 </html>
-
+ 
 <?php
 
 require("../../config/database/databaseConfig.php");
@@ -85,17 +86,14 @@ try {
         }
     }
 } catch(Exception $e) {
-    $errors[] = $e->getMessage();
-}
-
-if (!empty($errors)) {
-    echo "<div>";
-    echo "<ul>";
-    foreach ($errors as $error) {
-        echo "<li>$error</li>";
-    }
-    echo "</ul>";
-    echo "</div>";
-}
-
-?>
+    $errors[] = $e->getMessage(); } if (!empty($errors)) { echo "
+<div>
+  "; echo "
+  <ul>
+    "; foreach ($errors as $error) { echo "
+    <li>$error</li>
+    "; } echo "
+  </ul>
+  "; echo "
+</div>
+"; } ?>
