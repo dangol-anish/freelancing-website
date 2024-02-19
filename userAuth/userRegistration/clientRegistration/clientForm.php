@@ -99,7 +99,7 @@ try {
             }
         }
     }else{
-        echo "No user Id";
+       header("Location:http://localhost/freelancing-website/userAuth/userRegistration/userRegistrationForm.php ");
     }
 } catch(Exception $e) {
     $errors[] = $e->getMessage();

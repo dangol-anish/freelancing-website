@@ -1,89 +1,119 @@
-<?php
+ <?php
 
  require("../../config/helper/persistLogin.php");
- ?>
-
+ ?> 
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="userRegistration.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration Form</title>
-</head>
-<body>
+  <head>
+    <link rel="stylesheet" href="userRegistration.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+  </head>
+  <body>
+    <form method="POST" enctype="multipart/form-data">
+      <h2>Create your account</h2>
 
-
-
-    <form  method="POST" enctype="multipart/form-data">
-            <h3>Registration Form</h3>
-            <br>
+      <div class="full-name">
         <label for="user_first_name">
-            <p>First Name:</p>
-            <input type="text" id="user_first_name" name="user_first_name" required />
+          <p>First Name</p>
+          <input
+            type="text"
+            id="user_first_name"
+            name="user_first_name"
+            required
+          />
         </label>
-        <br />
-        
-        <label for="user_last_name"><p>Last Name:</p>
-             <input type="text" id="user_last_name" name="user_last_name" required />
-        </label>
-       <br />
 
-        <label for="user_password"><p>Password:</p>
-                 <input type="password" id="user_password" name="user_password" required />
+        <label for="user_last_name"
+          ><p>Last Name</p>
+          <input
+            type="text"
+            id="user_last_name"
+            name="user_last_name"
+            required
+          />
         </label>
-   <br />
+      </div>
 
+      <div class="priv">
         <label for="user_email">
-            <p>Email:</p>
+          <p>Email</p>
 
-             <input type="email" id="user_email" name="user_email" required />
+          <input type="email" id="user_email" name="user_email" required />
         </label>
-        <br />
-       
 
-        <label for="user_phone_number"><p>Phone Number:</p>
-                    <input type="tel" id="user_phone_number" name="user_phone_number" pattern="[0-9]*" required />
+        <label for="user_phone_number"
+          ><p>Phone Number</p>
+          <input
+            type="tel"
+            id="user_phone_number"
+            name="user_phone_number"
+            pattern="[0-9]*"
+            required
+          />
         </label>
-<br />
+      </div>
 
-        <label>
-        <p>User Type:</p>
-        <div class="user-type">
-        <input type="radio" id="freelancer" name="user_type" value="Freelancer" required />
-        <label for="freelancer">Freelancer</label>
+      <label for="user_password"
+        ><p>Password</p>
+        <input
+          type="password"
+          id="user_password"
+          name="user_password"
+          required
+        />
+      </label>
+
+      <label class="user-type">
+        <p>User Type</p>
+        <div class="user-type-inside">
+          <input
+            type="radio"
+            id="freelancer"
+            name="user_type"
+            value="Freelancer"
+            required
+            checked
+          />
+          <label class="radio-label" for="freelancer">Freelancer</label>
         </div>
-   
-        <div class="user-type">
-        <input type="radio" id="client" name="user_type" value="Client" />
- 
-        <label for="client">Client</label>
 
+        <div class="user-type-inside">
+          <input type="radio" id="client" name="user_type" value="Client" />
+
+          <label class="radio-label" for="client">Client</label>
         </div>
-     
-        </label><br />
+      </label>
 
-        <label class="user-photo" for="user_photo">
-        <p>Photo URL:</p>
-        <input type="file" id="user_photo" name="user_photo" required />
-        </label>
-        <br /><br />
+      <input
+        type="file"
+        id="user_photo"
+        name="user_photo"
+        class="inputfile"
+        required
+      />
+      <label class="user-photo" for="user_photo">Choose a photo</label>
 
-        <div class="btn-submit">
-   <input class="submit" type="submit" value="Submit" name="Submit" />  
-        </div>
-     
+      <input class="submit" type="submit" value="Submit" name="Submit" />
+
+      <p class="text">
+        Already have an account?
+        <a
+          href="http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php"
+          >Login</a
+        >
+      </p>
     </form>
-</body>
+  </body>
 </html>
 
 
 
-    <?php
+ <?php
 
     require("../../config/database/databaseConfig.php");
-
 
     $errors = array();
 
@@ -93,15 +123,17 @@
          
             $userEmail = $_POST['user_email'];
             $userPhoneNumber = $_POST['user_phone_number'];
-           
 
 
-            $checkEmailQuery = "SELECT * FROM user WHERE user_email='$userEmail'";
-            $checkEmailResult = mysqli_query($connection, $checkEmailQuery);
-            $checkPhoneNumberQuery = "SELECT * FROM user WHERE user_phone_number='$userPhoneNumber'";
-            $checkPhoneNumberResult = mysqli_query($connection, $checkPhoneNumberQuery);
-            if(mysqli_num_rows($checkEmailResult) > 0 || mysqli_num_rows($checkPhoneNumberResult) >0) {
+
+            $checkUserQuery = "SELECT user_id FROM user WHERE user_email='$userEmail' OR user_phone_number='$userPhoneNumber'";
+            $checkUserResult = mysqli_query($connection, $checkUserQuery);
+        
+            if(mysqli_num_rows($checkUserResult) > 0 ) {
                 $errors[] = "User with this email or phone number already exists.";
+            }else if(strlen($userPhoneNumber) !== 10 ||!filter_var($userEmail, FILTER_VALIDATE_EMAIL) ){
+
+ $errors[] = "Email or phone number format is not correct";
             }
             
             else {
@@ -134,13 +166,16 @@
                 if(!$userData){
     $errors[] = "Records not inserted";
 } else {
-$selectUserEmail = "SELECT user_id FROM user WHERE user_email = '$userEmail'";
+$selectUserEmail = "SELECT user_id, user_type FROM user WHERE user_email = '$userEmail'";
 $userEmailData = mysqli_query($connection, $selectUserEmail);
 
 if(mysqli_num_rows($userEmailData) > 0) {
     $row = mysqli_fetch_assoc($userEmailData);
     $userId = $row['user_id'];
-   
+    $userType = $row['user_type'];
+
+
+
 
 
     if ($userType === 'Client') {
@@ -176,4 +211,4 @@ if(mysqli_num_rows($userEmailData) > 0) {
         echo "</ul>";
         echo "</div>";
     }
-?>
+?>  

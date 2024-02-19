@@ -1,6 +1,6 @@
-<!-- <?php
-// include("../../config/helper/persistLogin.php");
-?> -->
+<?php
+include("../../config/helper/persistLogin.php");
+?>
 
 <!DOCTYPE html>
 <html lang="en">
