@@ -1,32 +1,45 @@
-<?php
+ <?php
 
  require("../../../config/helper/persistLogin.php");
- ?>
-
+ ?> 
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <link rel="stylesheet" href="clientForm.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>Client Verification Form</h1>
-    
+  </head>
+  <body>
     <form method="POST" enctype="multipart/form-data">
-        <label for="client_pan_photo">PAN Photo:</label><br />
-        <input type="file" id="client_pan_photo" name="client_pan_photo" required /><br /><br />
+      <h2>Client Verification Form</h2>
 
-        <label for="client_verification_photo">Verification Photo:</label><br />
-        <input type="file" id="client_verification_photo" name="client_verification_photo" required /><br /><br />
+      <div class="files">
+        <input
+          class="inputfile"
+          type="file"
+          id="client_pan_photo"
+          name="client_pan_photo"
+          required
+        />
+        <label for="client_pan_photo">PAN Photo</label>
 
-        <input type="submit" value="Submit" name="Submit" />
+        <input
+          class="inputfile"
+          type="file"
+          id="client_verification_photo"
+          name="client_verification_photo"
+          required
+        />
+        <label for="client_verification_photo">Verification Photo</label>
+      </div>
+
+      <input class="submit" type="submit" value="Submit" name="Submit" />
     </form>
-
-</body>
+  </body>
 </html>
-
+ 
 <?php
 require("../../../config/database/databaseConfig.php");
 
@@ -54,7 +67,7 @@ try {
                         $panFolder = "pan/".$clientPanPhoto;
 
                         if (move_uploaded_file($photoTempName, $panFolder)) {
-                            echo "Identity Photo uploaded successfully.";
+                           
                         } else {
                             $errors[] = "Error moving identity photo file.";
                         }
@@ -68,7 +81,7 @@ try {
                         $verificationFolder = "verification/".$clientVerificationPhoto;
 
                         if (move_uploaded_file($photoTempName, $verificationFolder)) {
-                            echo "Verification Photo uploaded successfully.";
+                    
                         } else {
                             $errors[] = "Error moving verification photo file.";
                         }
@@ -90,7 +103,10 @@ try {
 
                             if(!$clientData) {
                                 throw new Exception("Records not inserted");
-                            } 
+                            } else{
+                                                                header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+
+                            }
                         }
                     }
                 }
@@ -104,4 +120,4 @@ try {
 } catch(Exception $e) {
     $errors[] = $e->getMessage();
 }
-?>
+?> 
