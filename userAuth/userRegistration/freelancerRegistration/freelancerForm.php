@@ -1,7 +1,7 @@
-<!-- <?php
+ <?php
 
  require("../../../config/helper/persistLogin.php");
- ?> -->
+ ?> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,44 +12,56 @@
     <title>Freelancer Form</title>
   </head>
   <body>
-    <h2>Freelancer Verification Form!</h2>
-
     <form method="POST" enctype="multipart/form-data">
-      <input
-        type="file"
-        id="freelancer_identity_photo"
-        name="freelancer_identity_photo"
-        required
-      />
-      <label for="freelancer_identity_photo">Identity Photo:</label>
+      <h2>Freelancer Verification Form</h2>
 
-      <input
-        type="file"
-        id="freelancer_verification_photo"
-        name="freelancer_verification_photo"
-        required
-      />
-      <label for="freelancer_verification_photo">Verification Photo:</label>
+      <div class="files">
+        <input
+          type="file"
+          id="freelancer_identity_photo"
+          name="freelancer_identity_photo"
+          required
+          class="inputfile"
+        />
+        <label for="freelancer_identity_photo">Identity Photo</label>
+
+        <input
+          type="file"
+          id="freelancer_verification_photo"
+          name="freelancer_verification_photo"
+          required
+          class="inputfile"
+        />
+        <label for="freelancer_verification_photo">Verification Photo</label>
+
+        <input
+          class="inputfile"
+          type="file"
+          id="freelancer_cv"
+          name="freelancer_cv"
+          required
+        />
+        <label for="freelancer_cv">Curriculum Vitae</label>
+      </div>
 
       <label for="freelancer_bio">Write your bio:</label>
       <textarea
         id="freelancer_bio"
         name="freelancer_bio"
-        rows="4"
+        rows="10"
         cols="50"
+        required
       ></textarea>
+      
 
-      <label for="freelancer_cv">Verification CV:</label>
-      <input type="file" id="freelancer_cv" name="freelancer_cv" required />
-
-      <label for="freelancer_category">Select Category:</label>
       <select
         id="freelancer_category"
         name="freelancer_category"
         onchange="populateSkills()"
+        required
       >
         <option value="">Select Category</option>
-        <!-- 
+         
             <?php
             require("../../../config/database/databaseConfig.php");
 
@@ -59,19 +71,19 @@
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<option value='" . $row['skill_category'] . "'>" . $row['skill_category'] . "</option>";
             }
-            ?> -->
+            ?> 
       </select>
 
-      <label for="freelancer_skills">Select Skills:</label>
-      <div id="freelancer_skills"></div>
+      <!-- <label for="freelancer_skills">Select Skills:</label> -->
+      <div id="freelancer_skills" class="scrollable-skills"></div>
 
-      <input type="submit" value="Submit" name="Submit" />
+      <input class="submit" type="submit" value="Submit" name="Submit" />
     </form>
 
     <script src="freelancerForm.js"></script>
   </body>
 </html>
-<!-- 
+ 
 <?php
 require("../../../config/database/databaseConfig.php");
 
@@ -103,7 +115,7 @@ try {
                         $identityFolder = "identity/".$freelancerIdentityPhoto;
 
                         if (move_uploaded_file($photoTempName, $identityFolder)) {
-                            echo "Identity Photo uploaded successfully.";
+                            // echo "Identity Photo uploaded successfully.";
                         } else {
                             $errors[] = "Error moving identity photo file.";
                         }
@@ -118,7 +130,7 @@ try {
                         $verificationFolder = "verification/".$freelancerVerificationPhoto;
 
                         if (move_uploaded_file($photoTempName, $verificationFolder)) {
-                            echo "Verification Photo uploaded successfully.";
+                            // echo "Verification Photo uploaded successfully.";
                         } else {
                             $errors[] = "Error moving verification photo file.";
                         }
@@ -135,7 +147,7 @@ try {
                         $cvFolder = "cv/".$freelancerCv;
 
                         if (move_uploaded_file($freelancerTempName, $cvFolder)) {
-                            echo "CV uploaded successfully.";
+                            // echo "CV uploaded successfully.";
                         } else {
                             $errors[] = "Error moving CV file.";
                         }
@@ -165,6 +177,13 @@ try {
                                 $insertSkillQuery = "INSERT INTO freelancer_skill (user_id, skill_id) VALUES ('$userId', '$skill')";
                                 $freelancerSkill = mysqli_query($connection, $insertSkillQuery);
                             }
+
+
+
+                             if(empty($errors)){
+                                header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+                             }
+
                         }
                     }
                 }
@@ -187,4 +206,4 @@ if (!empty($errors)) {
         echo $error . "<br>";
     }
 }
-?> -->
+?> 
