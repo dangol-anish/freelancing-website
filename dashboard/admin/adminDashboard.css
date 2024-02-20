@@ -1,30 +1,111 @@
-ul {
-  list-style-type: none;
-  display: flex;
-  gap: 20px;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+:root {
+  --background: #1c1c1c;
+  --primary: #c9f66f;
+  --secondary: #252525;
+  --contrast: #ffffff;
+  --test: #1d2021;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--contrast);
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
 }
 
 nav {
   display: flex;
   align-items: center;
+}
 
-  justify-content: space-around;
+header {
+  background-color: var(--secondary);
+  padding: 10px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  height: 40px;
+  filter: invert(100%);
 }
 
 a {
   text-decoration: none;
-  color: black;
+  color: var(--contrast);
 }
 
-.card {
+ul {
   display: flex;
-  background-color: gray;
-  align-items: center;
-  justify-content: space-around;
+  list-style-type: none;
+  gap: 15px;
+}
+
+a:hover {
+  color: var(--primary);
+  transition: 300ms;
+}
+
+.logout {
+  background-color: var(--primary);
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: var(--background);
+  margin-left: 30px;
+  font-weight: 600;
+}
+
+.logout:hover {
+  background-color: var(--background);
+}
+
+select {
+  padding: 10px;
+  margin: 20px;
+  background-color: var(--background);
+  color: var(--contrast);
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.filter {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 section {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  justify-content: center;
+}
+
+table {
+  width: 80%;
+  /* border: 2px solid var(--contrast); */
+  border-radius: 10px;
+}
+
+td,
+th {
+  border: 2px solid var(--contrast);
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 18px;
 }
