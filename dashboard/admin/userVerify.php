@@ -8,8 +8,9 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
 
     $userId = $_GET["user_verification_id"];
     $userType = $_GET["user_type"];
+    $freelancerBio = "";
 
-    $getUsersQuery = "SELECT * FROM user WHERE user_id = '$userId'";
+    $getUsersQuery = "SELECT user_first_name, user_last_name, user_email,user_phone_number, user_type, user_photo FROM user WHERE user_id = '$userId'";
     
     $getUsersResult = mysqli_query($connection, $getUsersQuery);
 
@@ -61,46 +62,103 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="adminDashboard.css">
+    <link rel="stylesheet" href="userVerify.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <nav>
-    <ul>
-        <li><a href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php">Home</a></li>
+    <header>
+        <img  class="logo" src="../../assets/logo/test.png" alt="">
+         <nav>
+
+<a href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php">Home</a>
    
-    </ul>
-    <a href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
+  
+    <a class="logout" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
 </nav>
-     <main>
+    </header>
+   
+     <main >
         <div class="card">
-            <div class="user-photo">
+        
+            <div class="user-info">
+
+
+                <?php if ($userType == "Client"): ?>
+                    
+
+                    <!--  client -->
+                     <h2>Client Information</h2>
+                  <div class="info-details">
+                    
+                       <div class="user-photo">
                 <img src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
             </div>
-            <div class="user-info">
-                <?php if ($userType == "Client"): ?>
-                    <h2>Client Information</h2>
-                    <p><strong>Name:</strong> <?php echo $userFirstName . ' ' . $userLastName; ?></p>
-                    <p><strong>Email:</strong> <?php echo $userEmail; ?></p>
-                    <p><strong>Phone Number:</strong> <?php echo $userPhoneNumber; ?></p>
-                    <p><strong>User Type:</strong> <?php echo $userType; ?></p>
-                    <!-- Client images as clickable links -->
+                   <div class="info-details-text">
+                    <p> <strong>Name: </strong> <?php echo $userFirstName . ' ' . $userLastName; ?></p>
+                    <p><strong>Email: </strong><?php echo $userEmail; ?></p>
+                    <p><strong>Phone Number: </strong> <?php echo $userPhoneNumber; ?></p>
+                    <p><strong>User Type: </strong> <?php echo $userType; ?></p> 
+
+               
+                   
+                 
                     <p><a href="../../userAuth/userRegistration/clientRegistration/<?php echo $clientPanPhoto; ?>" target="_blank">View Client PAN Photo</a></p>
                     <p><a href="../../userAuth/userRegistration/clientRegistration/<?php echo $clientVerificationPhoto; ?>" target="_blank">View Client Verification Photo</a></p>
+                    <div class="action-buttons">
+                <form  method="POST">
+                    <input  type="hidden" name="user_id" value="<?php echo $userId; ?>">
+                    <input class="verify" type="submit" name="verify" value="Verify">
+                </form>
+                <form method="POST">
+                    <input type="hidden" name="user_id" value="<?php echo $userId; ?>">
+                    <input class="reject" type="submit" name="reject" value="Reject">
+                </form>
+            </div>
+
+                  </div>
+                </div>
                 <?php elseif ($userType == "Freelancer"): ?>
+
+
+                    <!-- freelancer -->
                     <h2>Freelancer Information</h2>
-                    <p><strong>Name:</strong> <?php echo $userFirstName . ' ' . $userLastName; ?></p>
-                    <p><strong>Email:</strong> <?php echo $userEmail; ?></p>
-                    <p><strong>Phone Number:</strong> <?php echo $userPhoneNumber; ?></p>
-                    <p><strong>User Type:</strong> <?php echo $userType; ?></p>
-                    <p><strong>Freelancer Bio:</strong> <?php echo $freelancerBio; ?></p>
-                      <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerIdentityPhoto; ?>" target="_blank">View Freelancer Identity Photo</a></p>
+                                 <div class="info-details">
+                                      <div class="user-photo">
+                <img src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
+            </div>
+            <div class="info-details-text">
+                <p><strong>Name: </strong>   <?php echo $userFirstName . ' ' . $userLastName; ?></p>
+                    <p><strong>Email: </strong> <?php echo $userEmail; ?></p>
+                    <p><strong>Phone Number: </strong> <?php echo $userPhoneNumber; ?></p>
+                    <p><strong>User Type: </strong> <?php echo $userType; ?></p>
+                    <p class="bio"><strong>Freelancer Bio:</strong> <?php echo $freelancerBio; ?></p>
+                      <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerIdentityPhoto; ?>" target="_blank">View Identity Photo</a></p>
                    
-                        <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerVerificationPhoto; ?>" target="_blank">View Freelancer Verification Photo</a></p>
+                        <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerVerificationPhoto; ?>" target="_blank">View Verification Photo</a></p>
                    
-                    <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerCV; ?>" target="_blank">View CV</a></p>
+                    <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerCV; ?>" target="_blank">View Cirriculum Vitae</a></p>
+
+                      <div class="action-buttons">
+                <form  method="POST">
+                    <input  type="hidden" name="user_id" value="<?php echo $userId; ?>">
+                    <input class="verify" type="submit" name="verify" value="Verify">
+                </form>
+                <form method="POST">
+                    <input type="hidden" name="user_id" value="<?php echo $userId; ?>">
+                    <input class="reject" type="submit" name="reject" value="Reject">
+                </form>
+            </div>
+
+                    
+
+            </div>
+
+                                 </div>
+                                   
+                  
+                    
                    
                 <?php else: ?>
                     <p>Invalid User Type</p>
@@ -109,66 +167,13 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
         </div>
           </div>
 
-                 <div class="action-buttons">
-                <form  method="POST">
-                    <input type="hidden" name="user_id" value="<?php echo $userId; ?>">
-                    <input type="submit" name="verify" value="Verify">
-                </form>
-                <form method="POST">
-                    <input type="hidden" name="user_id" value="<?php echo $userId; ?>">
-                    <input type="submit" name="reject" value="Reject">
-                </form>
-            </div>
+                
 
     
     </main>
 </body>
 <style>
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-    }
-    main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        height: 100%;
-       
-    }
-    .card {
-         background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 20px;
-        max-width: 600px;
-        display: flex;
-    }
-    .user-photo {
-        margin-right: 20px;
-        max-width: 200px;
-        height: auto;
-    }
-    .user-info {
-        flex: 1;
-    }
-    .user-info h2 {
-        margin-top: 0;
-    }
-    .user-info p {
-        margin-bottom: 10px;
-    }
-    .user-info a {
-        display: block;
-        margin-top: 10px;
-    }
-    .user-photo img {
-        max-width: 200px;
-        max-height: 200px;
-        width: auto;
-        height: auto;
-    }
+ 
 </style>
 </html>
 
@@ -192,10 +197,11 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
         $verifyResult = mysqli_query($connection, $verifyQuery);
 
         if ($verifyResult) {
-            echo "User rejected successfully!";
+             header("Location: http://localhost/freelancing-website/dashboard/admin/adminDashboard.php");
         } else {
             echo "Error rejecting user: " . mysqli_error($connection);
         }
     }
 
 ?>
+

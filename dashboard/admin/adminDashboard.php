@@ -60,15 +60,15 @@ mysqli_fetch_all($getUsersResult, MYSQLI_ASSOC); } else { $users = []; } ?>
     </header>
 
     <section class="filter">
-      <!-- <select name="" id="">
-        <option value="">Filter By</option> -->
-        <option value=""></option>
-        <option value=""></option>
-      <!-- </select> -->
-      <a href="?user_type=client">Client</a>
-      <a href="?user_type=freelancer">Freelancer</a>
-      <a href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php">All</a>
-    </section>
+  <select id="userTypeSelect" onchange="redirectToSelected()">
+    <option value="">Filter By</option>
+    <option value="?user_type=client">Client</option>
+    <option value="?user_type=freelancer">Freelancer</option>
+    <option value="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php">All</option>
+  </select>
+</section>
+
+
 
     <main>
       <section>
@@ -109,4 +109,15 @@ mysqli_fetch_all($getUsersResult, MYSQLI_ASSOC); } else { $users = []; } ?>
       </section>
     </main>
   </body>
+  
+  <script>
+  function redirectToSelected() {
+    var selectBox = document.getElementById("userTypeSelect");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    if (selectedValue !== "") {
+      window.location.href = selectedValue;
+    }
+  }
+</script>
+
 </html>

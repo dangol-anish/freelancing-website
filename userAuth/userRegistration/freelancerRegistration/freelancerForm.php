@@ -12,7 +12,7 @@
     <title>Freelancer Form</title>
   </head>
   <body>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
       <h2>Freelancer Verification Form</h2>
 
       <div class="files">
@@ -207,3 +207,20 @@ if (!empty($errors)) {
     }
 }
 ?> 
+
+
+
+
+<script>
+function validateForm() {
+  var selectedSkills = document.querySelectorAll('#freelancer_skills input[type="checkbox"]:checked');
+  
+  if (selectedSkills.length === 0) {
+    alert("Please select at least one skill.");
+    return false; // Prevent form submission
+  }
+
+  // If skills are selected, allow form submission
+  return true;
+}
+</script>
