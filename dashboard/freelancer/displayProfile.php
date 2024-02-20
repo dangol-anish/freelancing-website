@@ -223,7 +223,7 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
 
 
         if ($hireResult) {
-           header("Location: http://localhost/freelancing-website/communication/index.php?job_id=$jobId");
+           header("Location: http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId");
         } else {
             echo "Error hiring user: " . mysqli_error($connection);
         }

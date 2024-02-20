@@ -8,8 +8,9 @@ $userType = $_SESSION["user_type"];
 
 
 
-$getAppliedJobHistoryQuery = "SELECT job_id, ja_status FROM job_application WHERE freelancer_user_id='$userId' and ja_status= 1";
+$getAppliedJobHistoryQuery = "SELECT job_id, ja_status, client_user_id FROM job_application WHERE freelancer_user_id='$userId' and ja_status= 1";
 $getAppliedJobHistoryResult = mysqli_query($connection, $getAppliedJobHistoryQuery);
+
 
 
 
@@ -17,6 +18,7 @@ if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
     echo '<h1>My Jobs</h1>';
     while ($row = mysqli_fetch_assoc($getAppliedJobHistoryResult)) {
         $jobId = $row['job_id'];
+        $clientUserId = $row["client_user_id"];
 
         // Retrieve job details from the "job" table
         $getJobDetailsQuery = "SELECT * FROM job WHERE job_id='$jobId'";
@@ -28,7 +30,7 @@ if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
             $jobId = $jobDetails["job_id"];
 
             // Output job details in card format with clickable link
-           echo "<a href='http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId' class='job-card'>";
+           echo "<a href='http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId&toUser=$clientUserId' class='job-card'>";
 
             echo '<h2>' . $jobDetails['job_title'] . '</h2>';
             echo '<p>Description: ' . $jobDetails['job_description'] . '</p>';

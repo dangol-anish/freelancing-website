@@ -69,7 +69,7 @@ if (mysqli_num_rows($getuserInfoResult) <= 0 || mysqli_num_rows($getClientInfoRe
             <img width="200px" src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
         </div>
         <div class="user_info">
-            <h2>Freelancer Information</h2>
+            <h2>Client Information</h2>
             <p><strong>User Status: <?php echo $userStatus?></strong></p>
             <p><strong>Name:</strong> <?php echo $userFirstName . ' ' . $userLastName; ?></p>
             <p><strong>Email:</strong> <?php echo $userEmail; ?></p>

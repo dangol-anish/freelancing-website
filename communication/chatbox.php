@@ -3,7 +3,7 @@ session_start();
 
 include("../config/database/databaseConfig.php");
 include("links.php");
-
+$job_id = $_GET['job_id'];
 $usersQuery = "SELECT * FROM user WHERE user_id = '" . $_SESSION["user_id"] . "'";
 $getUsersResult = mysqli_query($connection, $usersQuery);
 $user = mysqli_fetch_assoc($getUsersResult);
@@ -51,9 +51,10 @@ $user = mysqli_fetch_assoc($getUsersResult);
                     <div class="modal-body" id="msgBody" style="height: 400px; overflow-y: scroll; overflow-x: hidden;">
                         <?php
                         if (isset($_GET["toUser"])) {
-                            $chats = mysqli_query($connection, "SELECT * FROM messages WHERE (fromUser = '" . $_SESSION["user_id"] . "' AND
+                            $chats = mysqli_query($connection, "SELECT * FROM messages WHERE ((fromUser = '" . $_SESSION["user_id"] . "' AND
                                 toUser = '" . $_GET["toUser"] . "') OR (fromUser = '" . $_GET["toUser"] . "' AND
-                                toUser = '" . $_SESSION["user_id"] . "')");
+                                toUser = '" . $_SESSION["user_id"] . "')) ");
+
 
                             while ($chat = mysqli_fetch_assoc($chats)) {
                                 if ($chat["fromUser"] == $_SESSION["user_id"]) {
@@ -91,7 +92,7 @@ $user = mysqli_fetch_assoc($getUsersResult);
         // Check if the message is not empty
         if (message !== "") {
             $.ajax({
-                url: "insertMessage.php",
+                url: "insertMessage.php?job_id=<?php echo $job_id?>",
                 method: "POST",
                 data: {
                     fromUser: $("#fromUser").val(),
@@ -111,7 +112,7 @@ $user = mysqli_fetch_assoc($getUsersResult);
 
     setInterval(function () {
         $.ajax({
-            url: "realTimeChat.php",
+            url: "realTimeChat.php?job_id=<?php echo $job_id?>",
             method: "POST",
             data: {
                 fromUser: $("#fromUser").val(),

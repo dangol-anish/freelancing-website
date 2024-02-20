@@ -85,7 +85,7 @@ select {
 }
 
 .filter {
-  width: 100%;
+  width: 95%;
   display: flex;
   justify-content: flex-end;
 }
@@ -101,6 +101,7 @@ table {
   /* border: 2px solid var(--contrast); */
   border-radius: 10px;
   opacity: 0.8;
+  margin-top: 1%;
 }
 
 td,
