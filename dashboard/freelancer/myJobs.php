@@ -28,7 +28,7 @@ if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
             $jobId = $jobDetails["job_id"];
 
             // Output job details in card format with clickable link
-           echo "<a href='http://localhost/freelancing-website/communication/index.php?job_id=$jobId' class='job-card'>";
+           echo "<a href='http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId' class='job-card'>";
 
             echo '<h2>' . $jobDetails['job_title'] . '</h2>';
             echo '<p>Description: ' . $jobDetails['job_description'] . '</p>';

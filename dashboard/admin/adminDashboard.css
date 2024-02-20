@@ -100,12 +100,17 @@ table {
   width: 80%;
   /* border: 2px solid var(--contrast); */
   border-radius: 10px;
+  opacity: 0.8;
 }
 
 td,
 th {
   border: 2px solid var(--contrast);
-  border-radius: 5px;
+  /* border-radius: 5px; */
   padding: 10px;
   font-size: 18px;
+}
+
+th {
+  font-size: 20px;
 }
