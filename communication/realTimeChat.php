@@ -6,7 +6,7 @@ include("links.php");
 
 $fromUser = $_POST["fromUser"];
 $toUser = $_POST["toUser"];
-$output = "";
+$output = "";   
 $job_id = $_GET["job_id"];
 
 $sql = "SELECT * FROM messages WHERE ((fromUser = '".$fromUser."' AND toUser = '".$toUser."') OR 

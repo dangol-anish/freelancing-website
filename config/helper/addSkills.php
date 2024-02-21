@@ -3,19 +3,36 @@
 session_start();
 include("../../config/database/databaseConfig.php");
 
-if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
+  $userType = $_SESSION["user_type"];
 
-    $userType = $_SESSION["user_type"];
+
+if( isset($_SESSION["user_id"]) || isset($_SESSION["login"]) ) {
+
 
 
     if(!$userType){
-    $_SESSION = [];
+        $_SESSION = [];
     session_destroy();
     header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
 
+  
+exit();
+
     }
+    
+
+}else{
+      $_SESSION = [];
+    session_destroy();
+    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+
+  
+exit();
+
 
 }
+
+
 ?>
  
  <!DOCTYPE html>

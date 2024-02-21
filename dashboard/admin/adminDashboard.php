@@ -17,6 +17,7 @@ if( isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 
 }
 
+
 include("../../config/database/databaseConfig.php");
 
 // Retrieve users from the database
