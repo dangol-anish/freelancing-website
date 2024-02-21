@@ -36,61 +36,87 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
     <title>Client Dashboard</title>
     <link rel="stylesheet" href="clientDashboard.css">
     <style>
-        /* Style for job cards */
-        .job-card {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: #f9f9f9;
-        }
-
-        .job-card h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .job-card p {
-            margin-top: 0;
-            color: #666;
-        }
-
-        .job-card:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-box{
-            display: flex;
-            gap: 10px;
-        }
+    
     </style>
 </head>
 <body>
 
-<nav> 
-    <h2>LOGO</h2>
-    <div>
-        <button id="createJob" class="createJobModal" <?php if(isset($disableCreateJobButton) && $disableCreateJobButton) echo 'disabled'; ?>>Create Job</button>
-        <a href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
-        
-        <a href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
-    </div>
-</nav>
+
+<header>
+    <img class="logo-image" src="../../assets/logo/test.png" alt="logo">
+    <nav> 
+        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php">Home</a>
+        <a class="header-links" href="#">Active Jobs</a>
+        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
+        <a id="logout-btn" class="header-links" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
+    </nav>
+</header>
+
+<main>
+
+<div class="create-filter">
+    <h2>My Jobs</h2>
+    <div> <button id="createJob" class="createJobModal" <?php if(isset($disableCreateJobButton) && $disableCreateJobButton) echo 'disabled'; ?>>Create Job</button>
+    <select id="userTypeSelect" onchange="redirectToSelected()">
+        <option value="">Filter By</option>
+    </select></div>
+   
+</div>
 
 <?php include("createJob.php");?>
 
 <?php
 if(mysqli_num_rows($getJobDataResult) > 0){
-    while($row = mysqli_fetch_assoc($getJobDataResult)) {
+    while($jobInfo = mysqli_fetch_assoc($getJobDataResult)) {
         ?>
-        <a href="myJobInfo.php?job_id=<?php echo $row['job_id']; ?>&user_id=<?php echo $userId; ?>" class="job-link">
+        <a href="myJobInfo.php?job_id=<?php echo $jobInfo['job_id']; ?>&user_id=<?php echo $userId; ?>" class="job-link">
             <div class="job-card">
-                <h3><?php echo $row['job_title']; ?></h3>
                 <div class="card-box">
-                    <p><?php echo $row['job_description']; ?></p>
-                    <p><?php echo $row['job_duration']; ?></p>
-                    <p><?php echo $row['job_budget']; ?></p>
+                    <p class="title"><?php echo $jobInfo['job_title']; ?></p class="title">
+                    <div class="price-duration">
+                        <p>Rs. <?php echo $jobInfo['job_budget']; ?> - Duration: <?php echo $jobInfo['job_duration']; ?></p>
+                    </div>
+                    <p><?php echo limitDescriptionWords($jobInfo['job_description']); ?></p>
+                    <div class="skill-list">
+                        <?php
+                        $jobId = $jobInfo['job_id'];
+                        $getJobSkillsQuery = "SELECT skill_id FROM job_skill WHERE job_id='$jobId'";
+                        $getJobSkillsResult = mysqli_query($connection, $getJobSkillsQuery);
+
+                        if(mysqli_num_rows($getJobSkillsResult) > 0){
+                            while($skillInfo = mysqli_fetch_assoc($getJobSkillsResult)) {
+                                // Fetch skill names using skill IDs
+                                $skillId = $skillInfo['skill_id'];
+                                $getSkillNameQuery = "SELECT skill_name FROM skill WHERE skill_id='$skillId'";
+                                $getSkillNameResult = mysqli_query($connection, $getSkillNameQuery);
+                                if(mysqli_num_rows($getSkillNameResult) > 0) {
+                                    $skillNameInfo = mysqli_fetch_assoc($getSkillNameResult);
+                                    echo "<p class='skill'>" . $skillNameInfo['skill_name'] . "</p>";
+                                } else {
+                                    echo "Skill not found.";
+                                }
+                            }
+                        } else {
+                            echo "No skills found.";
+                        }
+                        ?>
+                    </div>
+
+                    <?php
+                
+                    $jobId = $jobInfo['job_id'];
+                    $getApplicantsCountQuery = "SELECT COUNT(*) AS num_applicants FROM job_application WHERE job_id='$jobId'";
+                    $getApplicantsCountResult = mysqli_query($connection, $getApplicantsCountQuery);
+                    $numApplicants = 0;
+
+                    if(mysqli_num_rows($getApplicantsCountResult) > 0){
+                        $applicantsCountInfo = mysqli_fetch_assoc($getApplicantsCountResult);
+                        $numApplicants = $applicantsCountInfo['num_applicants'];
+                    }
+
+              
+                    echo "<p class='noa'>Number of Applicants: $numApplicants</p>";
+                    ?>
                 </div>
             </div>
         </a>
@@ -100,6 +126,7 @@ if(mysqli_num_rows($getJobDataResult) > 0){
     echo "No jobs found.";
 }
 ?>
+</main>
 
 <script>
     var modalBtn = document.getElementById("createJob");
@@ -123,3 +150,14 @@ if(mysqli_num_rows($getJobDataResult) > 0){
 
 </body>
 </html>
+
+<?php
+function limitDescriptionWords($description, $limit = 40) {
+    $words = explode(" ", $description);
+    if (count($words) > $limit) {
+        $description = implode(" ", array_slice($words, 0, $limit));
+        $description .= "...";
+    }
+    return $description;
+}
+?>
