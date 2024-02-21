@@ -113,7 +113,7 @@ arrow_back_ios
       
 
         if ($result) {
-            echo "<p>Skill inserted successfully!</p>";
+            
         } else {
             echo "Error: " . mysqli_error($connection);
         }

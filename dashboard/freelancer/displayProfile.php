@@ -15,9 +15,9 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
 
 
 
-    // echo "Freelancer User Id: " . $freelancerUserId;
-    // echo "Client User Id: " . $clientUserId;
-    // echo "Job Id: " . $jobId;
+    echo "Freelancer User Id: " . $freelancerUserId;
+    echo "Client User Id: " . $clientUserId;
+    echo "Job Id: " . $jobId;
 
     $getUsersQuery = "SELECT * FROM user WHERE user_id = '$freelancerUserId'";
     

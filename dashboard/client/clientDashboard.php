@@ -46,7 +46,7 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
     <img class="logo-image" src="../../assets/logo/test.png" alt="logo">
     <nav> 
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php">Home</a>
-        <a class="header-links" href="#">Active Jobs</a>
+        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/activeJob.php">Active Jobs</a>
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
         <a id="logout-btn" class="header-links" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
     </nav>
