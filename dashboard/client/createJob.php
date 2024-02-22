@@ -40,7 +40,7 @@ $userId = $_SESSION["user_id"];
                     </label>
                     <label for="job_description">
                         <p>Job Description</p>
-                        <textarea name="job_description" id="job_description" rows="16" cols="50" style="resize: none;"  required></textarea>
+                        <textarea name="job_description" id="job_description" rows="17" cols="50" style="resize: none;"  required></textarea>
                     </label>
                 </div>
                 <div class="budget-duration-info">
@@ -74,6 +74,7 @@ $userId = $_SESSION["user_id"];
                     <br>
                     <label class="job-skills" for="job_skills">Required Skills</label>
                     <div id="job_skills" class="scrollable-skills" required></div>
+                    <p class="new-skills">Looking for different skills? <a href="http://localhost/freelancing-website/config/helper/addSkills.php">Add new ones</a></p>
                 </div>
             </div>
             <input class="createBtn" type="submit" value="Create Job" name="submit">

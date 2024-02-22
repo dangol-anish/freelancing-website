@@ -124,3 +124,16 @@ th {
   align-items: center; /* Changed 'align-content' to 'align-items' */
   min-height: 100vh; /* Optional: This ensures the content is vertically centered even if there's not enough content to fill the viewport */
 }
+
+.action-btn {
+  display: flex;
+}
+
+.addskills {
+  padding: 10px 0;
+}
+
+.reject {
+  background-color: rgb(255, 37, 37);
+  color: var(--background);
+}

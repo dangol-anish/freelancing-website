@@ -71,12 +71,20 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
     <header>
         <img  class="logo" src="../../assets/logo/test.png" alt="">
          <nav>
-
-<a href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php">Home</a>
-   
-  
-    <a class="logout" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
-</nav>
+<ul>
+          <li>
+            <a
+              href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php"
+              >Home</a
+            >
+          </li>
+          <li><a href="http://localhost/freelancing-website/config/helper/addSkills.php">Add Skills</a></li>
+        </ul>
+        <a
+          class="logout"
+          href="http://localhost/freelancing-website/dashboard/logout.php"
+          >Logout</a
+        >
     </header>
    
      <main >

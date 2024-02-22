@@ -53,8 +53,24 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
 </header>
 
 <main>
+    
+            <?php
+    if(($userStatus == 0)){
+        echo    " <div class='unverified-box'>";
+        echo "<p class='unverified'>Your account isn't verified. Please verify to create new jobs.";
+        echo "</div>";
+    }else if($userStatus == 2){
+           echo    " <div class='unverified-box'>";
+        echo "<p class='unverified'>Your account verification was rejected. Please resubmit your profile with genuine documents.";
+        echo "</div>";
+    }
+
+    ?>
+    
 
 <div class="create-filter">
+   
+
     <h2>My Jobs</h2>
     <div> <button id="createJob" class="createJobModal" <?php if(isset($disableCreateJobButton) && $disableCreateJobButton) echo 'disabled'; ?>>Create Job</button>
     <select id="userTypeSelect" onchange="redirectToSelected()">

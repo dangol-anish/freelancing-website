@@ -317,3 +317,37 @@ label > p {
   border: 1px solid var(--primary);
   transition: 300ms;
 }
+
+#createJob[disabled] {
+  /* Add your styles for the disabled state here */
+  opacity: 0.5; /* Example: reduce opacity */
+  cursor: not-allowed; /* Example: change cursor to indicate it's not clickable */
+  /* Add any other styles you want for the disabled state */
+}
+
+.unverified {
+  color: var(--primary);
+  text-align: center;
+}
+
+.unverified-box {
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+input:active {
+  border: 1px solid var(--primary);
+}
+
+.new-skills {
+  font-size: 12px;
+  color: #ffffff;
+  opacity: 0.9;
+  padding-top: 10px;
+}
+
+.new-skills > a {
+  color: var(--primary);
+  text-decoration: none;
+}
