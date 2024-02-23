@@ -97,7 +97,7 @@ if(isset($_POST["submit"])){
 
             // Insert job data
             if(empty($errors)) {
-                $insertJobDataQuery = "INSERT INTO job (job_title, job_description, job_budget, job_duration, job_status, user_id) VALUES ('$jobTitle', '$jobDescription', '$jobBudget', '$jobDuration', 1, '$userId')";
+                $insertJobDataQuery = "INSERT INTO job (job_title, job_description, job_budget, job_duration, job_status, user_id) VALUES ('$jobTitle', '$jobDescription', '$jobBudget', '$jobDuration', 0, '$userId')";
                 $insertJobDataResult = mysqli_query($connection, $insertJobDataQuery);
 
                 if(!$insertJobDataResult) {
@@ -138,3 +138,5 @@ function validateForm() {
   return true;
 }
 </script>
+
+

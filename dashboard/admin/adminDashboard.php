@@ -51,6 +51,7 @@ mysqli_fetch_all($getUsersResult, MYSQLI_ASSOC); } else { $users = []; } ?>
             >
           </li>
           <li><a href="http://localhost/freelancing-website/config/helper/addSkills.php">Add Skills</a></li>
+          <li><a href="http://localhost/freelancing-website/dashboard/admin/verifyJobs.php">Verify Jobs</a></li>
         </ul>
         <a
           class="logout"

@@ -8,7 +8,7 @@ if (isset($_GET['category'])) {
     $category = mysqli_real_escape_string($connection, $_GET['category']);
 
 
-    $query = "SELECT * FROM Skill WHERE skill_category = '$category'";
+    $query = "SELECT * FROM Skill WHERE skill_category = '$category' and skill_approval = 1";
     $result = mysqli_query($connection, $query);
 
 

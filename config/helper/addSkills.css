@@ -48,11 +48,10 @@ form {
 }
 
 .skill-new {
-  /* border: 1px solid var(--primary); */
-
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
+  width: 600px;
 }
 
 select {
