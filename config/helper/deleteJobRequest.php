@@ -2,9 +2,10 @@
 session_start();
 include("../../config/database/databaseConfig.php");
 
-if(isset($_POST['job_id']) && isset($_POST['freelancer_user_id'])) {
+if(isset($_POST['job_id'])) {
     $jobId = $_POST['job_id'];
-    $freelancerUserId = $_POST['freelancer_user_id'];
+    $userType = $_SESSION["user_type"];
+
     $userId = $_SESSION['user_id'];
 
     // Perform the deletion of the request
@@ -13,7 +14,12 @@ if(isset($_POST['job_id']) && isset($_POST['freelancer_user_id'])) {
 
     if($deleteRequestResult) {
 
-        header("Location: http://localhost/freelancing-website/dashboard/client/activeJob.php");
+            if($userType == "Client"){
+        header("location: http://localhost/freelancing-website/dashboard/client/activeJob.php");
+    }else if( $userType == "Freelancer"){
+        header("location: http://localhost/freelancing-website/dashboard/freelancer/myJobs.php");
+    }
+
         exit();
     } else {
         // Handle deletion failure

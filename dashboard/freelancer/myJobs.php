@@ -4,7 +4,11 @@ session_start();
 include("../../config/database/databaseConfig.php");
 
 $userId = $_SESSION["user_id"];
+
+echo $userId;
 $userType = $_SESSION["user_type"];
+
+echo $userType;
 
 
 
@@ -35,6 +39,28 @@ if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
             echo '<h2>' . $jobDetails['job_title'] . '</h2>';
             echo '<p>Description: ' . $jobDetails['job_description'] . '</p>';
             echo '</a>';
+             $checkExistingRequestQuery = "select * from job_close where job_id=$jobId";
+            $checkExistingRequestResult = mysqli_query($connection, $checkExistingRequestQuery);
+            if(mysqli_num_rows($checkExistingRequestResult) > 0) {
+                $row = mysqli_fetch_assoc($checkExistingRequestResult);
+                $requesterId = $row["requester_id"];
+                $responderId = $row["responder_id"];
+                if($userId == $requesterId) {
+                      echo "
+            <form action='http://localhost/freelancing-website/config/helper/deleteJobRequest.php?job_id=$jobId' method='POST'>
+                <input type='hidden' name='job_id' value='$jobId'>
+                <input type='hidden' name='freelancer_user_id' value=''>
+                <input class='close-job' type='submit' value='Delete Request'>
+            </form>";
+                } else if($userId == $responderId) {
+                    echo "Accept";
+                }
+            } else {
+                echo "
+                        <form action='http://localhost/freelancing-website/config/helper/closeJob.php?job_id=$jobId&receiver_id=$clientUserId' method='POST'>
+                            <input class='close-job' type='submit' value='Request Job Close'>
+                        </form>";
+            }
         } else {
             echo "Error fetching job details";
         }

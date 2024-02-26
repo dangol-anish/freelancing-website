@@ -4,16 +4,17 @@ session_start(); // Start the session if not already started
 include("../../config/database/databaseConfig.php");
 
 if(isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
-    if($_SESSION["user_type"] != "Client") {
-        $_SESSION = [];
-        session_destroy();
-        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
-        exit;
-    }
-
+  
     $requesterId = $_SESSION["user_id"];
     $responderId = $_GET["receiver_id"];
     $jobId = $_GET["job_id"];
+    $userType = $_SESSION["user_type"];
+
+    echo $requesterId;
+    echo $responderId;
+    echo $jobId;
+
+ 
 
     // Check if the request already exists
     $checkExistingRequestQuery = "SELECT * FROM job_close WHERE job_id = $jobId";
@@ -29,14 +30,18 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
     $closeJobRequestResult = mysqli_query($connection, $closeJobRequestQuery);
 
     if($closeJobRequestResult){
-    header("location: http://localhost/freelancing-website/dashboard/client/activeJob.php");
+    if($userType == "Client"){
+        header("location: http://localhost/freelancing-website/dashboard/client/activeJob.php");
+    }else if( $userType == "Freelancer"){
+        header("location: http://localhost/freelancing-website/dashboard/freelancer/myJobs.php");
+    }
     } else {
         echo "error: " . mysqli_error($connection); // Output the error message for debugging purposes
     }
 } else {
-    $_SESSION = [];
-    session_destroy();
-    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
-    exit;
+    // $_SESSION = [];
+    // session_destroy();
+    // header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+    // exit;
 }
 ?>

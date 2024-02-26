@@ -76,7 +76,7 @@ if(mysqli_num_rows($getJobDataResult) > 0){
                 $responderId = $row["responder_id"];
                 if($userId == $requesterId) {
                       echo "
-            <form action='deleteJobRequest.php' method='POST'>
+            <form action='http://localhost/freelancing-website/config/helper/deleteJobRequest.php' method='POST'>
                 <input type='hidden' name='job_id' value='$jobId'>
                 <input type='hidden' name='freelancer_user_id' value='$applicantUserId'>
                 <input class='close-job' type='submit' value='Delete Request'>
@@ -86,7 +86,7 @@ if(mysqli_num_rows($getJobDataResult) > 0){
                 }
             } else {
                 echo "
-                        <form action='closeJob.php?job_id=$jobId&receiver_id=$applicantUserId' method='POST'>
+                        <form action='http://localhost/freelancing-website/config/helper/closeJob.php?job_id=$jobId&receiver_id=$applicantUserId' method='POST'>
                             <input class='close-job' type='submit' value='Request Job Close'>
                         </form>";
             }
