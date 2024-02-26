@@ -34,12 +34,12 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
     $jobStatus = $row["ja_status"];
 
     echo $jobStatus;
-    if($jobStatus == 1){
-        header("Location: http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId&toUser=$freelancerUserId");
-    }else if($jobStatus == 2){
-        header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
+    // if($jobStatus == 1){
+    //     header("Location: http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId&toUser=$freelancerUserId");
+    // }else if($jobStatus == 2){
+    //     header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
 
-    }
+    // }
 
 
 
@@ -223,7 +223,7 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
 
 
         if ($hireResult) {
-           header("Location: http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId&toUser=$freelancerUserId");
+           echo "Already Hired";
         } else {
             echo "Error hiring user: " . mysqli_error($connection);
         }

@@ -48,6 +48,7 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
     <nav> 
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php">Home</a>
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/activeJob.php">Active Jobs</a>
+                     <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/closedJob.php">Closed Jobs</a>
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
         <a id="logout-btn" class="header-links" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
     </nav>
@@ -61,7 +62,7 @@ if(mysqli_num_rows($getJobDataResult) > 0){
         $jobId = $jobInfo["job_id"];
 ?>
         <div class="job-card">
-            <a href='http://localhost/freelancing-website/dashboard/freelancer/displayProfile.php?freelancer_user_id=<?php echo $applicantUserId?>&user_type=<?php echo $userType?>&client_user_id=<?php echo $userId ?>&job_id=<?php echo $jobId?>' class="job-link">
+            <a href='http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId&toUser=<?php echo $applicantUserId?>&user_type=<?php echo $userType?>&client_user_id=<?php echo $userId ?>&job_id=<?php echo $jobId?>' class="job-link">
                 <div class="card-box">
                     <p class="title"><?php echo $jobInfo['job_title']; ?></p>
                     <p class="freelancer-name">Hired Freelancer: <?php echo $jobInfo['freelancer_name']; ?></p>

@@ -14,9 +14,6 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && isset($_GET["job_
     $userId = $_SESSION["user_id"];
     $jobId = $_GET["job_id"];
 
-
-
-
     $getJobDataQuery = "select * from job where job_id = '$jobId'";
     $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
 
@@ -28,35 +25,26 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && isset($_GET["job_
         $user =  mysqli_fetch_assoc($getUserDataResult);
 
         $jobTitle = $job["job_title"];
-    $jobDescription = $job["job_description"];
-    $jobBudget = $job["job_budget"];
-    $jobDuration = $job["job_duration"];
-    $jobStatusNumber = $job["job_status"];
-    $userId = $job["user_id"];
-    $userFirstName = $user["user_first_name"];
-    $userLastName = $user["user_last_name"];
-    $userName = $userFirstName . $userLastName;
+        $jobDescription = $job["job_description"];
+        $jobBudget = $job["job_budget"];
+        $jobDuration = $job["job_duration"];
+        $jobStatusNumber = $job["job_status"];
+        $userId = $job["user_id"];
+        $userFirstName = $user["user_first_name"];
+        $userLastName = $user["user_last_name"];
+        $userName = $userFirstName . $userLastName;
 
-
-   
-
-    if($jobStatusNumber == "1") {
-        $jobStatus = "Open";
-
-    }elseif($jobStatusNumber == "0"){
-        $jobStatus = "Closed";
+        if($jobStatusNumber == "1") {
+            $jobStatus = "Open";
+        } elseif($jobStatusNumber == "2") {
+            $jobStatus = "Closed";
+        } elseif($jobStatusNumber == "0") {
+            $jobStatus = "In Review";
+        }
     }
-
-
-
-
-    }
-
-
-
 }
-    ?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -121,14 +109,8 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && isset($_GET["job_
   </form>
 </div>
 <?php endif; ?>
-</body>
-</html>
-
 
 <?php
-
-
-
 if(isset($_POST["delete"])){
     $deleteJobQuery = "delete from job where job_id='$jobId' and user_id='$userId'";
     $deleteJobResult = mysqli_query($connection, $deleteJobQuery);
@@ -146,41 +128,42 @@ if(isset($_POST["delete"])){
     }
 }
 
-
 $getJobApplyDataQuery = "select * from job_application where job_id='$jobId' and ja_status <>2";
 $getJobApplyDataResult = mysqli_query($connection, $getJobApplyDataQuery);
 
+if($jobStatusNumber == 1){
+  
 echo "<h1>Applications</h1>";
 
 if(mysqli_num_rows($getJobApplyDataResult) > 0) {
-   while ($row = mysqli_fetch_assoc($getJobApplyDataResult)) {
+    while ($row = mysqli_fetch_assoc($getJobApplyDataResult)) {
         $applicantUserId = $row['freelancer_user_id'];
-        
         $getUserDataQuery = "select * from user where user_id = '$applicantUserId'";
-
         $getUserDataResult = mysqli_query($connection, $getUserDataQuery);
         $userData = mysqli_fetch_assoc($getUserDataResult);
-
         $userName = $userData["user_first_name"] . " ". $userData["user_last_name"];
         $userType = $userData["user_type"];
-
-     $userLink = "php?user_id=" . $applicantUserId . "&user_type=" . $userType;
+        $userLink = "php?user_id=" . $applicantUserId . "&user_type=" . $userType;
         
         // Create a clickable card for user name
         echo '<div class="card">';
-         echo "<a href='http://localhost/freelancing-website/dashboard/freelancer/displayProfile.php?freelancer_user_id=$applicantUserId&user_type=$userType&client_user_id=$userId&job_id=$jobId' class='user-link'>";
-;
+        echo "<a href='http://localhost/freelancing-website/dashboard/freelancer/displayProfile.php?freelancer_user_id=$applicantUserId&user_type=$userType&client_user_id=$userId&job_id=$jobId' class='user-link'>";
         echo $userName;
         echo $userType;
         echo '</a>';
         echo '</div>';
     }
+} else {
+    echo "No Applications yet";
 }
-else{
-  echo "No Applications yet";
+
+}else if($jobStatusNumber == 2){
+  echo "Job is closed";
+
+}else if($jobStatusNumber == 0){
+  echo "Job In Review";
 }
 
 ?>
-
-
-
+</body>
+</html>

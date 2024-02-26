@@ -112,7 +112,7 @@ if(isset($_POST["submit"])){
                         $freelancerSkill = mysqli_query($connection, $insertSkillQuery);
                     }
                     // Redirect to another page to avoid form resubmission
-                    header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
+                 
                     exit();
                 }
             }
