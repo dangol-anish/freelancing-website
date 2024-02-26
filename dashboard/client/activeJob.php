@@ -31,7 +31,7 @@ $getJobDataQuery = "
     FROM job j
     INNER JOIN job_application ja ON j.job_id = ja.job_id
     INNER JOIN user u ON ja.freelancer_user_id = u.user_id
-    WHERE j.user_id='$userId' AND ja.ja_status = 1";
+    WHERE j.user_id='$userId' AND ja.ja_status = 1 and j.job_status=1";
 $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
 ?>
 <!DOCTYPE html>
@@ -82,7 +82,11 @@ if(mysqli_num_rows($getJobDataResult) > 0){
                 <input class='close-job' type='submit' value='Delete Request'>
             </form>";
                 } else if($userId == $responderId) {
-                    echo "Accept";
+                    echo "
+            <form action='http://localhost/freelancing-website/config/helper/acceptJobClose.php?job_id=$jobId' method='POST'>
+              <input type='hidden' name='job_id' value='$jobId'>
+                <input class='close-job' type='submit' value='Accept Request'>
+            </form>";
                 }
             } else {
                 echo "
