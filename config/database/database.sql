@@ -108,3 +108,12 @@ messages_id  INT PRIMARY KEY AUTO_INCREMENT,
     CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
 
 );
+
+
+create table job_close (
+jc_id int primary AUTO_INCREMENT,
+requester_id int,
+responder_id int,
+job_id int,
+ CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
+);

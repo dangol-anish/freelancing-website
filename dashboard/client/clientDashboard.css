@@ -228,6 +228,9 @@ label > p {
 
 /* Style for job cards */
 .job-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
@@ -350,4 +353,35 @@ input:active {
 .new-skills > a {
   color: var(--primary);
   text-decoration: none;
+}
+
+/*  close job */
+
+.close-job {
+  background-color: var(--background);
+  border: 1px solid var(--contrast);
+  border-radius: 10px;
+  padding: 15px 10px;
+  color: var(--contrast);
+  font-size: 14px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.close-job:hover {
+  background-color: var(--contrast);
+  color: var(--background);
+  transition: 700ms;
+}
+
+.disabled-job:disabled {
+  background-color: var(--background);
+
+  border-radius: 10px;
+  padding: 15px 10px;
+  color: var(--contrast);
+  font-size: 14px;
+  width: 200px;
+
+  border: 1px solid var(--secondary);
 }

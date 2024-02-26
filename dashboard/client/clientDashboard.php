@@ -43,7 +43,7 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
 
 
 <header>
-    <img class="logo-image" src="../../assets/logo/test.png" alt="logo">
+    <a href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php"><img class="logo-image" src="../../assets/logo/test.png" alt="logo"></a>
     <nav> 
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php">Home</a>
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/activeJob.php">Active Jobs</a>

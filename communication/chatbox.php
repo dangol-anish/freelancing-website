@@ -7,7 +7,18 @@ $job_id = $_GET['job_id'];
 $usersQuery = "SELECT * FROM user WHERE user_id = '" . $_SESSION["user_id"] . "'";
 $getUsersResult = mysqli_query($connection, $usersQuery);
 $user = mysqli_fetch_assoc($getUsersResult);
+if(!isset($_SESSION["user_id"]) && !isset($_SESSION["login"])) {
+   
+        $_SESSION = [];
+        session_destroy();
+        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+        exit;
+ 
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,6 +93,7 @@ $user = mysqli_fetch_assoc($getUsersResult);
         </div>
     </div>
 </div>
+<button></button>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">

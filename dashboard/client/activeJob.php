@@ -13,8 +13,6 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 
     $userId = $_SESSION["user_id"];
 
-
-
     $getClientStatusQuery = "SELECT user_status FROM user WHERE user_id='$userId'";
     $getClientStatusResult = mysqli_query($connection, $getClientStatusQuery);
 
@@ -35,15 +33,7 @@ $getJobDataQuery = "
     INNER JOIN user u ON ja.freelancer_user_id = u.user_id
     WHERE j.user_id='$userId' AND ja.ja_status = 1";
 $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
-
-
-
-
-
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,12 +41,10 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Dashboard</title>
     <link rel="stylesheet" href="clientDashboard.css">
-
 </head>
 <body>
-
 <header>
-    <img class="logo-image" src="../../assets/logo/test.png" alt="logo">
+    <a href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php"><img class="logo-image" src="../../assets/logo/test.png" alt="logo"></a>
     <nav> 
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php">Home</a>
         <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/activeJob.php">Active Jobs</a>
@@ -64,42 +52,53 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
         <a id="logout-btn" class="header-links" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
     </nav>
 </header>
-
 <main>
-
-
-
 <?php include("createJob.php");?>
-
-
 <?php
 if(mysqli_num_rows($getJobDataResult) > 0){
     while($jobInfo = mysqli_fetch_assoc($getJobDataResult)) {
-
         $applicantUserId = $jobInfo["freelancer_user_id"];
-      
         $jobId = $jobInfo["job_id"];
-        ?>
-       
-
-         <a href='http://localhost/freelancing-website/dashboard/freelancer/displayProfile.php?freelancer_user_id=<?php echo $applicantUserId?>&user_type=<?php echo $userType?>&client_user_id=<?php echo $userId ?>&job_id=<?php echo $jobId?>' class="job-link">
-            <div class="job-card">
+?>
+        <div class="job-card">
+            <a href='http://localhost/freelancing-website/dashboard/freelancer/displayProfile.php?freelancer_user_id=<?php echo $applicantUserId?>&user_type=<?php echo $userType?>&client_user_id=<?php echo $userId ?>&job_id=<?php echo $jobId?>' class="job-link">
                 <div class="card-box">
- <p class="title"><?php echo $jobInfo['job_title']; ?></p>
-            <p class="freelancer-name">Hired Freelancer: <?php echo $jobInfo['freelancer_name']; ?></p>
+                    <p class="title"><?php echo $jobInfo['job_title']; ?></p>
+                    <p class="freelancer-name">Hired Freelancer: <?php echo $jobInfo['freelancer_name']; ?></p>
                 </div>
-            </div>
-    </a>
-        <?php
+            </a>
+<?php
+            $checkExistingRequestQuery = "select * from job_close where job_id=$jobId";
+            $checkExistingRequestResult = mysqli_query($connection, $checkExistingRequestQuery);
+            if(mysqli_num_rows($checkExistingRequestResult) > 0) {
+                $row = mysqli_fetch_assoc($checkExistingRequestResult);
+                $requesterId = $row["requester_id"];
+                $responderId = $row["responder_id"];
+                if($userId == $requesterId) {
+                      echo "
+            <form action='deleteJobRequest.php' method='POST'>
+                <input type='hidden' name='job_id' value='$jobId'>
+                <input type='hidden' name='freelancer_user_id' value='$applicantUserId'>
+                <input class='close-job' type='submit' value='Delete Request'>
+            </form>";
+                } else if($userId == $responderId) {
+                    echo "Accept";
+                }
+            } else {
+                echo "
+                        <form action='closeJob.php?job_id=$jobId&receiver_id=$applicantUserId' method='POST'>
+                            <input class='close-job' type='submit' value='Request Job Close'>
+                        </form>";
+            }
+?>
+        </div>
+<?php
     }
 } else {
     echo "No jobs found.";
 }
 ?>
-
-
 </main>
-
-</body>
 </html>
+
 
