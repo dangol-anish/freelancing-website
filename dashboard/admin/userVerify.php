@@ -97,13 +97,15 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
                     
 
                     <!--  client -->
-                     <h2>Client Information</h2>
+                 
                   <div class="info-details">
-                    
+                     
                        <div class="user-photo">
                 <img src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
+               
             </div>
                    <div class="info-details-text">
+                        <h2>Client Information</h2>
                     <p> <strong>Name: </strong> <?php echo $userFirstName . ' ' . $userLastName; ?></p>
                     <p><strong>Email: </strong><?php echo $userEmail; ?></p>
                     <p><strong>Phone Number: </strong> <?php echo $userPhoneNumber; ?></p>
@@ -131,12 +133,15 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
 
 
                     <!-- freelancer -->
-                    <h2>Freelancer Information</h2>
+             
                                  <div class="info-details">
+                                     
                                       <div class="user-photo">
                 <img src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
+                    
             </div>
             <div class="info-details-text">
+                  <h2>Freelancer Information</h2>
                 <p><strong>Name: </strong>   <?php echo $userFirstName . ' ' . $userLastName; ?></p>
                     <p><strong>Email: </strong> <?php echo $userEmail; ?></p>
                     <p><strong>Phone Number: </strong> <?php echo $userPhoneNumber; ?></p>
