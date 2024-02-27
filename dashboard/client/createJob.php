@@ -1,11 +1,15 @@
 <?php
 include("../../config/database/databaseConfig.php");
 
-$errors = array(); 
+$errors = array();
+
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 if (!isset($_SESSION["user_id"]) || !isset($_SESSION["login"])) {
     header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
-    exit(); 
+    exit();
 }
 
 if ($_SESSION["user_type"] != "Client") {
@@ -17,22 +21,61 @@ if ($_SESSION["user_type"] != "Client") {
 $userId = $_SESSION["user_id"];
 ?>
 
+<?php
+if (isset($_POST["submit"])) {
+    try {
+        if (!empty($userId)) {
+            $jobTitle = mysqli_real_escape_string($connection, $_POST["job_title"]);
+            $jobDescription = mysqli_real_escape_string($connection, $_POST["job_description"]);
+            $jobBudget = $_POST["job_budget"];
+            $jobDurationNumber = $_POST["job_duration_number"];
+            $jobDurationUnit = $_POST["job_duration_unit"];
+            $jobDuration = $jobDurationNumber . ' ' . $jobDurationUnit;
+
+            // Insert job data
+            if (empty($errors)) {
+                $insertJobDataQuery = "INSERT INTO job (job_title, job_description, job_budget, job_duration, job_status, user_id) VALUES ('$jobTitle', '$jobDescription', '$jobBudget', '$jobDuration', 0, '$userId')";
+                $insertJobDataResult = mysqli_query($connection, $insertJobDataQuery);
+
+                if (!$insertJobDataResult) {
+                    throw new Exception("Records not inserted");
+                } else {
+                    // Get the newly inserted job id
+                    $jobId = mysqli_insert_id($connection);
+                    // Insert job skills
+                    $selectedSkills = $_POST['job_skills'];
+                    foreach ($selectedSkills as $skill) {
+                        $insertSkillQuery = "INSERT INTO job_skill (job_id, skill_id) VALUES ('$jobId', '$skill')";
+                        $freelancerSkill = mysqli_query($connection, $insertSkillQuery);
+                    }
+                    header("Location: http://localhost/freelancing-website/dashboard/client/clientDashboard.php");
+                    exit();
+                }
+            }
+        }
+    } catch (Exception $e) {
+        // Handle the exception here, if needed
+        $errors[] = $e->getMessage();
+    }
+}
+?>
+
 <div id="updateProfileModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2 class="create-job-heading">Create a New Job</h2>
 
         <?php if (!empty($errors)): ?>
-        <div class="errors">
-            <ul>
-                <?php foreach ($errors as $error): ?>
-                <li><?php echo $error; ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+            <div class="errors">
+                <ul>
+                    <?php foreach ($errors as $error): ?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         <?php endif; ?>
 
-        <form action="" method="POST"  onsubmit="return validateForm()">
+        <form action="" method="POST" onsubmit="return validateForm()">
             <div class="section-two">
                 <div class="text-info">
                     <label for="job_title">
@@ -40,7 +83,7 @@ $userId = $_SESSION["user_id"];
                     </label>
                     <label for="job_description">
                         <p>Job Description</p>
-                        <textarea name="job_description" id="job_description" rows="17" cols="50" style="resize: none;"  required></textarea>
+                        <textarea name="job_description" id="job_description" rows="17" cols="50" style="resize: none;" required></textarea>
                     </label>
                 </div>
                 <div class="budget-duration-info">
@@ -84,59 +127,16 @@ $userId = $_SESSION["user_id"];
 
 <script src="createJob.js"></script>
 
-<?php
-if(isset($_POST["submit"])){
-    try {
-        if(!empty($userId)) {
-            $jobTitle = mysqli_real_escape_string($connection, $_POST["job_title"]);
-            $jobDescription = mysqli_real_escape_string($connection, $_POST["job_description"]);
-            $jobBudget = $_POST["job_budget"];
-            $jobDurationNumber = $_POST["job_duration_number"];
-            $jobDurationUnit = $_POST["job_duration_unit"];
-            $jobDuration = $jobDurationNumber . ' ' . $jobDurationUnit;
-
-            // Insert job data
-            if(empty($errors)) {
-                $insertJobDataQuery = "INSERT INTO job (job_title, job_description, job_budget, job_duration, job_status, user_id) VALUES ('$jobTitle', '$jobDescription', '$jobBudget', '$jobDuration', 0, '$userId')";
-                $insertJobDataResult = mysqli_query($connection, $insertJobDataQuery);
-
-                if(!$insertJobDataResult) {
-                    throw new Exception("Records not inserted");
-                } else {
-                    // Get the newly inserted job id
-                    $jobId = mysqli_insert_id($connection);
-                    // Insert job skills
-                    $selectedSkills = $_POST['job_skills'];
-                    foreach ($selectedSkills as $skill) {
-                        $insertSkillQuery = "INSERT INTO job_skill (job_id, skill_id) VALUES ('$jobId', '$skill')";
-                        $freelancerSkill = mysqli_query($connection, $insertSkillQuery);
-                    }
-                    // Redirect to another page to avoid form resubmission
-                 
-                    exit();
-                }
-            }
-        }
-    } catch (Exception $e) {
-        // Handle the exception here, if needed
-        $errors[] = $e->getMessage();
-    }
-}
-?>
-
-
 <script>
-function validateForm() {
-  var selectedSkills = document.querySelectorAll('#job_skills input[type="checkbox"]:checked');
-  
-  if (selectedSkills.length === 0) {
-    alert("Please select at least one skill.");
-    return false; // Prevent form submission
-  }
+    function validateForm() {
+        var selectedSkills = document.querySelectorAll('#job_skills input[type="checkbox"]:checked');
 
-  // If skills are selected, allow form submission
-  return true;
-}
+        if (selectedSkills.length === 0) {
+            alert("Please select at least one skill.");
+            return false; // Prevent form submission
+        }
+
+        // If skills are selected, allow form submission
+        return true;
+    }
 </script>
-
-
