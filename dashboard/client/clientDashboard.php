@@ -62,7 +62,7 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
         echo "</div>";
     }else if($userStatus == 2){
            echo    " <div class='unverified-box'>";
-        echo "<p class='unverified'>Your account verification was rejected. Please resubmit your profile with genuine documents.";
+        echo "<p class='unverified'>Your account verification was rejected. Please resubmit your profile with genuine documents to get verified.";
         echo "</div>";
     }
 

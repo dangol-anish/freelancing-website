@@ -64,10 +64,12 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
                 <div class="job-card">
                     
                         <div class="card-box">
-                            <p class="title"><?php echo $jobInfo['job_title']; ?></p>
+                            <p class="job-close-title"><?php echo $jobInfo['job_title']; ?></p>
                             <p class="freelancer-name">Hired Freelancer: <?php echo $jobInfo['freelancer_name']; ?></p>
                         </div>
-            
+             <form  action='' method='POST'>
+                <input class="card-box-closed" class="card-box-closed" type='submit' value='Rate the freelancer'>
+            </form>
                 </div>
             <?php endwhile; ?>
         <?php else: ?>

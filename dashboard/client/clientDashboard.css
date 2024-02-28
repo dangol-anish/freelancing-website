@@ -331,6 +331,7 @@ label > p {
 .unverified {
   color: var(--primary);
   text-align: center;
+  margin-bottom: 0;
 }
 
 .unverified-box {
@@ -464,4 +465,12 @@ a {
   text-decoration: none;
   color: var(--primary);
   font-size: 18px;
+}
+
+.job-close-title {
+  font-size: 24px;
+}
+
+.card-box-closed {
+  background-color: var(--background);
 }
