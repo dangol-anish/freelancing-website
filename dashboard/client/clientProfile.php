@@ -59,29 +59,50 @@ if (mysqli_num_rows($getuserInfoResult) <= 0 || mysqli_num_rows($getClientInfoRe
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <!-- Add your CSS links here -->
+   <link rel="stylesheet" href="clientProfile.css">
 </head>
 <body>
+     <header>
+    <a href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php"><img class="logo-image" src="../../assets/logo/test.png" alt="logo"></a>
+    <nav> 
+        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php">Home</a>
+        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/activeJob.php">Active Jobs</a>
+        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/closedJob.php">Closed Jobs</a>
+        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
+        <a id="logout-btn" class="header-links" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
+    </nav>
+</header>
 
 <main>
+   
+
     <div class="card">
-        <div class="user-photo">
-            <img width="200px" src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
+        <div class="info-details">
+            <div class="user-photo">
+            <img class="user-photo" src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
         </div>
-        <div class="user_info">
+        <div class="info-details-text">
             <h2>Client Information</h2>
-            <p><strong>User Status: <?php echo $userStatus?></strong></p>
+  
             <p><strong>Name:</strong> <?php echo $userFirstName . ' ' . $userLastName; ?></p>
+              
             <p><strong>Email:</strong> <?php echo $userEmail; ?></p>
             <p><strong>Phone Number:</strong> <?php echo $userPhoneNumber; ?></p>
             <p><strong>User Type:</strong> <?php echo $userType; ?></p>
+                    <p><strong>User Status: <?php echo $userStatus?></strong></p>
           
             <p><a href="../../userAuth/userRegistration/clientRegistration/<?php echo $clientPanPhoto; ?>" target="_blank">View Client Pan Photo</a></p>
             <p><a href="../../userAuth/userRegistration/clientRegistration/<?php echo $clientVerificationPhoto; ?>" target="_blank">View Client Verification Photo</a></p>
 
 
             <!-- Button to open update profile modal -->
-            <button id="openModalBtn">Edit your profile</button>
+            <button class="createJobModal"  id="openModalBtn">Edit your profile</button>
+            <?php
+            if($userStatusNumber == 2){
+                echo "<input class='createJobModal' type='submit' value='Re-verify Profile'>";
+            }
+            ?>
+        </div>
         </div>
     </div>
 </main>
@@ -120,3 +141,4 @@ if (mysqli_num_rows($getuserInfoResult) <= 0 || mysqli_num_rows($getClientInfoRe
 
 </body>
 </html>
+

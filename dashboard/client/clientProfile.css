@@ -1,0 +1,190 @@
+/* dashboard */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --background: #1c1c1c;
+  --primary: #c9f66f;
+  --secondary: #252525;
+  --contrast: #ffffff;
+  --test: #1d2021;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--contrast);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+header {
+  background-color: var(--secondary);
+  padding: 10px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-size: 18px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.logo-image {
+  height: 40px;
+  filter: invert(100%);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.header-links {
+  text-decoration: none;
+  color: var(--contrast);
+  margin-left: 30px;
+  transition: color 0.3s ease;
+}
+
+.header-links:hover {
+  color: var(--primary);
+}
+
+#logout-btn {
+  background-color: var(--primary);
+  color: var(--background);
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--primary);
+}
+
+#logout-btn:hover {
+  background-color: var(--background);
+  color: var(--primary);
+  transition: 400ms;
+}
+
+img {
+  height: 250px;
+
+  border-radius: 50%;
+}
+
+.user-info {
+  width: 100%;
+}
+
+.user-photo {
+  margin-top: 50px;
+  width: 250px;
+}
+
+h2 {
+  font-size: 40px;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+main {
+  padding: 20px 100px;
+}
+
+.info-details {
+  display: flex;
+  font-size: 22px;
+  gap: 100px;
+  justify-content: center;
+}
+
+.info-details-text {
+  margin-top: 50px;
+  line-height: 2;
+  color: var(--contrast);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--contrast);
+  transition: 300ms;
+}
+
+.action-buttons {
+  display: flex;
+}
+
+.logout {
+  background-color: var(--primary);
+  padding: 8px 15px;
+  border-radius: 10px;
+  color: var(--background);
+  margin-left: 30px;
+  font-weight: 600;
+}
+
+.action-buttons {
+  padding: 8px 0px;
+  display: flex;
+  gap: 10px;
+}
+
+input[type="submit"] {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.hire {
+  background-color: var(--primary);
+  color: var(--background);
+}
+.reject {
+  background-color: rgb(255, 37, 37);
+  color: var(--background);
+}
+
+strong {
+  opacity: 0.8;
+}
+
+.card {
+  display: flex;
+  gap: 10%;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.createJobModal {
+  padding: 10px;
+  margin-top: 20px;
+  margin-right: 0;
+  background-color: var(--primary);
+  color: var(--background);
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}

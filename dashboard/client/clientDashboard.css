@@ -87,7 +87,7 @@ main {
 
 .createJobModal {
   padding: 10px;
-  margin: 20px;
+  margin-top: 20px;
   margin-right: 0;
   background-color: var(--primary);
   color: var(--background);
@@ -473,4 +473,133 @@ a {
 
 .card-box-closed {
   background-color: var(--background);
+}
+
+/* update profile css */
+.full-name {
+  width: 500px;
+}
+.text {
+  width: 500px;
+  display: flex;
+  justify-content: space-around;
+}
+#firstName {
+  margin-left: 35px;
+}
+
+#lastName {
+  margin-left: 35px;
+}
+
+#user_email {
+  margin-left: 75px;
+}
+
+#user_phone_number {
+  margin-left: 2px;
+}
+
+.files {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+  width: 250px;
+}
+
+.inputfile + label {
+  font-weight: 600;
+  color: white;
+  border: 2px solid var(--contrast);
+  display: inline-block;
+  width: 200px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px 5px;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  font-weight: 600;
+  background-color: var(--background);
+  cursor: pointer;
+
+  text-align: center;
+  background-color: var(--primary);
+  color: var(--background);
+  border: 2px solid var(--background);
+}
+
+.wrapper {
+  height: 200px;
+  width: 200px;
+  position: relative;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  margin-left: 50px;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+
+.my_file {
+  position: absolute;
+  bottom: 0;
+  outline: none;
+  color: transparent;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 120px;
+  cursor: pointer;
+  transition: 0.5s;
+  opacity: 0;
+  content: "Update";
+}
+
+.my_file::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.user_photo {
+  height: 200px;
+  width: 200px;
+}
+
+.update-profile-first {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.small-text {
+  font-size: 12px;
+  color: var(--contrast);
+  opacity: 0.7;
+  padding-left: 5px;
+}
+
+.input-margin {
+  margin-left: 100px;
+  margin-bottom: 20px;
+}
+
+.password-style {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.password-style-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

@@ -1,161 +1,181 @@
-    <!-- updateProfile.php -->
-    <link rel="stylesheet" href="client.css">
+<?php
+include("../../config/database/databaseConfig.php");
 
-    <?php
-    include("../../config/database/databaseConfig.php");
-
-    $userFirstName = "";
+$userFirstName = "";
 $userLastName = "";
-
 $errors = array();
-
-// Initialize other variables to avoid warnings
 $panFolder = "";
 $verificationFolder = "";
 
 
 
-    if (!isset($_SESSION["user_id"]) || !isset($_SESSION["login"])) {
-        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
-        exit(); 
+if (!isset($_SESSION["user_id"]) || !isset($_SESSION["login"])) {
+    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+    exit();
+}
+
+if ($_SESSION["user_type"] != "Client") {
+    $_SESSION = [];
+    session_destroy();
+    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+    exit();
+}
+
+$userId = $_SESSION["user_id"];
+$userType = $_SESSION["user_type"];
+
+$userDataQuery = "SELECT user_first_name, user_last_name, user_email, user_phone_number, user_photo FROM user WHERE user_id='$userId'";
+$clientDataQuery = "select client_pan_photo, client_verification_photo from client where user_id='$userId'";
+$userDataResult = mysqli_query($connection, $userDataQuery);
+$clientDataResult = mysqli_query($connection, $clientDataQuery);
+
+if(mysqli_num_rows($userDataResult) > 0) {
+    $userData = mysqli_fetch_assoc($userDataResult);
+    $userFirstName = $userData['user_first_name'];
+    $userLastName = $userData['user_last_name'];
+    $userEmail = $userData["user_email"];
+    $userPhone = $userData["user_phone_number"];
+    $userPhoto = $userData["user_photo"];
+    if(mysqli_num_rows($clientDataResult)>0){
+        $clientData = mysqli_fetch_assoc($clientDataResult);
+        $clientPanPhoto = $clientData["client_pan_photo"];
+        $clientVerificationPhoto = $clientData["client_verification_photo"];
     }
 
-    if ($_SESSION["user_type"] != "Client") {
-        $_SESSION = [];
-        session_destroy();
-        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
-        exit();
+} else {
+    $errors[] = "User data not found.";
+}
+
+if (isset($_POST["update"])) {
+    $userFirstName = $_POST["userFirstName"];
+    $userLastName = $_POST["userLastName"];
+    $currentPassword = $_POST["userPassword"];
+    $newPassword = $_POST["newPassword"];
+    $confirmPassword = $_POST["confirmPassword"];
+    $clientPanPhoto = $_FILES['client_pan_photo']['name'];
+    $clientVerificationPhoto = $_FILES['client_verification_photo']['name'];
+    $tempName1 = $_FILES['client_pan_photo']['tmp_name'];
+    $tempName2 = $_FILES['client_verification_photo']['tmp_name'];
+    $panFolder = "pan/" . $clientPanPhoto;
+    $verificationFolder = "verification/" . $clientVerificationPhoto;
+
+    $fileName = $_FILES['user_photo']['name'];
+    $tempName = $_FILES['user_photo']['tmp_name'];
+    $folder = "pics/"; 
+    $filePath = $folder . $fileName; 
+
+    if (move_uploaded_file($tempName, $filePath)) {
+    } else {
+        $errors[] = "Error moving file.";
     }
 
-    $userId = $_SESSION["user_id"];
+    if (move_uploaded_file($tempName1, $panFolder)) {
+    } else {
+        $errors[] = "Error moving identity photo file.";
+    }
 
-    ?>
+    if (move_uploaded_file($tempName2, $verificationFolder)) {
+    } else {
+        $errors[] = "Error moving verification photo file.";
+    }
 
-    <!-- Modal for updating profile -->
-    <div id="updateProfileModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Update Profile</h2>
-            <form action="" method="POST" enctype="multipart/form-data">
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="userFirstName" value="<?php echo $userFirstName; ?>"><br>
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="userLastName" value="<?php echo $userLastName; ?>"><br>
-        
+    $getUserPasswordQuery = "SELECT user_password FROM user WHERE user_id='$userId'";
+    $getUserPasswordResult = mysqli_query($connection, $getUserPasswordQuery);
 
-             
-        <label class="user-photo" for="user_photo">
-        <p>Photo URL:</p>
-        <input type="file" id="user_photo" name="picture" required />
-        </label>
-        <br /><br />
-                <label for="client_pan_photo">Client Pan Photo:</label><br />
-        <input type="file" id="client_pan_photo" name="client_pan_photo" required /><br /><br />
+    if (mysqli_num_rows($getUserPasswordResult) > 0) {
+        $row = mysqli_fetch_assoc($getUserPasswordResult);
+        $storedUserPassword = $row["user_password"];
+        if (password_verify($currentPassword, $storedUserPassword)) {
+            $updateProfileQuery = "UPDATE user SET user_first_name='$userFirstName', user_last_name='$userLastName', user_photo='$filePath' WHERE user_id='$userId'";
+            $updateProfileResult =mysqli_query($connection, $updateProfileQuery);
 
-        <label for="client_verification_photo">Verification Photo:</label><br />
-        <input type="file" id="client_verification_photo" name="client_verification_photo" required /><br /><br />
-
-                <label for="currentPassword">Current Password:</label>
-                <input type="password" id="currentPassword" name="userPassword" value="" required><br>
-                <label for="newPassword">New Password:</label>
-                <input type="password" id="newPassword" name="newPassword" value="" required><br>
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" value="" required><br>
-                
-                <input type="submit" value="Update Profile" name="update">
-            </form>
-        </div>
-    </div>
-
-    <?php
-
-    // Check if the form has been submitted
-    if(isset($_POST["update"])) {
-        // Retrieve form data
-        $userFirstName = $_POST["userFirstName"];
-        $userLastName = $_POST["userLastName"];
-      
-        $currentPassword = $_POST["userPassword"];
-        $newPassword = $_POST["newPassword"];
-        $confirmPassword = $_POST["confirmPassword"];
-
-        // Validate and process the file upload for user photo\\\
-
-        
-         $fileName = $_FILES['picture']['name'];  
-            $tempName = $_FILES['picture']['tmp_name'];
-           $folder = "pics/"; // Base folder path
-$filePath = $folder . $fileName; // Concatenate folder path with filename
-
-
-            if (move_uploaded_file($tempName, $filePath)) {
-    
+            $updateClientQuery = "UPDATE client SET client_pan_photo='$panFolder', client_verification_photo='$verificationFolder' WHERE user_id='$userId'";
+            $updateClientResult = mysqli_query($connection, $updateClientQuery);
+            if ($updateProfileResult && $updateClientResult) {
+               header("Location:http://localhost/freelancing-website/dashboard/client/clientProfile.php ");
             } else {
-                $errors[] = "Error moving file.";
-            }
-        
-    
-   
-            if(isset($_FILES['client_pan_photo'])) {
-                        $clientPanPhoto = $_FILES['client_pan_photo']['name'];
-                        $photoTempName = $_FILES['client_pan_photo']['tmp_name'];
-                        $panFolder = "pan/".$clientPanPhoto;
-
-                        if (move_uploaded_file($photoTempName, $panFolder)) {
-                   
-                        } else {
-                            $errors[] = "Error moving identity photo file.";
-                        }
-                    } else {
-                        $errors[] = "Identity photo file not provided.";
-                    }
-
-                    
-                    if(isset($_FILES['client_verification_photo'])) {
-                        $clientVerificationPhoto = $_FILES['client_verification_photo']['name'];
-                        $photoTempName = $_FILES['client_verification_photo']['tmp_name'];
-                        $verificationFolder = "verification/".$clientVerificationPhoto;
-
-                        if (move_uploaded_file($photoTempName, $verificationFolder)) {
-                  
-                        } else {
-                            $errors[] = "Error moving verification photo file.";
-                        }
-                    } else {
-                        $errors[] = "Verification photo file not provided.";
-                    }
-
-
-    
-
-        $getUserPasswordQuery = "SELECT user_password FROM user WHERE user_id='$userId'";
-        $getUserPasswordResult = mysqli_query($connection, $getUserPasswordQuery);
-
-        if(mysqli_num_rows($getUserPasswordResult) > 0) {
-            $row = mysqli_fetch_assoc($getUserPasswordResult);
-            $storedUserPassword = $row["user_password"];
-            if (password_verify($currentPassword, $storedUserPassword)) {
-                $updateProfileQuery = "UPDATE user SET user_first_name='$userFirstName', user_last_name='$userLastName', user_photo='$filePath' WHERE user_id='$userId'";
-                $updateProfileResult = mysqli_query($connection, $updateProfileQuery);
-
-                  $udpateClientQuery = "UPDATE client SET client_pan_photo='$panFolder', client_verification_photo='$verificationFolder' WHERE user_id='$userId'";
-                $updateClientResult = mysqli_query($connection, $udpateClientQuery);
-                if ($updateProfileResult && $updateClientResult) {
-                    // Profile updated successfully
-                    echo "Profile updated successfully!";
-                } else {
-                    // Error updating profile
-                    echo "Error updating profile.";
-                }
+                echo "Error updating profile.";
             }
         }
-
-
     }
+}
 
-    if (!empty($errors)) {
-        foreach ($errors as $error) {
-            echo $error . "<br>";
-        }
+if (!empty($errors)) {
+    foreach ($errors as $error) {
+        echo $error . "<br>";
     }
-    ?>
+}
+?>
+
+<link rel="stylesheet" href="clientDashboard.css">
+<div id="updateProfileModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Update Profile</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div class="update-profile-first">
+                <div class="wrapper">
+                    <input type="file" name="user_photo" class="my_file">
+                    <img class="user_photo" value='<?php echo $userPhoto?>'  src='<?php echo $userPhoto?>' alt="">
+                </div>
+                <div class="full-name">
+                    <div class="input-margin">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="userFirstName" value="<?php echo $userFirstName; ?>"><br>
+                    </div>
+                    <div class="input-margin">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="userLastName" value="<?php echo $userLastName; ?>"><br>
+                    </div>
+                    <div class="input-margin">
+                        <label for="user_email">Email</label>
+                        <input type="email" id="user_email" name="user_email" value="<?php echo $userEmail?>" required /><br>
+                    </div>
+                    <div class="input-margin">
+                        <label for="user_phone_number">Phone Number</label>
+                        <input type="tel" id="user_phone_number" name="user_phone_number" pattern="[0-9]*" value="<?php echo $userPhone?>" required />
+                    </div>
+                </div>
+            </div>
+           
+            <div class="files">
+                <input
+          class="inputfile"
+          type="file"
+          id="client_pan_photo"
+          name="client_pan_photo"
+          value="<?php echo $clientPanPhoto?>"
+          required
+        />
+        <label for="client_pan_photo">PAN Photo</label>
+
+        <input
+          class="inputfile"
+          type="file"
+          id="client_verification_photo"
+          name="client_verification_photo"
+        value="<?php echo $clientVerificationPhoto?>"
+          required
+        />
+        <label for="client_verification_photo">Verification Photo</label>
+            </div>
+
+            <div class="password-style">
+                <div class="password-style-inner">
+                    <label class="small-text" for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" name="userPassword" value="" required><br>
+                </div>
+                <div class="password-style-inner">
+                    <label class="small-text" for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" name="newPassword" value="" required><br>
+                </div>
+                <div class="password-style-inner">
+                    <label class="small-text" for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" value="" required><br>
+                </div>
+            </div>
+    
+            <input class="logout" type="submit" value="Update Profile" name="update">
+        </form>
+    </div>
+</div>

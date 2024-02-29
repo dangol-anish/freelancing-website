@@ -58,7 +58,7 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
             <?php
     if(($userStatus == 0)){
         echo    " <div class='unverified-box'>";
-        echo "<p class='unverified'>Your account isn't verified. Please verify to create new jobs.";
+        echo "<p class='unverified'>Your account isn't verified. Please wait to be verified.";
         echo "</div>";
     }else if($userStatus == 2){
            echo    " <div class='unverified-box'>";
