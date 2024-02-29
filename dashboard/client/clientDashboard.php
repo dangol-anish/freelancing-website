@@ -13,12 +13,14 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 
     $userId = $_SESSION["user_id"];
 
-    $getClientStatusQuery = "SELECT user_status FROM user WHERE user_id='$userId'";
+    $getClientStatusQuery = "SELECT user_status, user_verification_try FROM user WHERE user_id='$userId'";
     $getClientStatusResult = mysqli_query($connection, $getClientStatusQuery);
 
     if(mysqli_num_rows($getClientStatusResult) > 0) {
         $row = mysqli_fetch_assoc($getClientStatusResult);
         $userStatus = $row['user_status'];
+        $userVerificationTry = $row["user_verification_try"];
+
         $disableCreateJobButton = ($userStatus == 2 || $userStatus == 0);
     }
 }
@@ -60,12 +62,16 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
         echo    " <div class='unverified-box'>";
         echo "<p class='unverified'>Your account isn't verified. Please wait to be verified.";
         echo "</div>";
+    
+    }else if($userStatus == 2 && $userVerificationTry>=2){
+        echo    " <div class='unverified-box'>";
+        echo "<p class='unverified'>Your account verification was rejected too many times. Your account has been blocked.";
+        echo "</div>";
     }else if($userStatus == 2){
            echo    " <div class='unverified-box'>";
         echo "<p class='unverified'>Your account verification was rejected. Please resubmit your profile with genuine documents to get verified.";
         echo "</div>";
     }
-
     ?>
     
 

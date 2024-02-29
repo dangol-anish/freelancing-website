@@ -84,7 +84,12 @@ nav {
 
 img {
   height: 250px;
+}
+
+.user-pic {
+  height: 250px;
   border-radius: 50%;
+  width: 250px;
 }
 
 .user-info {
@@ -171,4 +176,28 @@ strong {
   gap: 10%;
   justify-content: center;
   font-size: 18px;
+}
+
+table {
+  width: 100%;
+  /* border: 2px solid var(--contrast); */
+  border-radius: 10px;
+  opacity: 0.8;
+  margin-top: 1%;
+}
+
+td,
+th {
+  border: 2px solid var(--contrast);
+  /* border-radius: 5px; */
+  padding: 10px;
+  font-size: 18px;
+}
+
+th {
+  font-size: 20px;
+}
+
+h3 {
+  margin-top: 30px;
 }

@@ -74,7 +74,7 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
          
             <div class="info-details">
                    <div class="user-photo">
-                <img src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
+                <img class="user-pic" src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
             </div>
             
 </div>
@@ -90,7 +90,48 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
                         <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerVerificationPhoto; ?>" target="_blank">View Verification Photo</a></p>
                    
                     <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerCV; ?>" target="_blank">View Cirriculum Vitae</a></p>
-                    <div class="action-buttons">
+
+
+                    <h3>Freelancer Job History</h3>
+
+                    <?php
+// Query to fetch job applications with ja_status equal to 1
+$freelancerJobHistory = "SELECT ja.job_id, j.job_title, j.job_duration, j.job_budget
+                         FROM job_application ja
+                         INNER JOIN job j ON ja.job_id = j.job_id
+                         WHERE ja.freelancer_user_id='$freelancerUserId' AND ja.ja_status = 1";
+$freelancerJobHistoryResult = mysqli_query($connection, $freelancerJobHistory);
+
+if (mysqli_num_rows($freelancerJobHistoryResult) > 0) { 
+
+    // Display table headers
+    echo "<table>";
+    echo "<tr>";
+    echo "<th>Job Title</th>";
+    echo "<th>Job Duration</th>";
+    echo "<th>Job Budget</th>";
+    echo "</tr>";
+
+    while ($row = mysqli_fetch_assoc($freelancerJobHistoryResult)) {
+        // Display job details
+        echo "<tr>";
+        echo "<td>" . $row["job_title"] . "</td>";
+        echo "<td>" . $row["job_duration"] . "</td>";
+        echo "<td>" . "Rs. " .$row["job_budget"] . "</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+}else{
+    echo "No previous jobs.";
+}
+
+
+?>
+                   
+            </div>
+            <div class="info-details-text">
+                 <div class="action-buttons">
             <form method="POST">
                 <input type="hidden" class="hire" name="user_id" value="<?php echo $freelancerUserId; ?>">
                 <input type="submit" class="hire" name="hire" value="Hire">
@@ -99,7 +140,7 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
                 <input type="hidden" class="reject" name="user_id" value="<?php echo $freelancerUserId; ?>">
                 <input type="submit" class="reject" name="reject" value="Reject">
             </form>
-        </div>
+             </div>
             </div>
             
         </div>

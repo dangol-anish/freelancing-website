@@ -44,6 +44,7 @@ header {
 .logo {
   height: 40px;
   filter: invert(100%);
+  width: 65px;
 }
 
 a {
@@ -79,6 +80,7 @@ a:hover {
 
 img {
   height: 250px;
+  width: 250px;
   border-radius: 50%;
 }
 

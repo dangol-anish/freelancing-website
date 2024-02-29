@@ -112,7 +112,7 @@ if (!empty($errors)) {
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Update Profile</h2>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="" class="displayProfileForm" method="POST" enctype="multipart/form-data">
             <div class="update-profile-first">
                 <div class="wrapper">
                     <input type="file" name="user_photo" class="my_file">
@@ -138,7 +138,7 @@ if (!empty($errors)) {
                 </div>
             </div>
            
-            <div class="files">
+            <div class="files-display">
                 <input
           class="inputfile"
           type="file"
