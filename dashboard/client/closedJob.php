@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include("../../config/database/databaseConfig.php");
@@ -43,16 +44,7 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
     <link rel="stylesheet" href="clientDashboard.css">
 </head>
 <body>
-    <header>
-        <a href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php"><img class="logo-image" src="../../assets/logo/test.png" alt="logo"></a>
-        <nav> 
-            <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php">Home</a>
-            <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/activeJob.php">Active Jobs</a>
-             <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/closedJob.php">Closed Jobs</a>
-            <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
-            <a id="logout-btn" class="header-links" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
-        </nav>
-    </header>
+<?php include("clientHeader.html") ?>
     <main>
         <?php include("createJob.php"); ?>
         <?php if(mysqli_num_rows($getJobDataResult) > 0): ?>
@@ -67,14 +59,105 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
                             <p class="job-close-title"><?php echo $jobInfo['job_title']; ?></p>
                             <p class="freelancer-name">Hired Freelancer: <?php echo $jobInfo['freelancer_name']; ?></p>
                         </div>
-             <form  action='' method='POST'>
-                <input class="card-box-closed" class="card-box-closed" type='submit' value='Rate the freelancer'>
+             <form id="rateForm" action='' method='POST'>
+                <input class="close-job" type='button' value='Rate the freelancer' onclick="openModal()">
             </form>
+
+             
+
+      
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
             <p>No jobs found.</p>
         <?php endif; ?>
+
+        <?php
+
+if(isset($_POST["rate_submit"])){
+
+    $rating = $_POST["rating"];
+
+    // Check if there's already a rating for this freelancer by this client
+    $checkRatingQuery = "SELECT * FROM freelancer_rating WHERE job_id = '$jobId' AND freelancer_user_id = '$applicantUserId' AND client_user_id = '$userId'";
+    $checkRatingResult = mysqli_query($connection, $checkRatingQuery);
+
+    if(mysqli_num_rows($checkRatingResult) > 0){
+        echo "<p>You have already rated this freelancer for this job.</p>";
+    } else {
+        // If no rating exists, insert the new rating
+        $insertRating = "INSERT INTO freelancer_rating (rating, job_id, freelancer_user_id, client_user_id) VALUES ('$rating', '$jobId', '$applicantUserId', '$userId')";
+        $insertRatingResult = mysqli_query($connection, $insertRating);
+
+        if($insertRatingResult){
+            echo "Successfully rated";
+        }
+        else{
+            echo "Failed";
+        }
+    }
+}
+?>
     </main>
+ <div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- Modal content -->
+        <h2>Rate the freelancer</h2>
+        <div class="rating">
+
+        <form action="" method="POST">
+     <label  class="star"><input type="radio" name="rating" value="1" checked> &#9733;</label><br>
+<label  class="star"><input type="radio" name="rating" value="2"> &#9733; &#9733;</label><br>
+<label  class="star"><input type="radio" name="rating" value="3">  &#9733; &#9733; &#9733;</label><br>
+<label  class="star"><input type="radio" name="rating" value="4"> &#9733; &#9733; &#9733; &#9733;</label><br>
+<label  class="star"><input type="radio" name="rating" value="5"> &#9733; &#9733; &#9733; &#9733; &#9733;</label><br>
+
+<input type="submit" name="rate_submit" value="Rate" class="createJobModal">
+
+      </div>
+        </form>
+           
+  
+
+  
+    </div>
+</div>
+
 </body>
 </html>
+
+
+ <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementsByClassName("close-job");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        function openModal() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+
+     
+
+    </script>
+
+
+

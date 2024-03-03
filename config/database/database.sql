@@ -117,3 +117,14 @@ responder_id int,
 job_id int,
  CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
 );
+
+
+
+create freelancer_rating(
+ rating_id INT AUTO_INCREMENT PRIMARY KEY,
+    rating INT,
+    job_id INT,
+    freelancer_user_id INT,
+    client_user_id INT,
+ CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
+);

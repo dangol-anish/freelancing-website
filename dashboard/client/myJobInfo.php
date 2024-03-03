@@ -61,17 +61,7 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && isset($_GET["job_
 
 </head>
 <body>
-  <header>
-    <a href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php"><img class="logo-image" src="../../assets/logo/test.png" alt="logo"></a>
-    <nav> 
-        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientDashboard.php">Home</a>
-        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/activeJob.php">Active Jobs</a>
-        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/closedJob.php">Closed Jobs</a>
-        <a class="header-links" href="http://localhost/freelancing-website/dashboard/client/clientProfile.php">My Profile</a>
-        <a id="logout-btn" class="header-links" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
-    </nav>
-</header>
-
+<?php include("clientHeader.html") ?>
 
 
 <?php if(isset($jobTitle)): ?>
