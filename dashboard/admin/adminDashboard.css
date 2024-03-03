@@ -84,12 +84,6 @@ select {
   font-size: 18px;
 }
 
-.filter {
-  width: 95%;
-  display: flex;
-  justify-content: flex-end;
-}
-
 section {
   width: 100%;
   display: flex;
@@ -114,4 +108,87 @@ th {
 
 th {
   font-size: 20px;
+}
+
+a {
+  text-decoration: none;
+
+  font-size: 18px;
+}
+
+#go-back {
+  color: var(--primary);
+}
+
+.verify {
+  background-color: var(--primary);
+  color: var(--background);
+}
+.reject {
+  background-color: rgb(255, 37, 37);
+  color: var(--background);
+}
+
+input[type="submit"] {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.btn-grp {
+  display: flex;
+  justify-content: center;
+
+  gap: 50px;
+}
+
+h2 {
+  padding-left: 350px;
+  color: var(--primary);
+  font-size: 40px;
+  margin-top: 30px;
+}
+
+.filter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+main {
+  padding: 30px 100px;
+}
+
+.unverified-jobs-table {
+  width: 50%;
+}
+
+.job-details-heading {
+  padding: 0;
+}
+
+.price-duration {
+  font-size: 13px;
+  display: flex;
+  opacity: 0.8;
+}
+
+.job-details-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.skill-list {
+  display: flex;
+}
+
+.skill {
+  display: inline-block;
+  margin-right: 10px;
+  color: var(--contrast);
+  background-color: rgb(44, 44, 44);
+  padding: 5px 10px;
+  border-radius: 10px;
 }

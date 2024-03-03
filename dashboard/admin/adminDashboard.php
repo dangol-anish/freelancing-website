@@ -39,29 +39,10 @@ mysqli_fetch_all($getUsersResult, MYSQLI_ASSOC); } else { $users = []; } ?>
 
   </head>
   <body>
-    <header>
-      <img class="logo" src="../../assets/logo/test.png" alt="" />
+  <?php include 'adminHeader.html'; ?>
 
-      <nav>
-        <ul>
-          <li>
-            <a
-              href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php"
-              >Home</a
-            >
-          </li>
-          <li><a href="http://localhost/freelancing-website/config/helper/addSkills.php">Add Skills</a></li>
-          <li><a href="http://localhost/freelancing-website/dashboard/admin/verifyJobs.php">Verify Jobs</a></li>
-        </ul>
-        <a
-          class="logout"
-          href="http://localhost/freelancing-website/dashboard/logout.php"
-          >Logout</a
-        >
-      </nav>
-    </header>
-
-    <section class="filter">
+    <main>
+      <section class="filter">
   <select id="userTypeSelect" onchange="redirectToSelected()">
     <option value="">Filter By</option>
     <option value="?user_type=client">Client</option>
@@ -71,8 +52,6 @@ mysqli_fetch_all($getUsersResult, MYSQLI_ASSOC); } else { $users = []; } ?>
 </section>
 
 
-
-    <main>
       <section>
         <table>
           <thead>

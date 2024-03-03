@@ -39,6 +39,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  font-size: 18px;
 }
 
 .logo {
@@ -113,10 +114,6 @@ main {
   width: 45%;
 }
 
-a {
-  color: var(--primary);
-}
-
 a:hover {
   color: var(--contrast);
   transition: 300ms;
@@ -160,4 +157,9 @@ input[type="submit"] {
 
 strong {
   opacity: 0.8;
+}
+
+
+.detail-link{
+  color: var(--primary);
 }

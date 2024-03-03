@@ -31,50 +31,64 @@ $getClosedJobsResult = mysqli_query($connection, $getClosedJobsQuery);
 
 while ($row = mysqli_fetch_assoc($getClosedJobsResult)) {
     $jobId = $row["job_id"];
-    echo "<p>" . $row["job_title"] ."</p>";
-    echo "<p>" . $row["job_description"] ."</p>";
-    echo "<p>" . $row["job_budget"] ."</p>";
-    echo "<p>" . $row["job_duration"] ."</p>";
+  $jobTitle = $row["job_title"];
+     $jobDescription=$row["job_description"];
+   $jobBudget = $row["job_budget"];
+    $jobDuration = $row["job_duration"];
 
-       echo "<td class='action-btn'>
-                    <form class='addjobs' action='' method='post'>
-                        <input type='hidden' name='verify_jobs' value='" . $row['job_id'] . "'>
-                        <input type='submit' value='Verify'>
-                    </form>
-                    <form class='addjobs' action='' method='post'>
-                        <input  class='reject'  type='hidden' name='delete_jobs' value='" . $row['job_id'] . "'>
-                        <input class='reject' type='submit' value='Delete'>
-                    </form>
-                </td>";
+      
 
 
+
+    
 }
 
+$getSkills = "SELECT s.skill_name
+FROM job_skill js
+JOIN skill s ON js.skill_id = s.skill_id
+WHERE js.job_id = $jobId;";
+
+$getSkillsResult = mysqli_query($connection, $getSkills);
 
 
-
-// Handle skill verification
-if (isset($_POST['verify_jobs'])) {
-  
-    $query = "UPDATE job SET job_status = 1 WHERE job_id = $jobId";
-    $result = mysqli_query($connection, $query);
-    if ($result) {
-      header("Location: http://localhost/freelancing-website/dashboard/admin/verifyJobs.php");
-    } else {
-        echo "Error: " . mysqli_error($connection);
-    }
-}
-
-// Handle skill deletion
-if (isset($_POST['delete_jobs'])) {
-  
-    $query = "DELETE FROM job WHERE job_id = $jobId";
-    $result = mysqli_query($connection, $query);
-    if ($result) {
-        // Redirect to the same page after deletion
-      header("Location: http://localhost/freelancing-website/dashboard/admin/verifyJobs.php");
-    } else {
-        echo "Error: " . mysqli_error($connection);
-    }
-}
 ?>
+
+<?php include 'adminHeader.html'; ?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="adminDashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<main class="job-details-main">
+    <h2 class="job-details-heading"><?php echo $jobTitle ?></h2>
+  <div class="price-duration">
+                        <p>Rs. <?php echo $jobBudget; ?> - Duration: <?php echo $jobDuration; ?></p>
+                    </div>
+
+                    <p>
+                        <?php echo $jobDescription?>
+                    </p>
+
+                    <h3>Required Skills</h3>
+                       <div class="skill-list">
+                    <?php
+                    while($row = mysqli_fetch_assoc($getSkillsResult)) {
+    echo "<p class='skill'>" . $row['skill_name'] . "</p>";
+}
+                    ?>
+                    </div>
+
+</main>
+
+
+  
+    
+</body>
+</html>

@@ -68,18 +68,7 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
 </head>
 
 <body>
-    <header>
-        <img class="logo" src="../../assets/logo/test.png" alt="">
-        <nav>
-            <ul>
-                <li>
-                    <a href="http://localhost/freelancing-website/dashboard/admin/adminDashboard.php">Home</a>
-                </li>
-                <li><a href="http://localhost/freelancing-website/config/helper/addSkills.php">Add Skills</a></li>
-            </ul>
-            <a class="logout" href="http://localhost/freelancing-website/dashboard/logout.php">Logout</a>
-        </nav>
-    </header>
+    <?php include 'adminHeader.html'; ?>
 
     <main>
         <div class="card">
@@ -123,9 +112,9 @@ if (isset($_GET["user_verification_id"]) && isset($_SESSION["login"]) && isset($
                             <p><strong>Phone Number: </strong> <?php echo $userPhoneNumber; ?></p>
                             <p><strong>User Type: </strong> <?php echo $userType; ?></p>
                             <p class="bio"><strong>Freelancer Bio:</strong> <?php echo $freelancerBio; ?></p>
-                            <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerIdentityPhoto; ?>" target="_blank">View Identity Photo</a></p>
-                            <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerVerificationPhoto; ?>" target="_blank">View Verification Photo</a></p>
-                            <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerCV; ?>" target="_blank">View Curriculum Vitae</a></p>
+                            <p><a class="detail-link" href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerIdentityPhoto; ?>" target="_blank">View Identity Photo</a></p>
+                            <p><a class="detail-link" href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerVerificationPhoto; ?>" target="_blank">View Verification Photo</a></p>
+                            <p><a class="detail-link" href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerCV; ?>" target="_blank">View Curriculum Vitae</a></p>
                             <div class="action-buttons">
                                 <form method="POST">
                                     <input type="hidden" name="user_id" value="<?php echo $userId; ?>">
