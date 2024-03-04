@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session if not already started
+session_start(); 
 
 include("../../config/database/databaseConfig.php");
 
@@ -25,7 +25,7 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
     }
 }
 
-// Fetch jobs associated with the current user
+
 $getJobDataQuery = "SELECT * FROM job WHERE user_id='$userId'";
 $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
 ?>
@@ -88,7 +88,7 @@ if(mysqli_num_rows($getJobDataResult) > 0){
                 <div class="card-box">
                     <p class="title"><?php echo $jobInfo['job_title']; ?></p class="title">
                     <div class="price-duration">
-                        <p>Rs. <?php echo $jobInfo['job_budget']; ?> - Duration: <?php echo $jobInfo['job_duration']; ?></p>
+                        <p>Rs. <?php echo $jobInfo ['job_budget']; ?> - Duration: <?php echo $jobInfo['job_duration']; ?></p>
                     </div>
                     <p><?php echo limitDescriptionWords($jobInfo['job_description']); ?></p>
                     <div class="skill-list">

@@ -46,16 +46,10 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && $_SESSION["user_
                         <p>Budget: <?php echo $jobData["job_budget"]; ?></p>
                         <p>Duration: <?php echo $jobData["job_duration"]; ?></p>
                     </div>
-                       <?php if($userStatus != 1) { ?>
-                    <form method="POST" action=""> <!-- Assuming apply.php is the file to handle the apply action -->
-                        <input type="submit" name="apply" value="Apply" <?php if($userStatus == 0) echo "disabled"; ?>>
-                    </form>
-                <?php }else{?>
-                     <form method="POST" action=""> <!-- Assuming apply.php is the file to handle the apply action -->
-                        <input type="submit" name="apply" value="Apply" <?php if($userStatus == 0) echo "disabled"; ?>>
-                    </form>
+                       <form method="POST" action=""> 
+    <input type="submit" name="apply" value="Apply" <?php if($userStatus != 1) echo "disabled"; ?>>
+</form>
 
- <?php }?>
                 </div>
             </body>
             </html>

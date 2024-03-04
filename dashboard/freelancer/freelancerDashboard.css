@@ -1,0 +1,634 @@
+/* dashboard */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --background: #1c1c1c;
+  --primary: #c9f66f;
+  --secondary: #252525;
+  --contrast: #ffffff;
+  --test: #1d2021;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--contrast);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+header {
+  background-color: var(--secondary);
+  padding: 10px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.logo-image {
+  height: 40px;
+  filter: invert(100%);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.header-links {
+  text-decoration: none;
+  color: var(--contrast);
+  margin-left: 30px;
+  transition: color 0.3s ease;
+}
+
+.header-links:hover {
+  color: var(--primary);
+}
+
+main {
+  padding: 30px 100px;
+}
+
+#logout-btn {
+  background-color: var(--primary);
+  color: var(--background);
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--primary);
+}
+
+#logout-btn:hover {
+  background-color: var(--background);
+  color: var(--primary);
+  transition: 400ms;
+}
+
+.createJobModal {
+  padding: 10px;
+  margin-top: 20px;
+  margin-right: 0;
+  background-color: var(--primary);
+  color: var(--background);
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.createJobModal:hover {
+  background-color: var(--background);
+  color: var(--contrast);
+  border: 1px solid var(--primary);
+  transition: 300ms;
+}
+
+select {
+  padding: 10px;
+  margin: 20px;
+  margin-right: 0;
+  background-color: var(--background);
+  color: var(--contrast);
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.create-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h2 {
+  font-size: 26px;
+  color: var(--primary);
+  /* text-align: center; */
+}
+
+/* existing */
+
+input {
+  background-color: var(--secondary);
+  border: 1px solid var(--background);
+  outline: none;
+  color: var(--contrast);
+  padding: 8px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+textarea {
+  background-color: var(--secondary);
+  border: 1px solid var(--background);
+  outline: none;
+  color: var(--contrast);
+  padding: 8px 15px;
+  border-radius: 10px;
+}
+
+.modal {
+  display: none;
+
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(204, 204, 204, 0.1);
+}
+
+/* Modal content */
+.modal-content {
+  background-color: var(--background);
+  margin: 5% auto;
+  padding: 30px;
+  border: 1px solid var(--secondary);
+  border-radius: 10px;
+  width: 55%;
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.job_title,
+.job_description {
+  display: flex;
+}
+
+.section-two {
+  display: flex;
+  justify-content: space-between;
+}
+
+label > p {
+  margin-bottom: 10px;
+}
+
+.job-cat {
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.job-duration {
+  margin: 0;
+}
+
+.job-cat,
+.job-duration {
+  padding: 4px;
+}
+
+.scrollable-skills {
+  margin-top: 10px;
+  height: 200px;
+  width: 200px;
+  max-height: 100px;
+  overflow-y: auto;
+  border: 2px solid var(--secondary);
+  border-radius: 10px;
+}
+
+/* Style for job cards */
+.job-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary);
+}
+
+.job-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.job-card p {
+  margin-top: 0;
+}
+
+.job-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.job-link {
+  text-decoration: none;
+  color: var(--contrast);
+}
+
+.top {
+  display: flex;
+
+  align-content: center;
+}
+
+.title {
+  font-size: 24px;
+}
+
+.title:hover {
+  color: var(--primary);
+  transition: 300ms;
+}
+
+.price-duration,
+.noa {
+  font-size: 13px;
+  display: flex;
+  opacity: 0.8;
+}
+
+.skill-list {
+  display: flex;
+}
+
+.skill {
+  display: inline-block;
+  margin-right: 10px;
+  color: var(--contrast);
+  background-color: var(--background);
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.card-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-job-heading {
+  margin-bottom: 20px;
+}
+
+.createBtn {
+  padding: 10px;
+  margin-top: 10px;
+
+  background-color: var(--primary);
+  color: var(--background);
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.createBtn:hover {
+  background-color: var(--background);
+  color: var(--contrast);
+  border: 1px solid var(--primary);
+  transition: 300ms;
+}
+
+#createJob[disabled] {
+  /* Add your styles for the disabled state here */
+  opacity: 0.5; /* Example: reduce opacity */
+  cursor: not-allowed; /* Example: change cursor to indicate it's not clickable */
+  /* Add any other styles you want for the disabled state */
+}
+
+.unverified {
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.unverified-box {
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+input:active {
+  border: 1px solid var(--primary);
+}
+
+.new-skills {
+  font-size: 12px;
+  color: #ffffff;
+  opacity: 0.9;
+  padding-top: 10px;
+}
+
+.new-skills > a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/*  close job */
+
+.close-job {
+  background-color: var(--background);
+  border: 1px solid var(--contrast);
+  border-radius: 10px;
+  padding: 15px 10px;
+  color: var(--contrast);
+  font-size: 14px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.close-job:hover {
+  background-color: var(--contrast);
+  color: var(--background);
+  transition: 700ms;
+}
+
+.disabled-job:disabled {
+  background-color: var(--background);
+
+  border-radius: 10px;
+  padding: 15px 10px;
+  color: var(--contrast);
+  font-size: 14px;
+  width: 200px;
+
+  border: 1px solid var(--secondary);
+}
+
+.container {
+  width: 100%;
+}
+
+.container-one {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-two {
+  display: flex;
+  /* justify-content: space-between; */
+  padding-top: 20px;
+}
+
+.job-heading {
+  width: 500px;
+}
+
+.job-delete {
+  width: 50%;
+}
+
+hr {
+  opacity: 0.1;
+}
+
+.container-two-one {
+  width: 60%;
+  height: 500px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.container-two-two {
+  width: 40%;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+.job-description {
+  font-size: 20px;
+}
+
+.text-justify {
+  text-align: justify;
+  width: 90%;
+}
+
+h1 {
+  padding-left: 10%;
+}
+
+.text-left {
+  padding-left: 10%;
+  width: 400px;
+}
+
+.applicants {
+  width: 500px;
+}
+
+.container-two-two {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1%;
+  padding-left: 2%;
+  margin-left: 10%;
+  width: 50%;
+  margin-bottom: 2%;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.job-close-title {
+  font-size: 24px;
+}
+
+.card-box-closed {
+  background-color: var(--background);
+}
+
+/* update profile css */
+.full-name {
+  width: 500px;
+}
+.text {
+  width: 500px;
+  display: flex;
+  justify-content: space-around;
+}
+#firstName {
+  margin-left: 35px;
+}
+
+#lastName {
+  margin-left: 35px;
+}
+
+#user_email {
+  margin-left: 75px;
+}
+
+#user_phone_number {
+  margin-left: 2px;
+}
+
+.files {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+  width: 250px;
+}
+
+.inputfile + label {
+  font-weight: 600;
+  color: white;
+  border: 2px solid var(--contrast);
+  display: inline-block;
+  width: 200px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px 5px;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  font-weight: 600;
+  background-color: var(--background);
+  cursor: pointer;
+
+  text-align: center;
+  background-color: var(--primary);
+  color: var(--background);
+  border: 2px solid var(--background);
+}
+
+.wrapper {
+  height: 200px;
+  width: 200px;
+  position: relative;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  margin-left: 50px;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+
+.my_file {
+  position: absolute;
+  bottom: 0;
+  outline: none;
+  color: transparent;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 120px;
+  cursor: pointer;
+  transition: 0.5s;
+  opacity: 0;
+  content: "Update";
+}
+
+.my_file::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.user_photo {
+  height: 200px;
+  width: 200px;
+}
+
+.update-profile-first {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.small-text {
+  font-size: 12px;
+  color: var(--contrast);
+  opacity: 0.7;
+  padding-left: 5px;
+}
+
+.input-margin {
+  margin-left: 100px;
+  margin-bottom: 20px;
+}
+
+.password-style {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.password-style-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.displayProfileForm {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.files-display {
+  display: flex;
+  width: 600px;
+  justify-content: center;
+  gap: 100px;
+  margin-bottom: 40px;
+}
+
+.star {
+  color: gold;
+}
+
+.rating {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 0.8;
+  font-size: 24px;
+  margin-left: 10px;
+}
