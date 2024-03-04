@@ -120,7 +120,7 @@ job_id int,
 
 
 
-create freelancer_rating(
+create table freelancer_rating(
  rating_id INT AUTO_INCREMENT PRIMARY KEY,
     rating INT,
     job_id INT,

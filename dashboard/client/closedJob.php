@@ -59,11 +59,23 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
                             <p class="job-close-title"><?php echo $jobInfo['job_title']; ?></p>
                             <p class="freelancer-name">Hired Freelancer: <?php echo $jobInfo['freelancer_name']; ?></p>
                         </div>
-             <form id="rateForm" action='' method='POST'>
-                <input class="close-job" type='button' value='Rate the freelancer' onclick="openModal()">
-            </form>
+<?php
 
-             
+$checkExistingRating = "SELECT * FROM freelancer_rating WHERE job_id = $jobId";
+$checkExistingRatingResult = mysqli_query($connection, $checkExistingRating);
+
+// Check if there are no existing ratings for the job
+if(mysqli_num_rows($checkExistingRatingResult) == 0) {
+    // If there are no existing ratings, show the rating form
+    ?>
+    <form id="rateForm" action='' method='POST'>
+        <input class="close-job" type='button' value='Rate the freelancer' onclick="openModal()">
+    </form>
+    <?php
+}
+
+?>
+
 
       
                 </div>
