@@ -24,11 +24,16 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
         $userStatus = $row['user_status'];
         $userVerificationTry = $row["user_verification_try"];
 
-        $disableCreateJobButton = ($userStatus == 2 || $userStatus == 0);
+       
     }
 
     $getJobsQuery = "SELECT * FROM job WHERE job_status = 1";
     $getJobsResult = mysqli_query($connection, $getJobsQuery);
+}else{
+    $_SESSION = [];
+        session_destroy();
+        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+        exit;
 }
 ?>
 
