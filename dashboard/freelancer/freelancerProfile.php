@@ -86,7 +86,7 @@ if(isset($_POST["reverifyProfile"])){
     <div class="card">
            <div class="info-details">
         <div class="user-photo">
-            <img src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
+            <img class="user-photo" src="../../userAuth/userRegistration/<?php echo $userPhoto; ?>" alt="User Photo">
         </div>
         <div class="info-details-text">
             <h2>Freelancer Information</h2>

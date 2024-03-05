@@ -55,7 +55,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
     $getAppliedJobHistoryResult = mysqli_query($connection, $getAppliedJobHistoryQuery);
 
     if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
-        echo "<h1 class='heading'>My Jobs</h1>";
+        echo "<h1 class='heading'>My Active Jobs</h1>";
         while ($row = mysqli_fetch_assoc($getAppliedJobHistoryResult)) {
             $jobId = $row['job_id'];
             $clientUserId = $row["client_user_id"];
