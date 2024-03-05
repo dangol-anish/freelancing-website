@@ -107,7 +107,7 @@ if(isset($_POST["reverifyProfile"])){
          <div class="button-flex">
           <button class="createJobModal"  id="openModalBtn">Edit your profile</button>
          <?php
-            if($userStatusNumber == 2 & $userVerificationTry<=2){
+            if($userStatusNumber == 2 && $userVerificationTry<2){
                 echo "<form method='POST'>";
                 echo "<input class='reverify'  name='reverifyProfile' value='Reverify Profile' type='submit'>";
                 echo "</form>";

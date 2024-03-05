@@ -338,6 +338,7 @@ label > p {
   border: 1px solid var(--primary);
   border-radius: 10px;
   padding: 5px;
+  margin-bottom: 10px;
 }
 
 input:active {
