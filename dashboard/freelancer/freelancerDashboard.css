@@ -632,3 +632,8 @@ a {
   font-size: 24px;
   margin-left: 10px;
 }
+
+.heading {
+  padding-left: 0;
+  margin-bottom: 20px;
+}

@@ -3,12 +3,36 @@ session_start();
 
 include("../../config/database/databaseConfig.php");
 
+if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
+
+    if($_SESSION["user_type"] != "Freelancer") {
+        $_SESSION = [];
+        session_destroy();
+        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+        exit;
+    }
+
+
 $userId = $_SESSION["user_id"];
+
+
 
 $getAppliedJobHistoryQuery = "SELECT job_id, ja_status, client_user_id FROM job_application WHERE freelancer_user_id='$userId'";
 $getAppliedJobHistoryResult = mysqli_query($connection, $getAppliedJobHistoryQuery);
+?>
 
+
+
+        
+<link rel="stylesheet" href="freelancerDashboard.css">
+
+<?php include("freelancerHeader.html");?>
+
+
+<main>
+        <?php
 if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
+    echo "<h1 class='heading'>My Job History</h1>";
     while ($row = mysqli_fetch_assoc($getAppliedJobHistoryResult)) {
         $jobId = $row['job_id'];
         $jobApplicationStatus = $row['ja_status'];
@@ -28,15 +52,24 @@ if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
         $getJobDetailsQuery = "SELECT * FROM job WHERE job_id='$jobId'";
         $getJobDetailsResult = mysqli_query($connection, $getJobDetailsQuery);
 
+        
+
         if ($getJobDetailsResult) {
             $jobDetails = mysqli_fetch_assoc($getJobDetailsResult);
+?>
 
-            // Output job details in card format
-          echo "<a href='http://localhost/freelancing-website/communication/chatbox.php?job_id=$jobId&toUser=$toUser' class='job-card'>";
+             <div class="job-card">
+                 <div class="card-box">
+                    <p class="title"><?php echo $jobDetails['job_title']; ?></p>
+                    <p class="freelancer-name"><?php echo $jobApplication?></p>
+                </div>
+ 
+        </div>
 
-            echo '<h2>' . $jobDetails['job_title'] . '</h2>';
-            echo '<p>Description: ' . $jobDetails['job_description'] . '</p>';
-            echo $jobApplication;
+
+       
+       
+            <!-- echo $jobApplication;
             echo '</a>';
         } else {
             echo "Error fetching job details";
@@ -45,4 +78,19 @@ if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
 } else {
     echo "No Jobs Found";
 }
+
+} -->
+
+<?php
+        }
+    }
+}
+}else{
+     $_SESSION = [];
+        session_destroy();
+        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+        exit;
+}
 ?>
+
+ </main>

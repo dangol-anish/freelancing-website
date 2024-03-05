@@ -69,8 +69,8 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
         echo "</div>";
     }
     ?>
-    <br>
 
+  <h1 class="heading">Available Jobs</h1>
     <?php 
     if(mysqli_num_rows($getJobsResult)>0){
 

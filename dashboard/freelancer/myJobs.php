@@ -24,15 +24,13 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
         $row = mysqli_fetch_assoc($getFreelancerStatusResult);
         $userStatus = $row['user_status'];
         $userVerificationTry = $row["user_verification_try"];
-
-     
     }
 
-}else{
+} else {
     $_SESSION = [];
-        session_destroy();
-        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
-        exit;
+    session_destroy();
+    header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+    exit;
 }
 ?>
 
@@ -43,94 +41,85 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>  <link rel="stylesheet" href="freelancerDashboard.css">
-   
+    <title>Document</title>
+    <link rel="stylesheet" href="freelancerDashboard.css">
 </head>
 <body>
-    <?php include ("freelancerHeader.html");
-?>
+<?php include("freelancerHeader.html"); ?>
 
 <main>
     <?php
+    $userType = $_SESSION["user_type"];
 
+    $getAppliedJobHistoryQuery = "SELECT job_id, ja_status, client_user_id FROM job_application WHERE freelancer_user_id='$userId' and ja_status= 1";
+    $getAppliedJobHistoryResult = mysqli_query($connection, $getAppliedJobHistoryQuery);
 
-$userType = $_SESSION["user_type"];
+    if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
+        echo "<h1 class='heading'>My Jobs</h1>";
+        while ($row = mysqli_fetch_assoc($getAppliedJobHistoryResult)) {
+            $jobId = $row['job_id'];
+            $clientUserId = $row["client_user_id"];
 
-$getAppliedJobHistoryQuery = "SELECT job_id, ja_status, client_user_id FROM job_application WHERE freelancer_user_id='$userId' and ja_status= 1";
-$getAppliedJobHistoryResult = mysqli_query($connection, $getAppliedJobHistoryQuery);
+            $getClientName = "select user_first_name, user_last_name from user where user_id=$clientUserId";
+            $getClientNameResult = mysqli_query($connection, $getClientName);
 
+            $row = mysqli_fetch_assoc($getClientNameResult);
 
+            
+            $getJobDetailsQuery = "SELECT * FROM job WHERE job_id='$jobId' and job_status=1";
+            $getJobDetailsResult = mysqli_query($connection, $getJobDetailsQuery);
 
-if (mysqli_num_rows($getAppliedJobHistoryResult) > 0) {
-
-    while ($row = mysqli_fetch_assoc($getAppliedJobHistoryResult)) {
-        $jobId = $row['job_id'];
-        $clientUserId = $row["client_user_id"];
-
-  
-        $getJobDetailsQuery = "SELECT * FROM job WHERE job_id='$jobId' and job_status=1";
-        $getJobDetailsResult = mysqli_query($connection, $getJobDetailsQuery);
-
-        if ($getJobDetailsResult && mysqli_num_rows($getJobDetailsResult) > 0) {
-            $jobDetails = mysqli_fetch_assoc($getJobDetailsResult);
-
-            $jobId = $jobDetails["job_id"];
-?>
-
-<div class="job-card">
-    
-     
-          <a href='http://localhost/freelancing-website/communication/chatbox.php?job_id=<?php echo $jobId?>&toUser=<?php echo $clientUserId?>' class='job-link'>
-            <div class="card-box">
-<p class="title"><?php echo $jobDetails['job_title']; ?>
-</p>
-            </div>
-        </a>
-
-        <?php
-   
-            $checkExistingRequestQuery = "SELECT * FROM job_close WHERE job_id=$jobId";
-            $checkExistingRequestResult = mysqli_query($connection, $checkExistingRequestQuery);
-            if(mysqli_num_rows($checkExistingRequestResult) > 0) {
-                $row = mysqli_fetch_assoc($checkExistingRequestResult);
-                $requesterId = $row["requester_id"];
-                $responderId = $row["responder_id"];
-                if($userId == $requesterId) {
-                    echo "
-                        <form action='http://localhost/freelancing-website/config/helper/deleteJobRequest.php?job_id=$jobId' method='POST'>
-                            <input type='hidden' name='job_id' value='$jobId'>
-                            <input type='hidden' name='freelancer_user_id' value=''>
-                            <input class='close-job' type='submit' value='Delete Request'>
-                        </form>";
-                } else if($userId == $responderId) {
-                    echo "
-                        <form action='http://localhost/freelancing-website/config/helper/acceptJobClose.php?job_id=$jobId' method='POST'>
-                            <input type='hidden' name='job_id' value='$jobId'>
-                            <input class='close-job' type='submit' value='Accept Request'>
-                        </form>";
-                }
+            if ($getJobDetailsResult && mysqli_num_rows($getJobDetailsResult) > 0) {
+                $jobDetails = mysqli_fetch_assoc($getJobDetailsResult);
+                $jobId = $jobDetails["job_id"];
+                ?>
+                <div class="job-card">
+                    <a href='http://localhost/freelancing-website/communication/chatbox.php?job_id=<?php echo $jobId ?>&toUser=<?php echo $clientUserId ?>' class='job-link'>
+                        <div class="card-box">
+                            <p class="title"><?php echo $jobDetails['job_title']; ?></p>
+                            <p >Client Name: <?php echo $row["user_first_name"] . $row["user_last_name"]?></p>
+                  </div>
+                    </a>
+                            <?php
+                            $checkExistingRequestQuery = "SELECT * FROM job_close WHERE job_id=$jobId";
+                            $checkExistingRequestResult = mysqli_query($connection, $checkExistingRequestQuery);
+                            if(mysqli_num_rows($checkExistingRequestResult) > 0) {
+                                $row = mysqli_fetch_assoc($checkExistingRequestResult);
+                                $requesterId = $row["requester_id"];
+                                $responderId = $row["responder_id"];
+                                if($userId == $requesterId) {
+                                    echo "
+                                        <form action='http://localhost/freelancing-website/config/helper/deleteJobRequest.php?job_id=$jobId' method='POST'>
+                                            <input type='hidden' name='job_id' value='$jobId'>
+                                            <input type='hidden' name='freelancer_user_id' value=''>
+                                            <input class='close-job' type='submit' value='Delete Request'>
+                                        </form>";
+                                } else if($userId == $responderId) {
+                                    echo "
+                                        <form action='http://localhost/freelancing-website/config/helper/acceptJobClose.php?job_id=$jobId' method='POST'>
+                                            <input type='hidden' name='job_id' value='$jobId'>
+                                            <input class='close-job' type='submit' value='Accept Request'>
+                                        </form>";
+                                }
+                            } else {
+                                echo "
+                                    <form action='http://localhost/freelancing-website/config/helper/closeJob.php?job_id=$jobId&receiver_id=$clientUserId' method='POST'>
+                                        <input class='close-job' type='submit' value='Request Job Close'>
+                                    </form>";
+                            }
+                            ?>
+                      
+                </div>
+                <?php
             } else {
-                echo "
-                    <form action='http://localhost/freelancing-website/config/helper/closeJob.php?job_id=$jobId&receiver_id=$clientUserId' method='POST'>
-                        <input class='close-job' type='submit' value='Request Job Close'>
-                    </form>";
+                // Handle if no job details found
             }
-        } else {
-           echo "No Jobs Found";
         }
+    } else {
+        echo "No Jobs Found";
     }
-} else {
-    echo "No Jobs Found";
-}
-?> 
-
-
-  
-
+    ?>
 </main>
-    
+
 </body>
 </html>
-
-
-
