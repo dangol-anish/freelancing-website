@@ -14,7 +14,7 @@ $userId = $_SESSION["user_id"];
 // Fetch user status
 $getClientStatusQuery = "SELECT user_status FROM user WHERE user_id='$userId'";
 $getClientStatusResult = mysqli_query($connection, $getClientStatusQuery);
-$userStatus = 0; // Default user status
+$userStatus = 0; 
 if(mysqli_num_rows($getClientStatusResult) > 0) {
     $row = mysqli_fetch_assoc($getClientStatusResult);
     $userStatus = $row['user_status'];

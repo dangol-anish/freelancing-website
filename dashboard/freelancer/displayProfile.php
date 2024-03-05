@@ -38,6 +38,7 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
             $freelancerVerificationPhoto = $row["freelancer_verification_photo"];
             $freelancerBio = $row["freelancer_bio"];
             $freelancerCV = $row["freelancer_cv"];
+            $averageRating= $row["average_rating"];
         }
     }
 } else {
@@ -83,7 +84,7 @@ if (isset($_GET["freelancer_user_id"]) && isset($_SESSION["login"]) && isset($_G
                 <p><strong>Name: </strong>   <?php echo $userFirstName . ' ' . $userLastName; ?></p>
                     <p><strong>Email: </strong> <?php echo $userEmail; ?></p>
                     <p><strong>Phone Number: </strong> <?php echo $userPhoneNumber; ?></p>
-                    <p><strong>User Type: </strong> <?php echo $userType; ?></p>
+                    <p><strong>Average Rating: </strong>  <?php echo $averageRating; ?> &#9733;</p>
                     <p class="bio"><strong>Freelancer Bio:</strong> <?php echo $freelancerBio; ?></p>
                       <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerIdentityPhoto; ?>" target="_blank">View Identity Photo</a></p>
                    

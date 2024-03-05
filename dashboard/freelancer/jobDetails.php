@@ -3,7 +3,8 @@
 session_start(); // Start the session if not already started
 
 // Check if the user is logged in and is a Freelancer
-if (isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && $_SESSION["user_type"] == "Freelancer") {
+if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
+    
     include("../../config/database/databaseConfig.php");
 
     $userId = $_SESSION["user_id"];
@@ -61,7 +62,10 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"]) && $_SESSION["user_
         echo "<p>No job ID provided.</p>";
     }
 } else {
-    echo "<p>Unauthorized access.</p>";
+       $_SESSION = [];
+        session_destroy();
+        header("Location: http://localhost/freelancing-website/userAuth/userLogin/userLoginForm.php");
+        exit;
 }
 ?>
 

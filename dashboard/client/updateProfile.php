@@ -49,6 +49,8 @@ if(mysqli_num_rows($userDataResult) > 0) {
 if (isset($_POST["update"])) {
     $userFirstName = $_POST["userFirstName"];
     $userLastName = $_POST["userLastName"];
+     $userEmail = $_POST["user_email"];
+    $userPhone = $_POST["user_phone_number"];
     $currentPassword = $_POST["userPassword"];
     $newPassword = $_POST["newPassword"];
     $confirmPassword = $_POST["confirmPassword"];
@@ -86,7 +88,7 @@ if (isset($_POST["update"])) {
         $row = mysqli_fetch_assoc($getUserPasswordResult);
         $storedUserPassword = $row["user_password"];
         if (password_verify($currentPassword, $storedUserPassword)) {
-            $updateProfileQuery = "UPDATE user SET user_first_name='$userFirstName', user_last_name='$userLastName', user_photo='$filePath' WHERE user_id='$userId'";
+            $updateProfileQuery = "UPDATE user SET user_first_name='$userFirstName', user_last_name='$userLastName' , user_email='$userEmail', user_phone_number='$userPhone', user_photo='$filePath' WHERE user_id='$userId'";
             $updateProfileResult =mysqli_query($connection, $updateProfileQuery);
 
             $updateClientQuery = "UPDATE client SET client_pan_photo='$panFolder', client_verification_photo='$verificationFolder' WHERE user_id='$userId'";
@@ -165,14 +167,7 @@ if (!empty($errors)) {
                     <label class="small-text" for="currentPassword">Current Password</label>
                     <input type="password" id="currentPassword" name="userPassword" value="" required><br>
                 </div>
-                <div class="password-style-inner">
-                    <label class="small-text" for="newPassword">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword" value="" required><br>
-                </div>
-                <div class="password-style-inner">
-                    <label class="small-text" for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" value="" required><br>
-                </div>
+              
             </div>
     
             <input class="logout" type="submit" value="Update Profile" name="update">

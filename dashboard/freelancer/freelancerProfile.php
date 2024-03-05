@@ -94,11 +94,12 @@ if(isset($_POST["reverifyProfile"])){
             <p><strong>Name:</strong> <?php echo $userFirstName . ' ' . $userLastName; ?></p>
             <p><strong>Email:</strong> <?php echo $userEmail; ?></p>
             <p><strong>Phone Number:</strong> <?php echo $userPhoneNumber; ?></p>
-            <p><strong>User Type:</strong> <?php echo $userType; ?></p>
+            <p><strong>Average Ratings:</strong><?php include("../../config//helper/freelancerAverageRating.php");?></p>
             <p><strong>Freelancer Bio:</strong> <?php echo $freelancerBio; ?></p>
             <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerIdentityPhoto; ?>" target="_blank">View Freelancer Identity Photo</a></p>
             <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerVerificationPhoto; ?>" target="_blank">View Freelancer Verification Photo</a></p>
             <p><a href="../../userAuth/userRegistration/freelancerRegistration/<?php echo $freelancerCv; ?>" target="_blank">View CV</a></p>
+            
 
             <div class="button-flex">
  <button class="createJobModal" id="openModalBtn">Edit your profile</button>

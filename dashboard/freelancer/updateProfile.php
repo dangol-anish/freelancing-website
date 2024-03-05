@@ -163,14 +163,7 @@ if (!empty($errors)) {
                     <label class="small-text" for="currentPassword">Current Password</label>
                     <input type="password" id="currentPassword" name="userPassword" value="" required><br>
                 </div>
-                <div class="password-style-inner">
-                    <label class="small-text" for="newPassword">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword" value="" required><br>
-                </div>
-                <div class="password-style-inner">
-                    <label class="small-text" for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" value="" required><br>
-                </div>
+              
             </div>
             <input  class="logout" type="submit" value="Update Profile" name="update">
         </form>
