@@ -23,11 +23,17 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
         $row = mysqli_fetch_assoc($getFreelancerStatusResult);
         $userStatus = $row['user_status'];
         $userVerificationTry = $row["user_verification_try"];
-
-       
     }
 
-    $getJobsQuery = "SELECT * FROM job WHERE job_status = 1";
+    // Check if search query is present
+    if(isset($_GET['search']) && !empty($_GET['search'])) {
+        $searchQuery = $_GET['search'];
+        $searchCondition = " AND job_title LIKE '%$searchQuery%'";
+    } else {
+        $searchCondition = "";
+    }
+
+    $getJobsQuery = "SELECT * FROM job WHERE job_status = 1" . $searchCondition;
     $getJobsResult = mysqli_query($connection, $getJobsQuery);
 }else{
     $_SESSION = [];
@@ -53,30 +59,37 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 ?>
 
 <main>
-      <?php
+    <?php
     if(($userStatus == 0)){
         echo    " <div class='unverified-box'>";
         echo "<p class='unverified'>Your account isn't verified. Please wait to be verified.";
         echo "</div>";
     
-    }else if($userStatus == 2 && $userVerificationTry>=2){
+    } else if($userStatus == 2 && $userVerificationTry>=2){
         echo    " <div class='unverified-box'>";
         echo "<p class='unverified'>Your account verification was rejected too many times. Your account has been blocked.";
         echo "</div>";
-    }else if($userStatus == 2){
-           echo    " <div class='unverified-box'>";
+    } else if($userStatus == 2){
+        echo    " <div class='unverified-box'>";
         echo "<p class='unverified'>Your account verification was rejected. Please resubmit your profile with genuine documents to get verified.";
         echo "</div>";
     }
     ?>
 
-  <h1 class="heading">Available Jobs</h1>
+    <div class="freelancer-header-search">
+        <h1 class="heading">Available Jobs</h1>
+        <form action="" method="GET">
+            <input placeholder="Search for jobs..." type="search" name="search" id="">
+            <button class="search" type="submit">Search</button>
+        </form>
+    </div>
+
     <?php 
     if(mysqli_num_rows($getJobsResult)>0){
 
     while($jobInfo = mysqli_fetch_assoc($getJobsResult)) {
         ?>
-          <a href="jobDetails.php?job_id=<?php echo $jobInfo['job_id']; ?>&user_id=<?php echo $userId; ?>" class="job-link">
+        <a href="jobDetails.php?job_id=<?php echo $jobInfo['job_id']; ?>&user_id=<?php echo $userId; ?>" class="job-link">
            <div class="job-card">
                 <div class="card-box">
                     <p class="title"><?php echo $jobInfo['job_title']; ?></p>
@@ -136,11 +149,6 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
 ?>
 </main>
 
-
-
-
-
-
 <?php
 function limitDescriptionWords($description, $limit = 40) {
     $words = explode(" ", $description);
@@ -151,3 +159,4 @@ function limitDescriptionWords($description, $limit = 40) {
     return $description;
 }
 ?>
+

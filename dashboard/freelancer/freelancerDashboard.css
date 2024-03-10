@@ -647,3 +647,24 @@ a {
 .job-details-main {
   margin-top: 50px;
 }
+
+.freelancer-header-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input[type="search"] {
+  height: 50px;
+  width: 350px;
+}
+
+.search {
+  background-color: var(--primary);
+  color: var(--background);
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--primary);
+  height: 45px;
+  font-size: 18px;
+}
