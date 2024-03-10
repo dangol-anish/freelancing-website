@@ -1,3 +1,4 @@
+
 <?php
 session_start(); 
 
@@ -25,8 +26,14 @@ if(isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
     }
 }
 
-
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'default';
 $getJobDataQuery = "SELECT * FROM job WHERE user_id='$userId'";
+if ($filter == 'latest') {
+    $getJobDataQuery .= " ORDER BY job_id DESC";
+} elseif ($filter == 'oldest') {
+    $getJobDataQuery .= " ORDER BY job_id ASC";
+}
+
 $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
 ?>
 
@@ -37,112 +44,92 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Dashboard</title>
     <link rel="stylesheet" href="clientDashboard.css">
-    <style>
-    
-    </style>
 </head>
 <body>
 
 <?php include("clientHeader.html") ?>
 
-
 <main>
-    
-            <?php
-    if(($userStatus == 0)){
-        echo    " <div class='unverified-box'>";
-        echo "<p class='unverified'>Your account isn't verified. Please wait to be verified.";
-        echo "</div>";
-    
-    }else if($userStatus == 2 && $userVerificationTry>=2){
-        echo    " <div class='unverified-box'>";
-        echo "<p class='unverified'>Your account verification was rejected too many times. Your account has been blocked.";
-        echo "</div>";
-    }else if($userStatus == 2){
-           echo    " <div class='unverified-box'>";
-        echo "<p class='unverified'>Your account verification was rejected. Please resubmit your profile with genuine documents to get verified.";
-        echo "</div>";
-    }
-    ?>
-    
+    <div class="create-filter">
+        <h2>My Jobs</h2>
+        <div>
+            <button id="createJob" class="createJobModal" <?php if(isset($disableCreateJobButton) && $disableCreateJobButton) echo 'disabled'; ?>>Create Job</button>
+            <select id="userTypeSelect" onchange="applyFilter(this.value)">
+                <option value="default" <?php if ($filter == 'default') echo 'selected'; ?>>Default</option>
+                <option value="latest" <?php if ($filter == 'latest') echo 'selected'; ?>>Latest</option>
+                <option value="oldest" <?php if ($filter == 'oldest') echo 'selected'; ?>>Oldest</option>
+            </select>
+        </div>
+    </div>
 
-<div class="create-filter">
-   
+    <?php include("createJob.php");?>
 
-    <h2>My Jobs</h2>
-    <div> <button id="createJob" class="createJobModal" <?php if(isset($disableCreateJobButton) && $disableCreateJobButton) echo 'disabled'; ?>>Create Job</button>
-    <select id="userTypeSelect" onchange="redirectToSelected()">
-        <option value="">Filter By</option>
-    </select></div>
-   
-</div>
+    <?php
+    if(mysqli_num_rows($getJobDataResult) > 0){
+        while($jobInfo = mysqli_fetch_assoc($getJobDataResult)) {
+            ?>
+            <a href="myJobInfo.php?job_id=<?php echo $jobInfo['job_id']; ?>&user_id=<?php echo $userId; ?>" class="job-link">
+                <div class="job-card">
+                    <div class="card-box">
+                        <p class="title"><?php echo $jobInfo['job_title']; ?></p class="title">
+                        <div class="price-duration">
+                            <p>Rs. <?php echo $jobInfo ['job_budget']; ?> - Duration: <?php echo $jobInfo['job_duration']; ?></p>
+                        </div>
+                        <p><?php echo limitDescriptionWords($jobInfo['job_description']); ?></p>
+                        <div class="skill-list">
+                            <?php
+                            $jobId = $jobInfo['job_id'];
+                            $getJobSkillsQuery = "SELECT skill_id FROM job_skill WHERE job_id='$jobId'";
+                            $getJobSkillsResult = mysqli_query($connection, $getJobSkillsQuery);
 
-<?php include("createJob.php");?>
+                            if(mysqli_num_rows($getJobSkillsResult) > 0){
+                                while($skillInfo = mysqli_fetch_assoc($getJobSkillsResult)) {
+                                    // Fetch skill names using skill IDs
+                                    $skillId = $skillInfo['skill_id'];
+                                    $getSkillNameQuery = "SELECT skill_name FROM skill WHERE skill_id='$skillId'";
+                                    $getSkillNameResult = mysqli_query($connection, $getSkillNameQuery);
+                                    if(mysqli_num_rows($getSkillNameResult) > 0) {
+                                        $skillNameInfo = mysqli_fetch_assoc($getSkillNameResult);
+                                        echo "<p class='skill'>" . $skillNameInfo['skill_name'] . "</p>";
+                                    } else {
+                                        echo "Skill not found.";
+                                    }
+                                }
+                            } else {
+                                echo "No skills found.";
+                            }
+                            ?>
+                        </div>
 
-<?php
-if(mysqli_num_rows($getJobDataResult) > 0){
-    while($jobInfo = mysqli_fetch_assoc($getJobDataResult)) {
-        ?>
-        <a href="myJobInfo.php?job_id=<?php echo $jobInfo['job_id']; ?>&user_id=<?php echo $userId; ?>" class="job-link">
-            <div class="job-card">
-                <div class="card-box">
-                    <p class="title"><?php echo $jobInfo['job_title']; ?></p class="title">
-                    <div class="price-duration">
-                        <p>Rs. <?php echo $jobInfo ['job_budget']; ?> - Duration: <?php echo $jobInfo['job_duration']; ?></p>
-                    </div>
-                    <p><?php echo limitDescriptionWords($jobInfo['job_description']); ?></p>
-                    <div class="skill-list">
                         <?php
                         $jobId = $jobInfo['job_id'];
-                        $getJobSkillsQuery = "SELECT skill_id FROM job_skill WHERE job_id='$jobId'";
-                        $getJobSkillsResult = mysqli_query($connection, $getJobSkillsQuery);
+                        $getApplicantsCountQuery = "SELECT COUNT(*) AS num_applicants FROM job_application WHERE job_id='$jobId'";
+                        $getApplicantsCountResult = mysqli_query($connection, $getApplicantsCountQuery);
+                        $numApplicants = 0;
 
-                        if(mysqli_num_rows($getJobSkillsResult) > 0){
-                            while($skillInfo = mysqli_fetch_assoc($getJobSkillsResult)) {
-                                // Fetch skill names using skill IDs
-                                $skillId = $skillInfo['skill_id'];
-                                $getSkillNameQuery = "SELECT skill_name FROM skill WHERE skill_id='$skillId'";
-                                $getSkillNameResult = mysqli_query($connection, $getSkillNameQuery);
-                                if(mysqli_num_rows($getSkillNameResult) > 0) {
-                                    $skillNameInfo = mysqli_fetch_assoc($getSkillNameResult);
-                                    echo "<p class='skill'>" . $skillNameInfo['skill_name'] . "</p>";
-                                } else {
-                                    echo "Skill not found.";
-                                }
-                            }
-                        } else {
-                            echo "No skills found.";
+                        if(mysqli_num_rows($getApplicantsCountResult) > 0){
+                            $applicantsCountInfo = mysqli_fetch_assoc($getApplicantsCountResult);
+                            $numApplicants = $applicantsCountInfo['num_applicants'];
                         }
+
+                        echo "<p class='noa'>Number of Applicants: $numApplicants</p>";
                         ?>
                     </div>
-
-                    <?php
-                
-                    $jobId = $jobInfo['job_id'];
-                    $getApplicantsCountQuery = "SELECT COUNT(*) AS num_applicants FROM job_application WHERE job_id='$jobId'";
-                    $getApplicantsCountResult = mysqli_query($connection, $getApplicantsCountQuery);
-                    $numApplicants = 0;
-
-                    if(mysqli_num_rows($getApplicantsCountResult) > 0){
-                        $applicantsCountInfo = mysqli_fetch_assoc($getApplicantsCountResult);
-                        $numApplicants = $applicantsCountInfo['num_applicants'];
-                    }
-
-              
-                    echo "<p class='noa'>Number of Applicants: $numApplicants</p>";
-                    ?>
                 </div>
-            </div>
-        </a>
-        <?php
+            </a>
+            <?php
+        }
+    } else {
+        echo "No jobs found.";
     }
-} else {
-    echo "No jobs found.";
-}
-?>
+    ?>
 </main>
 
 <script>
+    function applyFilter(filter) {
+        window.location.href = 'clientDashboard.php?filter=' + filter;
+    }
+
     var modalBtn = document.getElementById("createJob");
     var modal = document.getElementById("updateProfileModal");
     var span = document.getElementsByClassName("close")[0];

@@ -635,3 +635,15 @@ a {
   padding-left: 0;
   margin-bottom: 20px;
 }
+
+/* job details */
+
+.job-details-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-details-main {
+  margin-top: 50px;
+}
