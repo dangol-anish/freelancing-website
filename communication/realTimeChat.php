@@ -18,18 +18,18 @@ while($chat = mysqli_fetch_assoc($chats)){
     if($chat["fromUser"] == $_SESSION["user_id"]){
         $output.= "
             <div style='text-align: right;'>
-                <p style='background-color: lightblue; word-wrap: break-word; display: inline-block; padding: 5px; border-radius: 10px; max-width: 70%;'> "
+                <p style='background-color: green 	; word-wrap: break-word; display: inline-block; padding: 5px; border-radius: 10px; max-width: 70%; margin-bottom:3px; margin-right:10px;'> "
                 .$chat["Message"]."
                 </p>
             </div>";
     } else {
         $output.= "
             <div style='text-align: left;'>
-                <p style='background-color: yellow; word-wrap: break-word; display: inline-block; padding: 5px; border-radius: 10px; max-width: 70%;'> "
+                <p style='background-color: #484848 ; word-wrap: break-word; display: inline-block; padding: 5px; border-radius: 10px; max-width: 70%; margin-bottom:3px; margin-left:10px; '> "
                 .$chat["Message"]."
                 </p>
             </div>";
     }
 }
 echo $output;
-?>
+

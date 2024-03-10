@@ -70,7 +70,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["login"])) {
                         <div class="job-details-top">
                             <h2>Job Title: <?php echo $jobData["job_title"]; ?></h2>
                             <form method="POST" action=""> 
-                                <input type="submit" name="apply" value="Apply" <?php if($alreadyApplied || $userStatus != 1) echo "hidden"; ?>>
+                                <input type="submit" class="apply-btn" name="apply" value="Apply" <?php if($alreadyApplied || $userStatus != 1) echo "hidden"; ?>>
                                 <?php if($alreadyApplied) echo "Already applied!"; ?>
                             </form>
                         </div>

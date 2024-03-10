@@ -668,3 +668,7 @@ input[type="search"] {
   height: 45px;
   font-size: 18px;
 }
+
+.apply-btn {
+  background-color: var(--primary);
+}

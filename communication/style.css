@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --background: #1c1c1c;
+  --primary: #c9f66f;
+  --secondary: #252525;
+  --contrast: #ffffff;
+  --test: #1d2021;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--contrast);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.container-fluid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.modal-dialog {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+h4 {
+  background-color: var(--secondary);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.modal-content {
+  border: 1px solid #ccc;
+  width: 1080px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+}
+
+textarea {
+  background-color: var(--secondary);
+  border: 1px solid var(--background);
+  outline: none;
+  color: var(--contrast);
+  padding: 8px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+#message {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.btn {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  background-color: var(--primary);
+  color: var(--background);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sender {
+  text-align: right;
+  background-color: lightblue;
+  word-wrap: break-word;
+  display: inline-block;
+  padding: 5px;
+  border-radius: 10px;
+  max-width: 70%;
+}
+
+.receiver {
+  text-align: left;
+  background-color: yellow;
+  word-wrap: break-word;
+  display: inline-block;
+  padding: 5px;
+  border-radius: 10px;
+  max-width: 70%;
+}
+
+.message-send {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 10px;
+}
+
+textarea {
+  background-color: var(--secondary);
+  border: 1px solid var(--contrast);
+  outline: none;
+  color: var(--contrast);
+  padding: 8px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 980px;
+  height: 40px;
+  padding: 5px;
+  font-size: 16px;
+  margin-left: 10px;
+}
