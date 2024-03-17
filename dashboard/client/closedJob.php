@@ -47,7 +47,7 @@ $getJobDataResult = mysqli_query($connection, $getJobDataQuery);
 <?php include("clientHeader.html") ?>
 
     <main>
-        <h2 style="padding-bottom:20px">Active Jobs</h2>
+        <h2 style="padding-bottom:20px">Closed Jobs</h2>
         <?php include("createJob.php"); ?>
         <?php if(mysqli_num_rows($getJobDataResult) > 0): ?>
             <?php while($jobInfo = mysqli_fetch_assoc($getJobDataResult)): ?>

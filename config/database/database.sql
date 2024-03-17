@@ -105,6 +105,7 @@ messages_id  INT PRIMARY KEY AUTO_INCREMENT,
  client_user_id INT,
     freelancer_user_id INT,
     message varchar(1000),
+    job_id int,
     CONSTRAINT FOREIGN KEY (job_id) REFERENCES job(job_id) ON DELETE CASCADE
 
 );
